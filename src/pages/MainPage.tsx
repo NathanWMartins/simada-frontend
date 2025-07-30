@@ -1,4 +1,4 @@
-import { Box, Button, Card, Container, Fab, Typography, useTheme } from '@mui/material'
+import { Box, Button, Fab, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import HeaderMainPage from '../components/HeaderMainPage'
 import MainIllustration1 from '../assets/MainIllustration1.png';
@@ -9,6 +9,9 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useThemeMode } from '../contexts/ThemeContext';
+import SportsOutlinedIcon from '@mui/icons-material/SportsOutlined';
+import SportsSoccerOutlinedIcon from '@mui/icons-material/SportsSoccerOutlined';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 function MainPage() {
   const theme = useTheme();
@@ -83,80 +86,361 @@ function MainPage() {
         </Box>
       </Box>
 
-      {/* Box Features */}
+      {/* Box Features & Suitable*/}
       <Box
         sx={{
-          width: '100vw', minHeight: '370px', backgroundColor: theme.palette.mode === 'light' ? '#f4f4f4ff' : theme.palette.background.paper,
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', px: 8, pt: 4,
+          width: '100vw',
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          minHeight: '350px',
+          backgroundColor:
+            theme.palette.background.paper,
         }}
       >
-        <Typography
-          variant="h5"
-          sx={{
-            fontWeight: 'bold',
-            color: theme.palette.text.primary,
-            marginBottom: 4,
-          }}
-        >
-          Features Availables
-        </Typography>
-
+        {/* FEATURES */}
         <Box
           sx={{
+            flex: 1,
             display: 'flex',
-            gap: 4,
-            justifyContent: 'center',
-            width: '100%',
-            maxWidth: '1100px',
-            flexWrap: 'wrap',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            px: 4,
+            py: 4,
           }}
         >
-          {/* Card 1 */}
-          <Box
-            sx={{
-              backgroundColor: theme.palette.background.default, boxShadow: 3, borderRadius: 2, padding: 3, gap: 1,
-              width: '220px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center',
-            }}
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 'bold', mb: 1, color: theme.palette.text.primary, textAlign: 'center' }}
           >
-            <FileDownloadOutlinedIcon sx={{ fontSize: 40, color: theme.palette.mode === 'light' ? '#2CAE4D' : '#9ee3a4ff' }} />
-            <Typography
-              variant="body1"
-              sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}
-            >
-              Custom Report<br /> for Coaches
-            </Typography>
-          </Box>
+            Features Available
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ mb: 3, textAlign: 'center', color: theme.palette.text.primary }}
+          >
+            Smart tools designed for modern teams
+          </Typography>
 
-          {/* Card 2 */}
           <Box
             sx={{
-              backgroundColor: theme.palette.background.default, boxShadow: 3, borderRadius: 2, padding: 3, gap: 1,
-              width: '220px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center',
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
+              gap: 2,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
             }}
           >
-            <SmartToyOutlinedIcon sx={{ fontSize: 40, color: theme.palette.mode === 'light' ? '#2CAE4D' : '#9ee3a4ff' }} />
-            <Typography
-              variant="body1"
-              sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}
+            {/* CARD 1 */}
+            <Box
+              sx={{
+                backgroundColor: theme.palette.background.default,
+                boxShadow: 3,
+                borderRadius: 2,
+                p: 2,
+                width: 180,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+              }}
             >
-              AI Based Injury<br /> Risk Detection
-            </Typography>
-          </Box>
+              <Box sx={{ position: 'relative', mb: 1 }}>
+                <Box
+                  sx={{
+                    backgroundColor: '#e9f4e9',
+                    borderRadius: '12px 0px 12px 0px',
+                    padding: 0.5,
+                    minWidth: 36,
+                    minHeight: 36,
+                    ml: 3,
+                    mt: 1,
+                  }}
+                />
+                <FileDownloadOutlinedIcon
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    fontSize: 32,
+                    color: theme.palette.mode === 'light' ? '#0C621F' : '#2CAE4D',
+                  }}
+                />
+              </Box>
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                Custom Report<br />for Coaches
+              </Typography>
+            </Box>
 
-          {/* Card 3 */}
-          <Box
+            {/* CARD 2 */}
+            <Box
+              sx={{
+                backgroundColor: theme.palette.background.default,
+                boxShadow: 3,
+                borderRadius: 2,
+                p: 2,
+                width: 180,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              <Box sx={{ position: 'relative', mb: 1 }}>
+                <Box
+                  sx={{
+                    backgroundColor: '#e9f4e9',
+                    borderRadius: '12px 0px 12px 0px',
+                    padding: 0.5,
+                    minWidth: 36,
+                    minHeight: 36,
+                    ml: 3,
+                    mt: 1,
+                  }}
+                />
+                <SmartToyOutlinedIcon
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    fontSize: 32,
+                    color: theme.palette.mode === 'light' ? '#0C621F' : '#2CAE4D',
+                  }}
+                />
+              </Box>
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                AI Based Injury<br />Risk Detection
+              </Typography>
+            </Box>
+
+            {/* CARD 3 */}
+            <Box
+              sx={{
+                backgroundColor: theme.palette.background.default,
+                boxShadow: 3,
+                borderRadius: 2,
+                p: 2,
+                width: 180,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              <Box sx={{ position: 'relative', mb: 1 }}>
+                <Box
+                  sx={{
+                    backgroundColor: '#e9f4e9',
+                    borderRadius: '12px 0px 12px 0px',
+                    padding: 0.5,
+                    minWidth: 36,
+                    minHeight: 36,
+                    ml: 3,
+                    mt: 1,
+                  }}
+                />
+                <DashboardOutlinedIcon
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    fontSize: 32,
+                    color: theme.palette.mode === 'light' ? '#0C621F' : '#2CAE4D',
+                  }}
+                />
+              </Box>
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                Personalized<br />Dashboard
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+
+        {/* SUITABLE FOR */}
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            px: 4,
+            py: 4,
+            borderLeft: { md: `1px solid ${theme.palette.divider}` },
+          }}
+        >
+          <Typography
+            variant="h6"
             sx={{
-              backgroundColor: theme.palette.background.default, boxShadow: 3, borderRadius: 2, padding: 3, gap: 1,
-              width: '220px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center',
+              fontWeight: 'bold',
+              mb: 1,
+              textAlign: 'center',
+              color: theme.palette.text.primary,
             }}
           >
-            <DashboardOutlinedIcon sx={{ fontSize: 40, color: theme.palette.mode === 'light' ? '#2CAE4D' : '#9ee3a4ff' }} />
-            <Typography
-              variant="body1"
-              sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}
+            Manage your entire athletes in a single system
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ mb: 3, textAlign: 'center', color: theme.palette.text.primary }}
+          >
+            Who is WiKo suitable for?
+          </Typography>
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
+              gap: 2,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+            }}
+          >
+            {/* CARD 1 */}
+            <Box
+              sx={{
+                backgroundColor: theme.palette.background.default,
+                boxShadow: 3,
+                borderRadius: 2,
+                p: 2,
+                width: 180,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+              }}
             >
-              Personalized<br /> Dashboard
-            </Typography>
+              <Box sx={{ position: 'relative', mb: 1 }}>
+                <Box
+                  sx={{
+                    backgroundColor: '#e9f4e9',
+                    borderRadius: '12px 0px 12px 0px',
+                    padding: 0.5,
+                    minWidth: 36,
+                    minHeight: 36,
+                    ml: 3,
+                    mt: 1,
+                  }}
+                />
+                <SportsOutlinedIcon
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    fontSize: 32,
+                    color: theme.palette.mode === 'light' ? '#0C621F' : '#2CAE4D',
+                  }}
+                />
+              </Box>
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                Coaches &<br />Physical Trainers
+              </Typography>
+              <Typography
+                sx={{ mt: 1, fontWeight: 'light', color: theme.palette.mode === 'light' ? '#717171' : '#EDECEC', fontSize: '0.7rem' }}
+              >
+                Access performance insights and training optimization tools.
+              </Typography>
+            </Box>
+
+            {/* CARD 2 */}
+            <Box
+              sx={{
+                backgroundColor: theme.palette.background.default,
+                boxShadow: 3,
+                borderRadius: 2,
+                p: 2,
+                width: 180,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              <Box sx={{ position: 'relative', mb: 1 }}>
+                <Box
+                  sx={{
+                    backgroundColor: '#e9f4e9',
+                    borderRadius: '12px 0px 12px 0px',
+                    padding: 0.5,
+                    minWidth: 36,
+                    minHeight: 36,
+                    ml: 3,
+                    mt: 1,
+                  }}
+                />
+                <SportsSoccerOutlinedIcon
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    fontSize: 32,
+                    color: theme.palette.mode === 'light' ? '#0C621F' : '#2CAE4D',
+                  }}
+                />
+              </Box>
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                Athletes for All<br />Sports
+              </Typography>
+              <Typography
+                sx={{ mt: 1, fontWeight: 'light', color: theme.palette.mode === 'light' ? '#717171' : '#EDECEC', fontSize: '0.7rem' }}
+              >
+                Track progress, manage workload, and reduce injury risk.
+              </Typography>
+            </Box>
+
+            {/* CARD 3 */}
+            <Box
+              sx={{
+                backgroundColor: theme.palette.background.default,
+                boxShadow: 3,
+                borderRadius: 2,
+                p: 2,
+                width: 180,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+              }}
+            >
+              <Box sx={{ position: 'relative', mb: 1 }}>
+                <Box
+                  sx={{
+                    backgroundColor: '#e9f4e9',
+                    borderRadius: '12px 0px 12px 0px',
+                    padding: 0.5,
+                    minWidth: 36,
+                    minHeight: 36,
+                    ml: 3,
+                    mt: 1,
+                  }}
+                />
+                <GroupsIcon
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    fontSize: 32,
+                    color: theme.palette.mode === 'light' ? '#0C621F' : '#2CAE4D',
+                  }}
+                />
+              </Box>
+              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                Sport Teams and<br />Clubs
+              </Typography>
+              <Typography
+                sx={{ mt: 1, fontWeight: 'light', color: theme.palette.mode === 'light' ? '#717171' : '#EDECEC', fontSize: '0.7rem' }}
+              >
+                Implement centralized data systems to monitor entire squads
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </Box>

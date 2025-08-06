@@ -1,16 +1,13 @@
-import { Box, Button, Fab, Typography, useTheme } from '@mui/material'
+import { Box, Button, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import HeaderMainPage from '../components/HeaderMainPage'
 import MainIllustration1 from '../assets/MainIllustration1.png';
 import MainIllustration2 from '../assets/MainIllustration2.png';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { useThemeMode } from '../contexts/ThemeContext';
 import BoxFeaturesSuitableMainPage from '../components/BoxFeaturesSuitableMainPage';
+import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
 
 function MainPage() {
   const theme = useTheme();
-  const { mode, toggleTheme } = useThemeMode();
 
   return (
     <>
@@ -187,15 +184,7 @@ function MainPage() {
       </Box>
 
       {/*Switch Light and Dark Mode*/}
-      <Fab
-        size="medium" onClick={toggleTheme} sx={{
-          position: 'fixed', bottom: 24, right: 24, zIndex: 1300,
-          backgroundColor: theme.palette.background.paper, color: theme.palette.text.primary,
-          boxShadow: 4, '&:hover': { backgroundColor: mode === 'light' ? '#e0e0e0' : '#555', },
-        }}
-      >
-        {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-      </Fab>
+      <SwitchLightDarkMode/>
     </>
   )
 }

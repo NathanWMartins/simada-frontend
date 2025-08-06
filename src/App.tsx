@@ -1,10 +1,14 @@
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
-      <MainPage/>
+    <Routes>
+      <Route path="/" element={<MainPage/>}/>
+      <Route path="/login" element={<LoginPage/>}/>
+    </Routes>
+      
   );
 }
 

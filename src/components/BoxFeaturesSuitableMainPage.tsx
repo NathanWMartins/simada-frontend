@@ -49,38 +49,23 @@ function BoxFeaturesSuitableMainPage() {
 
                     <Box
                         sx={{
-                            display: 'flex',
-                            flexDirection: { xs: 'column', md: 'row' },
-                            gap: 2,
-                            alignItems: 'center',
-                            flexWrap: 'wrap',
-                            justifyContent: 'center',
+                            display: 'flex', flexDirection: { xs: 'column', md: 'row' },
+                            gap: 2, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center',
                         }}
                     >
                         {/* CARD 1 */}
                         <Box
                             sx={{
-                                backgroundColor: theme.palette.background.default,
-                                boxShadow: 3,
-                                borderRadius: 2,
-                                p: 2,
-                                width: 180,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                textAlign: 'center',
+                                backgroundColor: theme.palette.background.default, boxShadow: 3,
+                                borderRadius: 2, p: 2, width: 180, display: 'flex', flexDirection: 'column',
+                                alignItems: 'center', textAlign: 'center',
                             }}
                         >
                             <Box sx={{ position: 'relative', mb: 1 }}>
                                 <Box
                                     sx={{
-                                        backgroundColor: '#e9f4e9',
-                                        borderRadius: '12px 0px 12px 0px',
-                                        padding: 0.5,
-                                        minWidth: 36,
-                                        minHeight: 36,
-                                        ml: 3,
-                                        mt: 1,
+                                        backgroundColor: '#e9f4e9', borderRadius: '12px 0px 12px 0px',
+                                        padding: 0.5, minWidth: 36, minHeight: 36, ml: 3, mt: 1,
                                     }}
                                 />
                                 <FileDownloadOutlinedIcon

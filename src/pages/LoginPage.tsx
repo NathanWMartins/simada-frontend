@@ -4,7 +4,7 @@ import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
 import coachPhoto from '../assets/coach-photo.png'
 import { styled } from '@mui/material/styles';
 import LogoHeader from '../components/LogoHeader';
-import EmailInput from '../components/EmailInput';
+import CustomTextField from '../components/CustomTextField';
 import PasswordInput from '../components/PasswordInput';
 import GoogleButton from '../components/GoogleButton';
 import BackFab from '../components/BackFab';
@@ -35,7 +35,7 @@ function LoginPage() {
                     sx={{
                         display: 'flex', flexDirection: 'row', width: '100%', maxWidth: 750,
                         height: 'auto', p: 0, backgroundColor: theme.palette.primary.contrastText,
-                        boxShadow: 10, borderRadius: 2, overflow: 'hidden', mt: 4,
+                        boxShadow: 10, borderRadius: 2, overflow: 'hidden', mt: 3,
                     }}
                 >
                     {/* Imagem */}
@@ -72,8 +72,9 @@ function LoginPage() {
                             Enter your login to sign up for this app
                         </Typography>
 
-                        <EmailInput />
-                        <PasswordInput />
+                        <CustomTextField label="Email" type="email"/>
+                        <PasswordInput label="Password" id="password" />
+                        <CustomTextField label="Email" type="email"/>
 
                         <Button
                             variant="contained"
@@ -99,7 +100,8 @@ function LoginPage() {
                         </Root>
                         <Box
                             sx={{
-                                mt: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1,
+                                mt: 1, display: 'flex', justifyContent: 'center', 
+                                alignItems: 'center', gap: 1, mb: 2
                             }}
                         >
                             <Typography variant="body2" color={theme.palette.text.secondary} sx={{ fontSize: 12 }}>

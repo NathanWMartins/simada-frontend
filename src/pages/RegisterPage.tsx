@@ -1,10 +1,10 @@
 import { Box, Button, Divider, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
-import coachPhoto from '../assets/coach-photo.png'
+import coachPhoto2 from '../assets/coach-photo2.png'
 import { styled } from '@mui/material/styles';
 import LogoHeader from '../components/LogoHeader';
-import EmailInput from '../components/EmailInput';
+import CustomTextField from '../components/CustomTextField';
 import PasswordInput from '../components/PasswordInput';
 import GoogleButton from '../components/GoogleButton';
 import BackFab from '../components/BackFab';
@@ -33,73 +33,46 @@ function RegisterPage() {
 
                 <Box
                     sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        width: '100%',
-                        maxWidth: 750,
-                        height: 'auto',
-                        p: 0,
-                        backgroundColor: theme.palette.primary.contrastText,
-                        boxShadow: 10,
-                        borderRadius: 2,
-                        overflow: 'hidden',
-                        mt: 4,
+                        display: 'flex', flexDirection: 'row', width: '100%', maxWidth: 750,
+                        height: 'auto', p: 0, backgroundColor: theme.palette.primary.contrastText,
+                        boxShadow: 10, borderRadius: 2, overflow: 'hidden', mt: 3,
                     }}
                 >
                     {/* Inputs */}
                     <Box
                         sx={{
-                            width: '70%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'flex-start',
-                            alignItems: 'center',
+                            width: '70%', display: 'flex', flexDirection: 'column',
+                            justifyContent: 'flex-start', alignItems: 'center',
                         }}
                     >
                         <Typography
                             variant="body2"
                             sx={{
-                                color: theme.palette.text.primary,
-                                fontWeight: 'bold',
-                                alignSelf: 'center',
-                                textAlign: 'center',
-                                pt: 2,
+                                color: theme.palette.text.primary, fontWeight: 'bold',
+                                alignSelf: 'center', textAlign: 'center', pt: 2,
                             }}
                         >
-                            Welcome back, Trainer! <br />
-                            Let’s elevate physical performance together.
-                        </Typography>
-                        <Typography
-                            sx={{
-                                color: theme.palette.text.secondary,
-                                fontWeight: 'bold',
-                                alignSelf: 'center',
-                                textAlign: 'center',
-                                fontSize: 10,
-                                pt: 1,
-                            }}
-                        >
-                            Enter your login to sign up for this app
+                            Welcome to your performance hub.<br />
+                            Create your account and start optimizing training.
                         </Typography>
 
-                        <EmailInput />
-                        <PasswordInput />
+                        <CustomTextField label="Full Name" type="full-name" />
+                        <CustomTextField label="Email" type="email" />
+                        <PasswordInput label="Password" id="password" />
+                        <PasswordInput label="Repeat Password" id="repeat-password" />
+
 
                         <Button
                             variant="contained"
                             sx={{
-                                mt: 1,
-                                backgroundColor: '#2CAE4D',
-                                textTransform: 'none',
-                                color: '#fff',
-                                width: '230px',
-                                height: '35px',
+                                mt: 1, backgroundColor: '#2CAE4D', textTransform: 'none',
+                                color: '#fff', width: '230px', height: '35px',
                                 '&:hover': {
                                     backgroundColor: '#249B45',
                                 },
                             }}
                         >
-                            Sign In
+                            Register
                         </Button>
 
                         <Root sx={{ width: '80%', mt: 2 }}>
@@ -113,33 +86,25 @@ function RegisterPage() {
                         </Root>
                         <Box
                             sx={{
-                                mt: 1,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                gap: 1,
+                                mt: 1, display: 'flex', justifyContent: 'center',
+                                alignItems: 'center', gap: 1, mb: 2
                             }}
                         >
                             <Typography
-                                variant="body2"
-                                color={theme.palette.text.secondary}
+                                variant="body2" color={theme.palette.text.secondary}
                                 sx={{ fontSize: 12 }}
                             >
                                 Don't have an account?
                             </Typography>
 
                             <Typography
-                                variant="body2"
-                                onClick={() => navigate('/register')}
+                                variant="body2" onClick={() => navigate('/login')}
                                 sx={{
-                                    fontWeight: 'bold',
-                                    fontSize: 12,
-                                    color: theme.palette.success.main,
-                                    cursor: 'pointer',
-                                    '&:hover': { textDecoration: 'underline' },
+                                    fontWeight: 'bold', fontSize: 12, color: theme.palette.success.main,
+                                    cursor: 'pointer', '&:hover': { textDecoration: 'underline' },
                                 }}
                             >
-                                Create Account
+                                Sign In
                             </Typography>
                         </Box>
                     </Box>
@@ -148,7 +113,7 @@ function RegisterPage() {
                     <Box
                         sx={{
                             width: '45%',
-                            backgroundImage: `url(${coachPhoto})`,
+                            backgroundImage: `url(${coachPhoto2})`,
                             backgroundColor: theme.palette.background.default,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',

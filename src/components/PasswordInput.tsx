@@ -5,7 +5,12 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-const PasswordInput = () => {
+interface PasswordInputProps {
+    label: string;
+    id?: string;
+}
+
+const PasswordInput: React.FC<PasswordInputProps> = ({ label, id }) => {
     const theme = useTheme();
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -24,9 +29,9 @@ const PasswordInput = () => {
             size="small"
             color="success"
         >
-            <InputLabel htmlFor="password">Password</InputLabel>
+            <InputLabel htmlFor={id || label}>{label}</InputLabel>
             <OutlinedInput
-                id="password"
+                id={id || label}
                 type={showPassword ? 'text' : 'password'}
                 endAdornment={
                     <InputAdornment position="end">
@@ -38,7 +43,7 @@ const PasswordInput = () => {
                         </IconButton>
                     </InputAdornment>
                 }
-                label="Password"
+                label={label}
             />
         </FormControl>
     );

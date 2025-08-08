@@ -15,8 +15,7 @@ function MainPage() {
       {/*Box Monitor. Analyze. Evolve*/}
       <Box
         sx={{
-          width: '100vw', height: '370px', backgroundColor:
-            theme.palette.background.default,
+          width: '100vw', height: '370px', backgroundColor: theme.palette.background.default,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 8,
         }}
       >
@@ -184,7 +183,7 @@ function MainPage() {
       </Box>
 
       {/*Switch Light and Dark Mode*/}
-      <SwitchLightDarkMode/>
+      <SwitchLightDarkMode />
     </>
   )
 }

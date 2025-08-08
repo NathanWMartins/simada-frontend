@@ -15,8 +15,7 @@ function HeaderMainPage() {
       <AppBar
         position="static"
         sx={{
-          backgroundColor: theme.palette.background.paper,
-          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.background.paper, color: theme.palette.text.primary,
         }}
         elevation={1}
       >

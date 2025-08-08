@@ -10,7 +10,7 @@ import GoogleButton from '../components/GoogleButton';
 import BackFab from '../components/BackFab';
 import { useNavigate } from 'react-router-dom';
 
-function LoginPage() {
+function RegisterPage() {
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -33,31 +33,37 @@ function LoginPage() {
 
                 <Box
                     sx={{
-                        display: 'flex', flexDirection: 'row', width: '100%', maxWidth: 750,
-                        height: 'auto', p: 0, backgroundColor: theme.palette.primary.contrastText,
-                        boxShadow: 10, borderRadius: 2, overflow: 'hidden', mt: 4,
+                        display: 'flex',
+                        flexDirection: 'row',
+                        width: '100%',
+                        maxWidth: 750,
+                        height: 'auto',
+                        p: 0,
+                        backgroundColor: theme.palette.primary.contrastText,
+                        boxShadow: 10,
+                        borderRadius: 2,
+                        overflow: 'hidden',
+                        mt: 4,
                     }}
                 >
-                    {/* Imagem */}
-                    <Box
-                        sx={{
-                            width: '45%', backgroundImage: `url(${coachPhoto})`, backgroundColor: theme.palette.background.default,
-                            backgroundSize: 'cover', backgroundPosition: 'center', minHeight: 400
-                        }}
-                    />
-
                     {/* Inputs */}
                     <Box
                         sx={{
-                            width: '70%', display: 'flex', flexDirection: 'column',
-                            justifyContent: 'flex-start', alignItems: 'center'
+                            width: '70%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-start',
+                            alignItems: 'center',
                         }}
                     >
                         <Typography
                             variant="body2"
                             sx={{
-                                color: theme.palette.text.primary, fontWeight: 'bold',
-                                alignSelf: 'center', textAlign: 'center', pt: 2
+                                color: theme.palette.text.primary,
+                                fontWeight: 'bold',
+                                alignSelf: 'center',
+                                textAlign: 'center',
+                                pt: 2,
                             }}
                         >
                             Welcome back, Trainer! <br />
@@ -65,8 +71,12 @@ function LoginPage() {
                         </Typography>
                         <Typography
                             sx={{
-                                color: theme.palette.text.secondary, fontWeight: 'bold',
-                                alignSelf: 'center', textAlign: 'center', fontSize: 10, pt: 1
+                                color: theme.palette.text.secondary,
+                                fontWeight: 'bold',
+                                alignSelf: 'center',
+                                textAlign: 'center',
+                                fontSize: 10,
+                                pt: 1,
                             }}
                         >
                             Enter your login to sign up for this app
@@ -78,11 +88,15 @@ function LoginPage() {
                         <Button
                             variant="contained"
                             sx={{
-                                mt: 1, backgroundColor: '#2CAE4D', textTransform: 'none',
-                                color: '#fff', width: '230px', height: '35px',
+                                mt: 1,
+                                backgroundColor: '#2CAE4D',
+                                textTransform: 'none',
+                                color: '#fff',
+                                width: '230px',
+                                height: '35px',
                                 '&:hover': {
-                                    backgroundColor: '#249B45'
-                                }
+                                    backgroundColor: '#249B45',
+                                },
                             }}
                         >
                             Sign In
@@ -94,15 +108,23 @@ function LoginPage() {
 
                         <GoogleButton />
 
-                        <Root sx={{ width: '80%', mt: 2, }}>
+                        <Root sx={{ width: '80%', mt: 2 }}>
                             <Divider></Divider>
                         </Root>
                         <Box
                             sx={{
-                                mt: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1,
+                                mt: 1,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                gap: 1,
                             }}
                         >
-                            <Typography variant="body2" color={theme.palette.text.secondary} sx={{ fontSize: 12 }}>
+                            <Typography
+                                variant="body2"
+                                color={theme.palette.text.secondary}
+                                sx={{ fontSize: 12 }}
+                            >
                                 Don't have an account?
                             </Typography>
 
@@ -110,16 +132,31 @@ function LoginPage() {
                                 variant="body2"
                                 onClick={() => navigate('/register')}
                                 sx={{
-                                    fontWeight: 'bold', fontSize: 12, color: theme.palette.success.main,
-                                    cursor: 'pointer', '&:hover': { textDecoration: 'underline', },
+                                    fontWeight: 'bold',
+                                    fontSize: 12,
+                                    color: theme.palette.success.main,
+                                    cursor: 'pointer',
+                                    '&:hover': { textDecoration: 'underline' },
                                 }}
                             >
                                 Create Account
                             </Typography>
                         </Box>
-
                     </Box>
+
+                    {/* Imagem */}
+                    <Box
+                        sx={{
+                            width: '45%',
+                            backgroundImage: `url(${coachPhoto})`,
+                            backgroundColor: theme.palette.background.default,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            minHeight: 400,
+                        }}
+                    />
                 </Box>
+
 
             </Box>
             <BackFab to="/" />
@@ -128,4 +165,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage
+export default RegisterPage

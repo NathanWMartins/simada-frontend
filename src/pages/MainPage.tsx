@@ -5,9 +5,11 @@ import MainIllustration1 from '../assets/MainIllustration1.png';
 import MainIllustration2 from '../assets/MainIllustration2.png';
 import BoxFeaturesSuitableMainPage from '../components/BoxFeaturesSuitableMainPage';
 import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
+import { useNavigate } from 'react-router-dom';
 
 function MainPage() {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -30,7 +32,7 @@ function MainPage() {
           >
             The missing technology to enhance athletic performance for your team.
           </Typography>
-          <Button variant="contained"
+          <Button variant="contained" onClick={() => navigate('/register')}
             sx={{
               mr: 1, backgroundColor: '#2CAE4D', textTransform: 'none',
               color: '#fff', width: '100px', height: '40px',
@@ -103,15 +105,10 @@ function MainPage() {
         </Typography>
 
         <Button
-          variant="contained"
+          variant="contained" onClick={() => navigate('/register')}
           sx={{
-            backgroundColor: 'white',
-            color: '#000000ff',
-            mb: 5,
-            mt: 3,
-            '&:hover': {
-              backgroundColor: '#e0f2e9',
-            },
+            backgroundColor: 'white', color: '#000000ff', mb: 5, mt: 3,
+            '&:hover': { backgroundColor: '#e0f2e9', },
           }}
         >
           Get Started Now

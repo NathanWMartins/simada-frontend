@@ -74,7 +74,6 @@ function LoginPage() {
 
                         <CustomTextField label="Email" type="email"/>
                         <PasswordInput label="Password" id="password" />
-                        <CustomTextField label="Email" type="email"/>
 
                         <Button
                             variant="contained"

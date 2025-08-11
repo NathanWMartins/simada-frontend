@@ -56,7 +56,7 @@ function RegisterPage() {
                             Create your account and start optimizing training.
                         </Typography>
 
-                        <CustomTextField label="Full Name" type="full-name" />
+                        <CustomTextField label="Full Name" type="full-name" restriction="onlyLetters"/>
                         <CustomTextField label="Email" type="email" />
                         <PasswordInput label="Password" id="password" />
                         <PasswordInput label="Repeat Password" id="repeat-password" />

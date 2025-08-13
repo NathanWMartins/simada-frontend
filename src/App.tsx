@@ -1,16 +1,15 @@
-import { Route, Routes } from 'react-router-dom';
-import MainPage from './pages/MainPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from './contexts/ThemeContext';
+import AppRoutes from './routes/AppRoutes';
+
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<MainPage/>}/>
-      <Route path="/login" element={<LoginPage/>}/>
-      <Route path="/register" element={<RegisterPage/>}/>
-    </Routes>
-      
+    <BrowserRouter>
+      <ThemeProvider>
+        <AppRoutes />
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 

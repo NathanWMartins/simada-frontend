@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Typography, useTheme } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
 import coachPhoto2 from '../assets/coach-photo2.png'
 import { styled } from '@mui/material/styles';
@@ -9,10 +9,16 @@ import PasswordInput from '../components/PasswordInput';
 import GoogleButton from '../components/GoogleButton';
 import BackFab from '../components/BackFab';
 import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../services/authService';
 
 function RegisterPage() {
     const theme = useTheme();
     const navigate = useNavigate();
+
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
 
     const Root = styled('div')(({ theme }) => ({
         width: '100%',
@@ -22,6 +28,22 @@ function RegisterPage() {
             marginTop: theme.spacing(2),
         },
     }));
+
+    const handleRegister = async () => {
+        if (password !== repeatPassword) {
+            alert('As senhas não coincidem!');
+            return;
+        }
+
+        try {
+            await registerUser({ fullName, email, password });
+            alert('Conta criada com sucesso!');
+            navigate('/login');
+        } catch (error: any) {
+            alert(error.message || 'Erro ao registrar usuário');
+        }
+    };
+
     return (
         <>
             <Box sx={{
@@ -56,7 +78,7 @@ function RegisterPage() {
                             Create your account and start optimizing training.
                         </Typography>
 
-                        <CustomTextField label="Full Name" type="full-name" restriction="onlyLetters"/>
+                        <CustomTextField label="Full Name" type="full-name" restriction="onlyLetters" />
                         <CustomTextField label="Email" type="email" />
                         <PasswordInput label="Password" id="password" />
                         <PasswordInput label="Repeat Password" id="repeat-password" />

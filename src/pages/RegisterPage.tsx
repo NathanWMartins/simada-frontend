@@ -4,12 +4,12 @@ import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
 import coachPhoto2 from '../assets/coach-photo2.png'
 import { styled } from '@mui/material/styles';
 import LogoHeader from '../components/LogoHeader';
-import CustomTextField from '../components/CustomTextField';
-import PasswordInput from '../components/PasswordInput';
 import GoogleButton from '../components/GoogleButton';
 import BackFab from '../components/BackFab';
 import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../services/authService';
+import { registerTrainer } from '../services/authService';
+import CustomTextField from '../components/CustomTextField';
+import PasswordInput from '../components/PasswordInput';
 
 function RegisterPage() {
     const theme = useTheme();
@@ -34,11 +34,10 @@ function RegisterPage() {
             alert('As senhas não coincidem!');
             return;
         }
-
         try {
-            await registerUser({ fullName, email, password });
+            await registerTrainer({ fullName, email, password });
             alert('Conta criada com sucesso!');
-            navigate('/login');
+            navigate('/');
         } catch (error: any) {
             alert(error.message || 'Erro ao registrar usuário');
         }
@@ -78,11 +77,10 @@ function RegisterPage() {
                             Create your account and start optimizing training.
                         </Typography>
 
-                        <CustomTextField label="Full Name" type="full-name" restriction="onlyLetters" />
-                        <CustomTextField label="Email" type="email" />
-                        <PasswordInput label="Password" id="password" />
-                        <PasswordInput label="Repeat Password" id="repeat-password" />
-
+                        <CustomTextField label="Full Name" value={fullName} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFullName(e.target.value)} />
+                        <CustomTextField label="Email" type="email" value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
+                        <PasswordInput label="Password" id="password" value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
+                        <PasswordInput label="Repeat Password" id="repeat-password" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)}/>
 
                         <Button
                             variant="contained"
@@ -92,7 +90,7 @@ function RegisterPage() {
                                 '&:hover': {
                                     backgroundColor: '#249B45',
                                 },
-                            }}
+                            }} onClick={handleRegister}
                         >
                             Register
                         </Button>

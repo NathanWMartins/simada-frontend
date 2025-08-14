@@ -1,16 +1,22 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = 'http://localhost:8080/atletas';
+const API_URL = "http://localhost:8080/auth"; // URL base do seu backend
 
-export const registerUser = async (userData: {
+// Tipo dos dados que serão enviados no registro
+export interface RegisterData {
   fullName: string;
   email: string;
   password: string;
-}) => {
+}
+
+// Função para registrar um treinador
+export const registerTrainer = async (data: RegisterData): Promise<string> => {
   try {
-    const response = await axios.post(`${API_URL}/register`, userData);
-    return response.data;
+    console.log(data);
+    const response = await axios.post(`${API_URL}/register`, data);
+    return response.data; // retorna o UID ou mensagem do backend
   } catch (error: any) {
-    throw error.response?.data || { message: 'Erro ao registrar usuário' };
+    console.error("Erro ao registrar treinador:", error);
+    throw new Error(error.response?.data || "Erro no registro");
   }
 };

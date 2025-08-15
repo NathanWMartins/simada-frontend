@@ -1,5 +1,5 @@
-import { Box, Button, Divider, Typography, useTheme } from '@mui/material'
-import React from 'react'
+import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
+import React, { useState } from 'react'
 import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
 import coachPhoto from '../assets/coach-photo.png'
 import { styled } from '@mui/material/styles';
@@ -9,10 +9,28 @@ import PasswordInput from '../components/PasswordInput';
 import GoogleButton from '../components/GoogleButton';
 import BackFab from '../components/BackFab';
 import { useNavigate } from 'react-router-dom';
+import { registerLogin } from '../services/authService';
+
+type SnackbarState = {
+    open: boolean;
+    message: string;
+    severity: "error" | "success" | "warning" | "info";
+};
 
 function LoginPage() {
     const theme = useTheme();
     const navigate = useNavigate();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    
+    const [errorEmail, setErrorEmail] = useState(false);
+    const [errorPassword, setErrorPassword] = useState(false);
+    const [snackbar, setSnackbar] = useState<SnackbarState>({
+        open: false,
+        message: "",
+        severity: "error",
+    });
 
     const Root = styled('div')(({ theme }) => ({
         width: '100%',
@@ -22,6 +40,54 @@ function LoginPage() {
             marginTop: theme.spacing(2),
         },
     }));
+
+    const handleCloseSnackbar = () => {
+        setSnackbar((prev) => ({ ...prev, open: false }));
+    };
+
+    const resetError = () => {
+        setErrorEmail(false);
+        setErrorPassword(false);
+    };
+
+    const handleLogin = async () => {
+        const errors: string[] = [];
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        resetError();
+
+        if (!email) { errors.push("Email is required"); setErrorEmail(true); }
+        else if (!emailRegex.test(email)) { errors.push("Please enter a valid email"); setErrorEmail(true); }
+        if (!password) { errors.push("Password is required"); setErrorPassword(true); }
+
+        if (errors.length > 0) {
+            setSnackbar({
+                open: true,
+                message: errors.join("\n"),
+                severity: "error",
+            });
+            return;
+        }
+
+        try {
+            await registerLogin({ email, password });
+            setSnackbar({
+                open: true,
+                message: "Logged in successfully!",
+                severity: "success",
+            });
+            navigate('/');
+        } catch (error: any) {
+            setSnackbar({
+                open: true,
+                message: error.message || "Error logging in",
+                severity: "error",
+            });
+        }
+    };
+
+
+
     return (
         <>
             <Box sx={{
@@ -34,8 +100,8 @@ function LoginPage() {
                 <Box
                     sx={{
                         display: 'flex', flexDirection: 'row', width: '100%', maxWidth: 750,
-                        height: 'auto', p: 0, backgroundColor: theme.palette.primary.contrastText,
-                        boxShadow: 10, borderRadius: 2, overflow: 'hidden', mt: 3,
+                        height: 'auto', p: 0, backgroundColor: theme.palette.primary.contrastText, alignItems: 'center',
+                        boxShadow: 10, borderRadius: 2, overflow: 'hidden', mt: 3, justifyContent: 'center',
                     }}
                 >
                     {/* Imagem */}
@@ -50,7 +116,7 @@ function LoginPage() {
                     <Box
                         sx={{
                             width: '70%', display: 'flex', flexDirection: 'column',
-                            justifyContent: 'flex-start', alignItems: 'center'
+                            justifyContent: 'flex-start', alignItems: 'center',
                         }}
                     >
                         <Typography
@@ -72,8 +138,11 @@ function LoginPage() {
                             Enter your login to sign up for this app
                         </Typography>
 
-                        <CustomTextField label="Email" type="email"/>
-                        <PasswordInput label="Password" id="password" />
+                        <CustomTextField label="Email" type="email" value={email} error={!!errorEmail}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
+
+                        <PasswordInput label="Password" id="password" value={password} error={!!errorPassword}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
 
                         <Button
                             variant="contained"
@@ -83,7 +152,7 @@ function LoginPage() {
                                 '&:hover': {
                                     backgroundColor: '#249B45'
                                 }
-                            }}
+                            }} onClick={handleLogin}
                         >
                             Sign In
                         </Button>
@@ -99,7 +168,7 @@ function LoginPage() {
                         </Root>
                         <Box
                             sx={{
-                                mt: 1, display: 'flex', justifyContent: 'center', 
+                                mt: 1, display: 'flex', justifyContent: 'center',
                                 alignItems: 'center', gap: 1, mb: 2
                             }}
                         >
@@ -123,6 +192,22 @@ function LoginPage() {
                 </Box>
 
             </Box>
+
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={4000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+                <Alert
+                    onClose={handleCloseSnackbar}
+                    severity={snackbar.severity}
+                    sx={{ width: "100%", whiteSpace: "pre-line" }}
+                >
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
+
             <BackFab to="/" />
             <SwitchLightDarkMode />
         </>

@@ -10,9 +10,11 @@ interface PasswordInputProps {
   id?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
+  helperText?: string;
 }
 
-const PasswordInput: React.FC<PasswordInputProps> = ({ label, id, value, onChange }) => {
+const PasswordInput: React.FC<PasswordInputProps> = ({ label, id, value, onChange, error, helperText }) => {
   const theme = useTheme();
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -30,6 +32,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ label, id, value, onChang
       variant="outlined"
       size="small"
       color="success"
+      error={error}
     >
       <InputLabel htmlFor={id || label}>{label}</InputLabel>
       <OutlinedInput

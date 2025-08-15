@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Typography, useTheme } from '@mui/material'
+import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
 import coachPhoto2 from '../assets/coach-photo2.png'
@@ -11,6 +11,12 @@ import { registerTrainer } from '../services/authService';
 import CustomTextField from '../components/CustomTextField';
 import PasswordInput from '../components/PasswordInput';
 
+type SnackbarState = {
+    open: boolean;
+    message: string;
+    severity: "error" | "success" | "warning" | "info";
+};
+
 function RegisterPage() {
     const theme = useTheme();
     const navigate = useNavigate();
@@ -19,6 +25,17 @@ function RegisterPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
+
+    const [errorFullName, setErrorFullName] = useState(false);
+    const [errorEmail, setErrorEmail] = useState(false);
+    const [errorPassword, setErrorPassword] = useState(false);
+    const [errorRepeatPassword, setErrorRepeatPassword] = useState(false);
+
+    const [snackbar, setSnackbar] = useState<SnackbarState>({
+        open: false,
+        message: "",
+        severity: "error",
+    });
 
     const Root = styled('div')(({ theme }) => ({
         width: '100%',
@@ -29,17 +46,51 @@ function RegisterPage() {
         },
     }));
 
+    const handleCloseSnackbar = () => {
+        setSnackbar(prev => ({ ...prev, open: false }));
+    };
+
+    const resetError = () => {
+        setErrorEmail(false);
+        setErrorPassword(false);
+    };
+
     const handleRegister = async () => {
-        if (password !== repeatPassword) {
-            alert('As senhas não coincidem!');
+        const errors: string[] = [];
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        resetError();
+
+        if (!fullName) { errors.push("Full name is required"); setErrorFullName(true); }
+        if (!email) { errors.push("Email is required"); setErrorEmail(true); }
+        else if (!emailRegex.test(email)) { errors.push("Please enter a valid email"); setErrorEmail(true); }
+        if (!password) { errors.push("Password is required"); setErrorPassword(true); }
+        if (!repeatPassword) { errors.push("Repeat password is required"); setErrorRepeatPassword(true); }
+        if (password && repeatPassword && password !== repeatPassword) { errors.push("Passwords do not match"); setErrorPassword(true); setErrorRepeatPassword(true); }
+
+        if (errors.length > 0) {
+            setSnackbar({
+                open: true,
+                message: errors.join("\n"),
+                severity: "error",
+            });
             return;
         }
+
         try {
             await registerTrainer({ fullName, email, password });
-            alert('Conta criada com sucesso!');
+            setSnackbar({
+                open: true,
+                message: "Account created successfully!",
+                severity: "success",
+            });
             navigate('/');
         } catch (error: any) {
-            alert(error.message || 'Erro ao registrar usuário');
+            setSnackbar({
+                open: true,
+                message: error.message || "Error registering user",
+                severity: "error",
+            });
         }
     };
 
@@ -77,10 +128,17 @@ function RegisterPage() {
                             Create your account and start optimizing training.
                         </Typography>
 
-                        <CustomTextField label="Full Name" value={fullName} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFullName(e.target.value)} />
-                        <CustomTextField label="Email" type="email" value={email} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
-                        <PasswordInput label="Password" id="password" value={password} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
-                        <PasswordInput label="Repeat Password" id="repeat-password" onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)}/>
+                        <CustomTextField label="Full Name" value={fullName} error={errorFullName}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFullName(e.target.value)} />
+
+                        <CustomTextField label="Email" type="email" value={email} error={errorEmail}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
+
+                        <PasswordInput label="Password" id="password" value={password} error={errorPassword}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
+
+                        <PasswordInput label="Repeat Password" id="repeat-password" error={errorRepeatPassword}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)} />
 
                         <Button
                             variant="contained"
@@ -144,6 +202,22 @@ function RegisterPage() {
 
 
             </Box>
+
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={4000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+                <Alert
+                    onClose={handleCloseSnackbar}
+                    severity={snackbar.severity}
+                    sx={{ width: "100%", whiteSpace: "pre-line" }}
+                >
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
+
             <BackFab to="/" />
             <SwitchLightDarkMode />
         </>

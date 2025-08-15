@@ -8,6 +8,8 @@ interface CustomTextFieldProps {
   restriction?: "onlyLetters" | "onlyNumbers" | "none";
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
+  helperText?: string;
 }
 
 const CustomTextField: React.FC<CustomTextFieldProps> = ({
@@ -17,6 +19,8 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
   restriction = "none",
   value: propValue,
   onChange: propOnChange,
+  error = false,
+  helperText = "",
 }) => {
   const theme = useTheme();
   const [value, setValue] = useState("");
@@ -46,6 +50,8 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
       variant="outlined"
       size="small"
       color={color}
+      error={error}
+      helperText={helperText}
       value={propValue !== undefined ? propValue : value} // usa propValue se existir
       onChange={handleChange}
       sx={{

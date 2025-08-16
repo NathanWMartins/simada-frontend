@@ -17,7 +17,7 @@ type SnackbarState = {
     severity: "error" | "success" | "warning" | "info";
 };
 
-function RegisterPage() {
+function RegisterPageTrainer() {
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -200,7 +200,7 @@ function RegisterPage() {
                             </Typography>
 
                             <Typography
-                                variant="body2" onClick={() => navigate('/login')}
+                                variant="body2" onClick={() => navigate('/trainer-login')}
                                 sx={{
                                     fontWeight: 'bold', fontSize: 12, color: theme.palette.success.main,
                                     cursor: 'pointer', '&:hover': { textDecoration: 'underline' },
@@ -248,4 +248,4 @@ function RegisterPage() {
     )
 }
 
-export default RegisterPage
+export default RegisterPageTrainer

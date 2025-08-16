@@ -1,16 +1,19 @@
 import { Route, Routes } from 'react-router-dom'
 import MainPage from '../pages/MainPage'
-import LoginPage from '../pages/trainer/LoginPageTrainer'
-import RegisterPage from '../pages/trainer/RegisterPageTrainer'
+import LoginPageTrainer from '../pages/trainer/LoginPageTrainer'
+import RegisterPageTrainer from '../pages/trainer/RegisterPageTrainer'
 import HomeTrainer from '../pages/trainer/HomeTrainer'
+import LoginPageAthlete from '../pages/athlete/LoginPageAthlete'
 
 function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/trainer-login" element={<LoginPageTrainer />} />
+            <Route path="/trainer-register" element={<RegisterPageTrainer />} />
             <Route path="/homeTrainer" element={<HomeTrainer />} />
+
+            <Route path="/athlete-login" element={<LoginPageAthlete />} />
         </Routes>
     )
 }

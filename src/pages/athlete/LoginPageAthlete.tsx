@@ -1,7 +1,7 @@
 import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import SwitchLightDarkMode from '../../components/SwitchLightDarkMode';
-import coachPhoto from '../../assets/coach-photo.png'
+import athletePhoto from '../../assets/athlete-photo.png'
 import { styled } from '@mui/material/styles';
 import LogoHeader from '../../components/LogoHeader';
 import CustomTextField from '../../components/CustomTextField';
@@ -17,7 +17,7 @@ type SnackbarState = {
     severity: "error" | "success" | "warning" | "info";
 };
 
-function LoginPageTrainer() {
+function LoginPageAthlete() {
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -129,7 +129,7 @@ function LoginPageTrainer() {
                     {/* Imagem */}
                     <Box
                         sx={{
-                            width: '45%', backgroundImage: `url(${coachPhoto})`, backgroundColor: theme.palette.background.default,
+                            width: '45%', backgroundImage: `url(${athletePhoto})`, backgroundColor: theme.palette.background.default,
                             backgroundSize: 'cover', backgroundPosition: 'center', minHeight: 400
                         }}
                     />
@@ -148,8 +148,8 @@ function LoginPageTrainer() {
                                 alignSelf: 'center', textAlign: 'center', pt: 2
                             }}
                         >
-                            Welcome back, Trainer! <br />
-                            Let’s elevate physical performance together.
+                            Welcome back, Athlete! <br />
+                            Let’s elevate your physical performance together.
                         </Typography>
                         <Typography
                             sx={{
@@ -194,22 +194,10 @@ function LoginPageTrainer() {
                                 alignItems: 'center', gap: 1, mb: 2
                             }}
                         >
-                            <Typography variant="body2" color={theme.palette.text.secondary} sx={{ fontSize: 12 }}>
-                                Don't have an account?
-                            </Typography>
-
-                            <Typography
-                                variant="body2"
-                                onClick={() => navigate('/trainer-register')}
-                                sx={{
-                                    fontWeight: 'bold', fontSize: 12, color: theme.palette.success.main,
-                                    cursor: 'pointer', '&:hover': { textDecoration: 'underline', },
-                                }}
-                            >
-                                Create Account
+                            <Typography variant="body2" color="text.secondary" align="center" sx={{ fontSize: 12 }}>
+                                Don’t have an account? Please contact your coach to receive an invitation.
                             </Typography>
                         </Box>
-
                     </Box>
                 </Box>
 
@@ -236,4 +224,4 @@ function LoginPageTrainer() {
     )
 }
 
-export default LoginPageTrainer
+export default LoginPageAthlete

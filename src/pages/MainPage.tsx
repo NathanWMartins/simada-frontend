@@ -32,7 +32,7 @@ function MainPage() {
           >
             The missing technology to enhance athletic performance for your team.
           </Typography>
-          <Button variant="contained" onClick={() => navigate('/register')}
+          <Button variant="contained" onClick={() => navigate('/trainer-register')}
             sx={{
               mr: 1, backgroundColor: '#2CAE4D', textTransform: 'none',
               color: '#fff', width: '100px', height: '40px',
@@ -105,7 +105,7 @@ function MainPage() {
         </Typography>
 
         <Button
-          variant="contained" onClick={() => navigate('/register')}
+          variant="contained" onClick={() => navigate('/trainer-register')}
           sx={{
             backgroundColor: 'white', color: '#000000ff', mb: 5, mt: 3,
             '&:hover': { backgroundColor: '#e0f2e9', },

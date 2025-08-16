@@ -15,27 +15,27 @@ export interface LoginData {
   password: string;
 }
 
-export const registerTrainer = async (data: RegisterData): Promise<string> => {
+export const registerTrainer = async (data: RegisterData) => {
   try {
     const response = await axios.post(`${API_URL}/register`, data);
-    return response.data;
+    return response;
   } catch (error: any) {
     console.error("Erro ao registrar treinador:", error);
     throw new Error(error.response?.data || "Erro no registro");
   }
 };
 
-export const registerLogin = async (data: LoginData): Promise<string> => {
+export const loginTrainer = async (data: LoginData) => {
   try {
     const response = await axios.post(`${API_URL}/login`, data);
-    return response.data;
+    return response;
   } catch (error: any) {
     console.error("Erro ao logar:", error);
     throw new Error(error.response?.data || "Erro ao logar");
   }
 };
 
-export const loginWithGoogle = async (): Promise<void> => {
+export const loginWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
 
   try {
@@ -43,9 +43,9 @@ export const loginWithGoogle = async (): Promise<void> => {
     const user = result.user;
 
     const idToken = await user.getIdToken();
-    await axios.post("http://localhost:8080/api/auth/google", { token: idToken });
+    const response = await axios.post("http://localhost:8080/api/auth/google", { token: idToken });
 
-    console.log("Login com Google realizado:", user);
+    return response;
   } catch (error) {
     console.error("Erro no login com Google:", error);
   }

@@ -1,15 +1,15 @@
 import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
-import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
-import coachPhoto2 from '../assets/coach-photo2.png'
+import SwitchLightDarkMode from '../../components/SwitchLightDarkMode';
+import coachPhoto2 from '../../assets/coach-photo2.png'
 import { styled } from '@mui/material/styles';
-import LogoHeader from '../components/LogoHeader';
-import GoogleButton from '../components/GoogleButton';
-import BackFab from '../components/BackFab';
+import LogoHeader from '../../components/LogoHeader';
+import GoogleButton from '../../components/GoogleButton';
+import BackFab from '../../components/BackFab';
 import { useNavigate } from 'react-router-dom';
-import { loginWithGoogle, registerTrainer } from '../services/authService';
-import CustomTextField from '../components/CustomTextField';
-import PasswordInput from '../components/PasswordInput';
+import { loginWithGoogle, registerTrainer } from '../../services/authService';
+import CustomTextField from '../../components/CustomTextField';
+import PasswordInput from '../../components/PasswordInput';
 
 type SnackbarState = {
     open: boolean;
@@ -78,19 +78,43 @@ function RegisterPage() {
         }
 
         try {
-            await registerTrainer({ fullName, email, password });
-            setSnackbar({
-                open: true,
-                message: "Account created successfully!",
-                severity: "success",
-            });
-            navigate('/');
+            const response = await registerTrainer({ fullName, email, password });
+
+            if (response.status === 200 || response.status === 201) {
+                setSnackbar({
+                    open: true,
+                    message: "Account created successfully!",
+                    severity: "success",
+                });
+                navigate("/homeTrainer"); 
+            } else {
+                setSnackbar({
+                    open: true,
+                    message: response.data?.message || "Error registering user",
+                    severity: "error",
+                });
+            }
         } catch (error: any) {
             setSnackbar({
                 open: true,
                 message: error.message || "Error registering user",
                 severity: "error",
             });
+        }
+    };
+
+    const handleGoogle = async () => {
+        try {
+            const response = await loginWithGoogle();
+
+            if (response && response.status === 200) {
+                setSnackbar({ open: true, message: "Cadastro com Google realizado!", severity: "success" });
+                navigate("/homeTrainer");
+            } else {
+                setSnackbar({ open: true, message: "Erro no cadadstro com Google", severity: "error" });
+            }
+        } catch (error: any) {
+            setSnackbar({ open: true, message: error.message, severity: "error" });
         }
     };
 
@@ -157,7 +181,7 @@ function RegisterPage() {
                             <Divider sx={{ fontSize: 12 }}>or continue with</Divider>
                         </Root>
 
-                        <GoogleButton onClick={loginWithGoogle} />
+                        <GoogleButton onClick={handleGoogle} />
 
                         <Root sx={{ width: '80%', mt: 2 }}>
                             <Divider></Divider>

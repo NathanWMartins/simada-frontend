@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
 import MainPage from '../pages/MainPage'
-import LoginPage from '../pages/LoginPage'
-import RegisterPage from '../pages/RegisterPage'
+import LoginPage from '../pages/trainer/LoginPageTrainer'
+import RegisterPage from '../pages/trainer/RegisterPageTrainer'
+import HomeTrainer from '../pages/trainer/HomeTrainer'
 
 function AppRoutes() {
     return (
@@ -9,6 +10,7 @@ function AppRoutes() {
             <Route path="/" element={<MainPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/homeTrainer" element={<HomeTrainer />} />
         </Routes>
     )
 }

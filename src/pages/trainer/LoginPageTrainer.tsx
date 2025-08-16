@@ -1,15 +1,15 @@
 import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
-import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
-import coachPhoto from '../assets/coach-photo.png'
+import SwitchLightDarkMode from '../../components/SwitchLightDarkMode';
+import coachPhoto from '../../assets/coach-photo.png'
 import { styled } from '@mui/material/styles';
-import LogoHeader from '../components/LogoHeader';
-import CustomTextField from '../components/CustomTextField';
-import PasswordInput from '../components/PasswordInput';
-import GoogleButton from '../components/GoogleButton';
-import BackFab from '../components/BackFab';
+import LogoHeader from '../../components/LogoHeader';
+import CustomTextField from '../../components/CustomTextField';
+import PasswordInput from '../../components/PasswordInput';
+import GoogleButton from '../../components/GoogleButton';
+import BackFab from '../../components/BackFab';
 import { useNavigate } from 'react-router-dom';
-import { loginWithGoogle, registerLogin } from '../services/authService';
+import { loginTrainer, loginWithGoogle } from '../../services/authService';
 
 type SnackbarState = {
     open: boolean;
@@ -70,19 +70,43 @@ function LoginPage() {
         }
 
         try {
-            await registerLogin({ email, password });
-            setSnackbar({
-                open: true,
-                message: "Logged in successfully!",
-                severity: "success",
-            });
-            navigate('/');
+            const response = await loginTrainer({ email, password });
+
+            if (response.status === 200 || response.status === 201) {
+                setSnackbar({
+                    open: true,
+                    message: "Account loged successfully!",
+                    severity: "success",
+                });
+                navigate("/homeTrainer");
+            } else {
+                setSnackbar({
+                    open: true,
+                    message: response.data?.message || "Error login user",
+                    severity: "error",
+                });
+            }
         } catch (error: any) {
             setSnackbar({
                 open: true,
                 message: error.message || "Error logging in",
                 severity: "error",
             });
+        }
+    };
+
+    const handleGoogle = async () => {
+        try {
+            const response = await loginWithGoogle();
+
+            if (response && response.status === 200) {
+                setSnackbar({ open: true, message: "Login com Google realizado!", severity: "success" });
+                navigate("/homeTrainer");
+            } else {
+                setSnackbar({ open: true, message: "Erro no login com Google", severity: "error" });
+            }
+        } catch (error: any) {
+            setSnackbar({ open: true, message: error.message, severity: "error" });
         }
     };
 
@@ -159,7 +183,7 @@ function LoginPage() {
                             <Divider sx={{ fontSize: 12 }}>or continue with</Divider>
                         </Root>
 
-                        <GoogleButton onClick={loginWithGoogle}/>
+                        <GoogleButton onClick={handleGoogle} />
 
                         <Root sx={{ width: '80%', mt: 2, }}>
                             <Divider></Divider>

@@ -9,7 +9,7 @@ import PasswordInput from '../components/PasswordInput';
 import GoogleButton from '../components/GoogleButton';
 import BackFab from '../components/BackFab';
 import { useNavigate } from 'react-router-dom';
-import { registerLogin } from '../services/authService';
+import { loginWithGoogle, registerLogin } from '../services/authService';
 
 type SnackbarState = {
     open: boolean;
@@ -23,7 +23,7 @@ function LoginPage() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
     const [snackbar, setSnackbar] = useState<SnackbarState>({
@@ -85,8 +85,6 @@ function LoginPage() {
             });
         }
     };
-
-
 
     return (
         <>
@@ -161,7 +159,7 @@ function LoginPage() {
                             <Divider sx={{ fontSize: 12 }}>or continue with</Divider>
                         </Root>
 
-                        <GoogleButton />
+                        <GoogleButton onClick={loginWithGoogle}/>
 
                         <Root sx={{ width: '80%', mt: 2, }}>
                             <Divider></Divider>

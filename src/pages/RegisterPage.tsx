@@ -7,7 +7,7 @@ import LogoHeader from '../components/LogoHeader';
 import GoogleButton from '../components/GoogleButton';
 import BackFab from '../components/BackFab';
 import { useNavigate } from 'react-router-dom';
-import { registerTrainer } from '../services/authService';
+import { loginWithGoogle, registerTrainer } from '../services/authService';
 import CustomTextField from '../components/CustomTextField';
 import PasswordInput from '../components/PasswordInput';
 
@@ -157,7 +157,7 @@ function RegisterPage() {
                             <Divider sx={{ fontSize: 12 }}>or continue with</Divider>
                         </Root>
 
-                        <GoogleButton />
+                        <GoogleButton onClick={loginWithGoogle} />
 
                         <Root sx={{ width: '80%', mt: 2 }}>
                             <Divider></Divider>

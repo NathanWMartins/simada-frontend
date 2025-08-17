@@ -1,10 +1,10 @@
 import { Box, Button, Typography, useTheme } from '@mui/material'
 import React from 'react'
-import HeaderMainPage from '../components/HeaderMainPage'
+import HeaderMainPage from '../components/header/HeaderMainPage'
 import MainIllustration1 from '../assets/MainIllustration1.png';
 import MainIllustration2 from '../assets/MainIllustration2.png';
-import BoxFeaturesSuitableMainPage from '../components/BoxFeaturesSuitableMainPage';
-import SwitchLightDarkMode from '../components/SwitchLightDarkMode';
+import BoxFeaturesSuitableMainPage from '../components/mainPage/BoxFeaturesSuitableMainPage';
+import SwitchLightDarkMode from '../components/common/SwitchLightDarkMode';
 import { useNavigate } from 'react-router-dom';
 
 function MainPage() {

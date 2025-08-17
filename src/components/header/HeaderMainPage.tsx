@@ -1,8 +1,8 @@
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import LogoLight from '../assets/LogoWiKoLight.png';
-import LogoDark from '../assets/LogoWiKoDark.png';
+import LogoLight from '../../assets/LogoWiKoLight.png';
+import LogoDark from '../../assets/LogoWiKoDark.png';
 import { useNavigate } from 'react-router-dom';
 
 function HeaderMainPage() {
@@ -21,11 +21,7 @@ function HeaderMainPage() {
       >
         <Toolbar>
           <Box component="img" src={logo} alt="SIMADA Logo"
-            sx={{
-              height: 30,
-              ml: 1,
-              mr: 'auto'
-            }}
+            sx={{ height: 30, ml: 1, mr: 'auto' }}
           />
 
           <Button

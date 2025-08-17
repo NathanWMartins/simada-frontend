@@ -1,15 +1,15 @@
 import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
-import SwitchLightDarkMode from '../../components/SwitchLightDarkMode';
+import SwitchLightDarkMode from '../../components/common/SwitchLightDarkMode';
 import coachPhoto2 from '../../assets/coach-photo2.png'
 import { styled } from '@mui/material/styles';
-import LogoHeader from '../../components/LogoHeader';
-import GoogleButton from '../../components/GoogleButton';
-import BackFab from '../../components/BackFab';
+import Logo from '../../components/common/Logo';
+import BackFab from '../../components/common/BackFab';
 import { useNavigate } from 'react-router-dom';
 import { loginWithGoogle, registerTrainer } from '../../services/authService';
-import CustomTextField from '../../components/CustomTextField';
-import PasswordInput from '../../components/PasswordInput';
+import CustomTextField from '../../components/common/CustomTextField';
+import PasswordInput from '../../components/common/PasswordInput';
+import GoogleButton from '../../components/common/GoogleButton';
 
 type SnackbarState = {
     open: boolean;
@@ -86,7 +86,7 @@ function RegisterPageTrainer() {
                     message: "Account created successfully!",
                     severity: "success",
                 });
-                navigate("/homeTrainer"); 
+                navigate("/home-trainer"); 
             } else {
                 setSnackbar({
                     open: true,
@@ -109,7 +109,7 @@ function RegisterPageTrainer() {
 
             if (response && response.status === 200) {
                 setSnackbar({ open: true, message: "Cadastro com Google realizado!", severity: "success" });
-                navigate("/homeTrainer");
+                navigate("/home-trainer");
             } else {
                 setSnackbar({ open: true, message: "Erro no cadadstro com Google", severity: "error" });
             }
@@ -125,7 +125,7 @@ function RegisterPageTrainer() {
                 display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 4,
             }}
             >
-                <LogoHeader />
+                <Logo/>
 
                 <Box
                     sx={{

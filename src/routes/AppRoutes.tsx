@@ -11,7 +11,7 @@ function AppRoutes() {
             <Route path="/" element={<MainPage />} />
             <Route path="/trainer-login" element={<LoginPageTrainer />} />
             <Route path="/trainer-register" element={<RegisterPageTrainer />} />
-            <Route path="/homeTrainer" element={<HomeTrainer />} />
+            <Route path="/home-trainer" element={<HomeTrainer />} />
 
             <Route path="/athlete-login" element={<LoginPageAthlete />} />
         </Routes>

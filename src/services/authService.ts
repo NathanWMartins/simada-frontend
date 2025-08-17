@@ -15,9 +15,19 @@ export interface LoginData {
   password: string;
 }
 
+export const loginTrainer = async (data: LoginData) => {
+  try {
+    const response = await axios.post(`${API_URL}/loginTrainer`, data);
+    return response;
+  } catch (error: any) {
+    console.error("Erro ao logar:", error);
+    throw new Error(error.response?.data || "Erro ao logar");
+  }
+};
+
 export const registerTrainer = async (data: RegisterData) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, data);
+    const response = await axios.post(`${API_URL}/registerTrainer`, data);
     return response;
   } catch (error: any) {
     console.error("Erro ao registrar treinador:", error);
@@ -25,13 +35,23 @@ export const registerTrainer = async (data: RegisterData) => {
   }
 };
 
-export const loginTrainer = async (data: LoginData) => {
+export const loginAthlete = async (data: LoginData) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, data);
+    const response = await axios.post(`${API_URL}/loginAthlete`, data);
     return response;
   } catch (error: any) {
     console.error("Erro ao logar:", error);
     throw new Error(error.response?.data || "Erro ao logar");
+  }
+};
+
+export const registerAthlete = async (data: RegisterData) => {
+  try {
+    const response = await axios.post(`${API_URL}/registerAthlete`, data);
+    return response;
+  } catch (error: any) {
+    console.error("Erro ao registrar treinador:", error);
+    throw new Error(error.response?.data || "Erro no registro");
   }
 };
 
@@ -43,7 +63,7 @@ export const loginWithGoogle = async () => {
     const user = result.user;
 
     const idToken = await user.getIdToken();
-    const response = await axios.post("http://localhost:8080/api/auth/google", { token: idToken });
+    const response = await axios.post(`${API_URL}/google`, { token: idToken });
 
     return response;
   } catch (error) {

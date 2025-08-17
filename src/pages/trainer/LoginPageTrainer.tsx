@@ -1,15 +1,12 @@
 import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
-import SwitchLightDarkMode from '../../components/SwitchLightDarkMode';
 import coachPhoto from '../../assets/coach-photo.png'
 import { styled } from '@mui/material/styles';
-import LogoHeader from '../../components/LogoHeader';
-import CustomTextField from '../../components/CustomTextField';
-import PasswordInput from '../../components/PasswordInput';
-import GoogleButton from '../../components/GoogleButton';
-import BackFab from '../../components/BackFab';
+import Logo from '../../components/common/Logo';
 import { useNavigate } from 'react-router-dom';
 import { loginTrainer, loginWithGoogle } from '../../services/authService';
+import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, GoogleButton } from '../../components/common';
+import { useUserContext } from '../../contexts/UserContext';
 
 type SnackbarState = {
     open: boolean;
@@ -22,8 +19,7 @@ function LoginPageTrainer() {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
+    const [password, setPassword] = useState('');   
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
     const [snackbar, setSnackbar] = useState<SnackbarState>({
@@ -31,6 +27,7 @@ function LoginPageTrainer() {
         message: "",
         severity: "error",
     });
+    const { setUser } = useUserContext();
 
     const Root = styled('div')(({ theme }) => ({
         width: '100%',
@@ -68,31 +65,32 @@ function LoginPageTrainer() {
             });
             return;
         }
+        navigate("/home-trainer");
+        // try {
+        //     const response = await loginTrainer({ email, password });
 
-        try {
-            const response = await loginTrainer({ email, password });
-
-            if (response.status === 200 || response.status === 201) {
-                setSnackbar({
-                    open: true,
-                    message: "Account loged successfully!",
-                    severity: "success",
-                });
-                navigate("/homeTrainer");
-            } else {
-                setSnackbar({
-                    open: true,
-                    message: response.data?.message || "Error login user",
-                    severity: "error",
-                });
-            }
-        } catch (error: any) {
-            setSnackbar({
-                open: true,
-                message: error.message || "Error logging in",
-                severity: "error",
-            });
-        }
+        //     if (response.status === 200 || response.status === 201) {
+        //         setSnackbar({
+        //             open: true,
+        //             message: "Account loged successfully!",
+        //             severity: "success",
+        //         });
+        //         setUser(response.data.user);
+        //         navigate("/home-trainer");
+        //     } else {
+        //         setSnackbar({
+        //             open: true,
+        //             message: response.data?.message || "Error login user",
+        //             severity: "error",
+        //         });
+        //     }
+        // } catch (error: any) {
+        //     setSnackbar({
+        //         open: true,
+        //         message: error.message || "Error logging in",
+        //         severity: "error",
+        //     });
+        // }
     };
 
     const handleGoogle = async () => {
@@ -101,7 +99,7 @@ function LoginPageTrainer() {
 
             if (response && response.status === 200) {
                 setSnackbar({ open: true, message: "Login com Google realizado!", severity: "success" });
-                navigate("/homeTrainer");
+                navigate("/home-trainer");
             } else {
                 setSnackbar({ open: true, message: "Erro no login com Google", severity: "error" });
             }
@@ -117,7 +115,7 @@ function LoginPageTrainer() {
                 display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 4,
             }}
             >
-                <LogoHeader />
+                <Logo />
 
                 <Box
                     sx={{

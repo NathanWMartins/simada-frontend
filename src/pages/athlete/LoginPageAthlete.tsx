@@ -1,15 +1,11 @@
 import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
-import SwitchLightDarkMode from '../../components/SwitchLightDarkMode';
 import athletePhoto from '../../assets/athlete-photo.png'
 import { styled } from '@mui/material/styles';
-import LogoHeader from '../../components/LogoHeader';
-import CustomTextField from '../../components/CustomTextField';
-import PasswordInput from '../../components/PasswordInput';
-import GoogleButton from '../../components/GoogleButton';
-import BackFab from '../../components/BackFab';
+import Logo from '../../components/common/Logo';
 import { useNavigate } from 'react-router-dom';
 import { loginTrainer, loginWithGoogle } from '../../services/authService';
+import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, GoogleButton } from '../../components/common';
 
 type SnackbarState = {
     open: boolean;
@@ -78,7 +74,7 @@ function LoginPageAthlete() {
                     message: "Account loged successfully!",
                     severity: "success",
                 });
-                navigate("/homeTrainer");
+                navigate("/home-athlete");
             } else {
                 setSnackbar({
                     open: true,
@@ -101,7 +97,7 @@ function LoginPageAthlete() {
 
             if (response && response.status === 200) {
                 setSnackbar({ open: true, message: "Login com Google realizado!", severity: "success" });
-                navigate("/homeTrainer");
+                navigate("/home-athlete");
             } else {
                 setSnackbar({ open: true, message: "Erro no login com Google", severity: "error" });
             }
@@ -117,7 +113,7 @@ function LoginPageAthlete() {
                 display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 4,
             }}
             >
-                <LogoHeader />
+                <Logo />
 
                 <Box
                     sx={{

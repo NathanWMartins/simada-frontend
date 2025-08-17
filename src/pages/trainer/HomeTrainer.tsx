@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function HomeTrainer() {
     const theme = useTheme();
-  const navigate = useNavigate();
+    const navigate = useNavigate();
     return (
         <>
             <HeaderHomeTrainer />

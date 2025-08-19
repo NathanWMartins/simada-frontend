@@ -1,13 +1,22 @@
 import axios from "axios";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig";
 
 const API_URL = "http://localhost:8080/auth";
 
-export interface RegisterData {
+export interface RegisterTrainerData {
   fullName: string;
   email: string;
   password: string;
+  modality?: string;
+  gender?: string;
+}
+
+export interface RegisterAthleteData {
+  fullName: string;
+  email: string;
+  password: string;
+  gender?: string;
+  shirtNumber?: string;
+  position?: string;
 }
 
 export interface LoginData {
@@ -25,7 +34,7 @@ export const login = async (data: LoginData) => {
   }
 };
 
-export const registerTrainer = async (data: RegisterData) => {
+export const registerTrainer = async (data: RegisterTrainerData) => {
   try {
     const response = await axios.post(`${API_URL}/register/trainer`, data);
     return response;
@@ -35,28 +44,13 @@ export const registerTrainer = async (data: RegisterData) => {
   }
 };
 
-export const registerAthlete = async (data: RegisterData) => {
+export const registerAthlete = async (data: RegisterAthleteData) => {
   try {
-    const response = await axios.post(`${API_URL}//register/athlete`, data);
+    const response = await axios.post(`${API_URL}/register/athlete`, data);
     return response;
   } catch (error: any) {
-    console.error("Erro ao registrar treinador:", error);
+    console.error("Erro ao registrar atleta:", error);
     throw new Error(error.response?.data || "Erro no registro");
   }
 };
 
-export const loginWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-
-    const idToken = await user.getIdToken();
-    const response = await axios.post(`${API_URL}/google`, { token: idToken });
-
-    return response;
-  } catch (error) {
-    console.error("Erro no login com Google:", error);
-  }
-};

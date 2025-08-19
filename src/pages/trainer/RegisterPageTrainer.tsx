@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import Logo from '../../components/common/Logo';
 import BackFab from '../../components/common/BackFab';
 import { useNavigate } from 'react-router-dom';
-import { loginWithGoogle, registerTrainer } from '../../services/authService';
+import { registerTrainer } from '../../services/authService';
 import CustomTextField from '../../components/common/CustomTextField';
 import PasswordInput from '../../components/common/PasswordInput';
 import GoogleButton from '../../components/common/GoogleButton';
@@ -103,20 +103,20 @@ function RegisterPageTrainer() {
         }
     };
 
-    const handleGoogle = async () => {
-        try {
-            const response = await loginWithGoogle();
+    // const handleGoogle = async () => {
+    //     try {
+    //         const response = await loginWithGoogle();
 
-            if (response && response.status === 200) {
-                setSnackbar({ open: true, message: "Cadastro com Google realizado!", severity: "success" });
-                navigate("/home-trainer");
-            } else {
-                setSnackbar({ open: true, message: "Erro no cadadstro com Google", severity: "error" });
-            }
-        } catch (error: any) {
-            setSnackbar({ open: true, message: error.message, severity: "error" });
-        }
-    };
+    //         if (response && response.status === 200) {
+    //             setSnackbar({ open: true, message: "Cadastro com Google realizado!", severity: "success" });
+    //             navigate("/home-trainer");
+    //         } else {
+    //             setSnackbar({ open: true, message: "Erro no cadadstro com Google", severity: "error" });
+    //         }
+    //     } catch (error: any) {
+    //         setSnackbar({ open: true, message: error.message, severity: "error" });
+    //     }
+    // };
 
     return (
         <>
@@ -152,7 +152,7 @@ function RegisterPageTrainer() {
                             Create your account and start optimizing training.
                         </Typography>
 
-                        <CustomTextField label="Full Name" value={fullName} error={errorFullName}
+                        <CustomTextField label="Full Name" type="name" value={fullName} error={errorFullName}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFullName(e.target.value)} />
 
                         <CustomTextField label="Email" type="email" value={email} error={errorEmail}
@@ -181,7 +181,7 @@ function RegisterPageTrainer() {
                             <Divider sx={{ fontSize: 12 }}>or continue with</Divider>
                         </Root>
 
-                        <GoogleButton onClick={handleGoogle} />
+                        <GoogleButton/>
 
                         <Root sx={{ width: '80%', mt: 2 }}>
                             <Divider></Divider>

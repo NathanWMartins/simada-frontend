@@ -4,7 +4,7 @@ import athletePhoto from '../../assets/athlete-photo.png'
 import { styled } from '@mui/material/styles';
 import Logo from '../../components/common/Logo';
 import { useNavigate } from 'react-router-dom';
-import { login, loginWithGoogle } from '../../services/authService';
+import { login } from '../../services/authService';
 import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, GoogleButton } from '../../components/common';
 
 type SnackbarState = {
@@ -91,20 +91,20 @@ function LoginPageAthlete() {
         }
     };
 
-    const handleGoogle = async () => {
-        try {
-            const response = await loginWithGoogle();
+    // const handleGoogle = async () => {
+    //     try {
+    //         const response = await loginWithGoogle();
 
-            if (response && response.status === 200) {
-                setSnackbar({ open: true, message: "Login com Google realizado!", severity: "success" });
-                navigate("/home-athlete");
-            } else {
-                setSnackbar({ open: true, message: "Erro no login com Google", severity: "error" });
-            }
-        } catch (error: any) {
-            setSnackbar({ open: true, message: error.message, severity: "error" });
-        }
-    };
+    //         if (response && response.status === 200) {
+    //             setSnackbar({ open: true, message: "Login com Google realizado!", severity: "success" });
+    //             navigate("/home-athlete");
+    //         } else {
+    //             setSnackbar({ open: true, message: "Erro no login com Google", severity: "error" });
+    //         }
+    //     } catch (error: any) {
+    //         setSnackbar({ open: true, message: error.message, severity: "error" });
+    //     }
+    // };
 
     return (
         <>
@@ -179,7 +179,7 @@ function LoginPageAthlete() {
                             <Divider sx={{ fontSize: 12 }}>or continue with</Divider>
                         </Root>
 
-                        <GoogleButton onClick={handleGoogle} />
+                        <GoogleButton />
 
                         <Root sx={{ width: '80%', mt: 2, }}>
                             <Divider></Divider>

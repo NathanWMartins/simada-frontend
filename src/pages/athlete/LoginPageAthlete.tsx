@@ -4,7 +4,7 @@ import athletePhoto from '../../assets/athlete-photo.png'
 import { styled } from '@mui/material/styles';
 import Logo from '../../components/common/Logo';
 import { useNavigate } from 'react-router-dom';
-import { loginTrainer, loginWithGoogle } from '../../services/authService';
+import { login, loginWithGoogle } from '../../services/authService';
 import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, GoogleButton } from '../../components/common';
 
 type SnackbarState = {
@@ -66,7 +66,7 @@ function LoginPageAthlete() {
         }
 
         try {
-            const response = await loginTrainer({ email, password });
+            const response = await login({ email, password });
 
             if (response.status === 200 || response.status === 201) {
                 setSnackbar({

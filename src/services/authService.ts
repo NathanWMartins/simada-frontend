@@ -15,9 +15,9 @@ export interface LoginData {
   password: string;
 }
 
-export const loginTrainer = async (data: LoginData) => {
+export const login = async (data: LoginData) => {
   try {
-    const response = await axios.post(`${API_URL}/loginTrainer`, data);
+    const response = await axios.post(`${API_URL}/login`, data);
     return response;
   } catch (error: any) {
     console.error("Erro ao logar:", error);
@@ -27,7 +27,7 @@ export const loginTrainer = async (data: LoginData) => {
 
 export const registerTrainer = async (data: RegisterData) => {
   try {
-    const response = await axios.post(`${API_URL}/registerTrainer`, data);
+    const response = await axios.post(`${API_URL}/register/trainer`, data);
     return response;
   } catch (error: any) {
     console.error("Erro ao registrar treinador:", error);
@@ -35,19 +35,9 @@ export const registerTrainer = async (data: RegisterData) => {
   }
 };
 
-export const loginAthlete = async (data: LoginData) => {
-  try {
-    const response = await axios.post(`${API_URL}/loginAthlete`, data);
-    return response;
-  } catch (error: any) {
-    console.error("Erro ao logar:", error);
-    throw new Error(error.response?.data || "Erro ao logar");
-  }
-};
-
 export const registerAthlete = async (data: RegisterData) => {
   try {
-    const response = await axios.post(`${API_URL}/registerAthlete`, data);
+    const response = await axios.post(`${API_URL}//register/athlete`, data);
     return response;
   } catch (error: any) {
     console.error("Erro ao registrar treinador:", error);

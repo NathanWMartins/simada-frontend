@@ -4,9 +4,10 @@ import { useTheme } from "@mui/material/styles";
 import HeaderHomeTrainer from "../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../components/common";
 import StarIcon from "@mui/icons-material/Star";
-import TopPerformerCard from "../../components/top-performers/TopPerformerCard";
+import TopPerformerCard from "../../components/homePageTrainer/TopPerformerCard";
 import type { TrainingStats, TopPerformer } from "../../services/types/types";
 import { getTrainerStats, getTopPerformers } from "../../services/trainer/trainerService";
+import AlertsPanel from "../../components/homePageTrainer/AlertsPanel";
 
 export default function HomeTrainer() {
     const theme = useTheme();
@@ -65,8 +66,7 @@ export default function HomeTrainer() {
 
     return (
         <>
-            <Box sx={{ backgroundColor: theme.palette.background.paper, height: '100vh' }}>
-
+            <Box sx={{ backgroundColor: theme.palette.background.paper, height: '130vh' }}>
 
                 <HeaderHomeTrainer />
                 <Box sx={{ display: "flex", gap: 3, px: 8, pt: 4 }}>
@@ -102,7 +102,7 @@ export default function HomeTrainer() {
                     </Box>
 
                     <Box sx={{ width: "35%", mt: 6 }}>
-                        <Paper elevation={4} sx={{ p: 3, borderRadius: 3, position: "relative" }}>
+                        <Paper elevation={4} sx={{ p: 3, borderRadius: 3, position: "relative", bgcolor: theme.palette.background.default }}>
                             <Typography variant="h6" fontWeight="bold" sx={{ mb: 2, display: "flex", alignItems: "center", gap: 1 }}>
                                 <StarIcon fontSize="medium" sx={{ verticalAlign: "middle", mb: "1px" }} />
                                 Top Performers
@@ -138,6 +138,12 @@ export default function HomeTrainer() {
 
                             </Box>
                         </Paper>
+                    </Box>
+                </Box>
+
+                <Box sx={{ width: "55%", mt: 10 }}>
+                    <Box sx={{ mt: 3 }}>
+                        <AlertsPanel days={7} limit={5} />
                     </Box>
                 </Box>
 

@@ -1,5 +1,5 @@
 import { Avatar, Box, Typography } from "@mui/material";
-import { SxProps } from "@mui/system";
+import { SxProps, useTheme } from "@mui/system";
 
 type Props = {
     name?: string;
@@ -10,6 +10,7 @@ type Props = {
 };
 
 export default function TopPerformerCard({ name, avatarUrl, score, delta, sx }: Props) {
+    const theme = useTheme();
     const color = typeof delta === "number" ? (delta >= 0 ? "success.main" : "error.main") : "text.secondary";
     const deltaText = typeof delta === "number" ? (delta >= 0 ? `+${delta}` : `${delta}`) : "0";
 
@@ -25,7 +26,7 @@ export default function TopPerformerCard({ name, avatarUrl, score, delta, sx }: 
             <Typography variant="subtitle1" fontWeight="bold" sx={{ mt: 1 }}>
                 {name || "Nome"}
             </Typography>
-            <Typography variant="h3" sx={{ color: "text.secondary", pt: 1 }}>
+            <Typography variant="h3" sx={{ color: theme.palette.text.primary, pt: 1 }}>
                 {score ?? 0}
             </Typography>
             <Typography variant="h6" sx={{ pt: 1 }} color={color}>

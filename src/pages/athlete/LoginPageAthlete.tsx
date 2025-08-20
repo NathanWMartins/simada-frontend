@@ -4,7 +4,11 @@ import athletePhoto from '../../assets/athlete-photo.png'
 import { styled } from '@mui/material/styles';
 import Logo from '../../components/common/Logo';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import { login } from '../../services/authService';
+=======
+import { login, loginWithGoogle } from '../../services/auth/authService';
+>>>>>>> 2956508 (feat: Implementação dos Top Performes e criação de services)
 import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, GoogleButton } from '../../components/common';
 
 type SnackbarState = {

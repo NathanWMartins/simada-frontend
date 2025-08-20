@@ -4,7 +4,8 @@ import coachPhoto from '../../assets/coach-photo.png'
 import { styled } from '@mui/material/styles';
 import Logo from '../../components/common/Logo';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../services/authService';
+
+import { login } from '../../services/auth/authService';
 import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, GoogleButton } from '../../components/common';
 import { useUserContext } from '../../contexts/UserContext';
 

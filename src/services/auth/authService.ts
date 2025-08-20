@@ -1,28 +1,8 @@
 import axios from "axios";
 
+import { LoginData, RegisterAthleteData, RegisterTrainerData } from "../types/types";
+
 const API_URL = "http://localhost:8080/auth";
-
-export interface RegisterTrainerData {
-  fullName: string;
-  email: string;
-  password: string;
-  modality?: string;
-  gender?: string;
-}
-
-export interface RegisterAthleteData {
-  fullName: string;
-  email: string;
-  password: string;
-  gender?: string;
-  shirtNumber?: string;
-  position?: string;
-}
-
-export interface LoginData {
-  email: string;
-  password: string;
-}
 
 export const login = async (data: LoginData) => {
   try {

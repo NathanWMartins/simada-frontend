@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import Logo from '../../components/common/Logo';
 import BackFab from '../../components/common/BackFab';
 import { useNavigate } from 'react-router-dom';
-import { registerTrainer } from '../../services/authService';
+import { registerTrainer } from '../../services/auth/authService';
 import CustomTextField from '../../components/common/CustomTextField';
 import PasswordInput from '../../components/common/PasswordInput';
 import GoogleButton from '../../components/common/GoogleButton';

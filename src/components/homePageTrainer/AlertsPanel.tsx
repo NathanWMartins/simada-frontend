@@ -40,7 +40,7 @@ export default function AlertsPanel({
 
     return (
         <Paper elevation={4} sx={{
-            p: 2, borderRadius: 3, position: "relative", maxWidth: 900, mx: 13,
+            p: 2, borderRadius: 3, position: "relative", maxWidth: 900, mx: 11,
             bgcolor: theme.palette.background.default
         }}>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1.5 }}>

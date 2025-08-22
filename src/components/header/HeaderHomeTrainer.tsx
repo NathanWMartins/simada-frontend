@@ -66,7 +66,7 @@ function HeaderHomeTrainer() {
             <IconButton onClick={handleOpenMenu}>
               <Avatar
                 src={user?.fotoUsuario || ""}
-                alt={user?.fullName || "User"}
+                alt={user?.nome || "User"}
                 sx={{ width: 40, height: 40 }}
               />
               <ExpandMore />

@@ -20,9 +20,17 @@ export const registerTrainer = async (data: RegisterTrainerData) => {
     return response;
   } catch (error: any) {
     console.error("Erro ao registrar treinador:", error);
-    throw new Error(error.response?.data || "Erro no registro");
+
+    const msg =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      error.response?.data ||
+      "Erro no registro";
+
+    throw new Error(msg);
   }
 };
+
 
 export const registerAthlete = async (data: RegisterAthleteData) => {
   try {

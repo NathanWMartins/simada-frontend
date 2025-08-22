@@ -5,7 +5,7 @@ export type UserResponse = {
     email: string;
     tipoUsuario: 'treinador' | 'atleta';
     fotoUsuario?: string | null;
-    fullName?: string | null;
+    nome?: string | null;
 };
 
 interface UserContextType {

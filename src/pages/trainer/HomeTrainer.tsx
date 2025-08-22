@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Divider, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import HeaderHomeTrainer from "../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../components/common";
@@ -8,11 +8,12 @@ import TopPerformerCard from "../../components/homePageTrainer/TopPerformerCard"
 import type { TrainingStats, TopPerformer } from "../../services/types/types";
 import { getTrainerStats, getTopPerformers } from "../../services/trainer/trainerService";
 import AlertsPanel from "../../components/homePageTrainer/AlertsPanel";
+import { useUserContext } from "../../contexts/UserContext";
 
 export default function HomeTrainer() {
     const theme = useTheme();
     const [stats, setStats] = useState<TrainingStats | null>(null);
-
+    const { user } = useUserContext();
     const [topPerformers, setTopPerformers] = useState<TopPerformer[]>([]);
     const [loadingTop, setLoadingTop] = useState(false);
     const [errorTop, setErrorTop] = useState<string | null>(null);
@@ -69,7 +70,17 @@ export default function HomeTrainer() {
             <Box sx={{ backgroundColor: theme.palette.background.paper, height: '150vh' }}>
 
                 <HeaderHomeTrainer />
-                <Box sx={{ display: "flex", gap: 3, px: 8, pt: 4 }}>
+
+                <Typography
+                    variant="h6"
+                    fontWeight="light"
+                    sx={{ mt: 2, ml: 10 }}
+                >
+                    Bem-vindo, {user?.nome ?? "Usuário"}!
+                </Typography>
+                <Divider sx={{ my: 1, mx: 10 }} />
+
+                <Box sx={{ display: "flex", gap: 3, px: 8 }}>
                     <Box
                         sx={{
                             display: "flex", flexDirection: "column", width: "50%", gap: 2,
@@ -102,8 +113,10 @@ export default function HomeTrainer() {
                     </Box>
 
                     <Box sx={{ width: "45%", mt: 6 }}>
-                        <Paper elevation={4} sx={{ p: 3, borderRadius: 3, position: "relative", 
-                            bgcolor: theme.palette.background.default, height: 340 }}>
+                        <Paper elevation={4} sx={{
+                            p: 3, borderRadius: 3, position: "relative",
+                            bgcolor: theme.palette.background.default, height: 340
+                        }}>
                             <Typography variant="h6" fontWeight="bold" sx={{ mb: 2, display: "flex", alignItems: "center", gap: 1 }}>
                                 <StarIcon fontSize="medium" sx={{ verticalAlign: "middle", mb: "1px" }} />
                                 Top Performers

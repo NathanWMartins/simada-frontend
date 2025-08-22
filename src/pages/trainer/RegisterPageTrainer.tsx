@@ -1,15 +1,12 @@
 import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
-import SwitchLightDarkMode from '../../components/common/SwitchLightDarkMode';
 import coachPhoto2 from '../../assets/coach-photo2.png'
 import { styled } from '@mui/material/styles';
-import Logo from '../../components/common/Logo';
-import BackFab from '../../components/common/BackFab';
 import { useNavigate } from 'react-router-dom';
 import { registerTrainer } from '../../services/auth/authService';
-import CustomTextField from '../../components/common/CustomTextField';
-import PasswordInput from '../../components/common/PasswordInput';
-import GoogleButton from '../../components/common/GoogleButton';
+import { useUserContext } from '../../contexts/UserContext';
+import Logo from '../../components/common/Logo';
+import { BackFab, CustomTextField, GoogleButton, PasswordInput, SwitchLightDarkMode } from '../../components/common';
 
 type SnackbarState = {
     open: boolean;
@@ -25,6 +22,7 @@ function RegisterPageTrainer() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
+    const { setUser } = useUserContext();
 
     const [errorFullName, setErrorFullName] = useState(false);
     const [errorEmail, setErrorEmail] = useState(false);
@@ -86,11 +84,15 @@ function RegisterPageTrainer() {
                     message: "Account created successfully!",
                     severity: "success",
                 });
-                navigate("/home-trainer"); 
+                setUser({
+                    ...response.data,
+                    fotoUsuario: response.data.fotoUsuario ?? undefined,
+                });
+                navigate("/home-trainer");
             } else {
                 setSnackbar({
                     open: true,
-                    message: response.data?.message || "Error registering user",
+                    message: response.data.message || "Error registering user",
                     severity: "error",
                 });
             }
@@ -125,7 +127,7 @@ function RegisterPageTrainer() {
                 display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 4,
             }}
             >
-                <Logo/>
+                <Logo />
 
                 <Box
                     sx={{
@@ -181,7 +183,7 @@ function RegisterPageTrainer() {
                             <Divider sx={{ fontSize: 12 }}>or continue with</Divider>
                         </Root>
 
-                        <GoogleButton/>
+                        <GoogleButton />
 
                         <Root sx={{ width: '80%', mt: 2 }}>
                             <Divider></Divider>

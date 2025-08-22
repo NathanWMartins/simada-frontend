@@ -75,6 +75,7 @@ function LoginPageTrainer() {
                     message: "Account loged successfully!",
                     severity: "success",
                 });
+                console.log("login payload:", response.data);
                 setUser({
                     ...response.data,
                     fotoUsuario: response.data.fotoUsuario ?? undefined,

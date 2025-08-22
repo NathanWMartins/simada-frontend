@@ -66,14 +66,14 @@ export default function HomeTrainer() {
 
     return (
         <>
-            <Box sx={{ backgroundColor: theme.palette.background.paper, height: '130vh' }}>
+            <Box sx={{ backgroundColor: theme.palette.background.paper, height: '150vh' }}>
 
                 <HeaderHomeTrainer />
                 <Box sx={{ display: "flex", gap: 3, px: 8, pt: 4 }}>
                     <Box
                         sx={{
                             display: "flex", flexDirection: "column", width: "50%", gap: 2,
-                            px: 8, pt: 4
+                            px: 3, pt: 4
                         }}
                     >
                         {[0, 1].map((row) => (
@@ -101,8 +101,9 @@ export default function HomeTrainer() {
                         ))}
                     </Box>
 
-                    <Box sx={{ width: "35%", mt: 6 }}>
-                        <Paper elevation={4} sx={{ p: 3, borderRadius: 3, position: "relative", bgcolor: theme.palette.background.default }}>
+                    <Box sx={{ width: "45%", mt: 6 }}>
+                        <Paper elevation={4} sx={{ p: 3, borderRadius: 3, position: "relative", 
+                            bgcolor: theme.palette.background.default, height: 340 }}>
                             <Typography variant="h6" fontWeight="bold" sx={{ mb: 2, display: "flex", alignItems: "center", gap: 1 }}>
                                 <StarIcon fontSize="medium" sx={{ verticalAlign: "middle", mb: "1px" }} />
                                 Top Performers

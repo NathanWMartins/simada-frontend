@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import LogoLight from '../../assets/LogoWiKoLight.png';
 import LogoDark from '../../assets/LogoWiKoDark.png';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useUserContext } from '../../contexts/UserContext';
 import { ExpandMore } from '@mui/icons-material';
@@ -13,7 +13,6 @@ import UserMenuHeader from './UserMenuHeader';
 function HeaderHomeTrainer() {
   const theme = useTheme();
   const logo = theme.palette.mode === 'dark' ? LogoDark : LogoLight;
-  const navigate = useNavigate();
   const location = useLocation();
   const { user } = useUserContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -66,8 +65,8 @@ function HeaderHomeTrainer() {
           <Box display="flex" alignItems="center">
             <IconButton onClick={handleOpenMenu}>
               <Avatar
-                src={user?.photoUrl}
-                alt={user?.name || "User"}
+                src={user?.fotoUsuario || ""}
+                alt={user?.fullName || "User"}
                 sx={{ width: 40, height: 40 }}
               />
               <ExpandMore />

@@ -1,26 +1,37 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
-interface User {
-    id: string;
-    name: string;
+export type UserResponse = {
+    id: number;
     email: string;
-    photoUrl?: string;
-}
+    tipoUsuario: 'treinador' | 'atleta';
+    fotoUsuario?: string | null;
+    fullName?: string | null;
+};
 
 interface UserContextType {
-    user: User | null;
-    setUser: (user: User | null) => void;
+    user: UserResponse | null;
+    setUser: (user: UserResponse | null) => void;
     logout: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<UserResponse | null>(() => {
+        const raw = localStorage.getItem("user");
+        return raw ? (JSON.parse(raw) as UserResponse) : null;
+    });
 
     const logout = () => {
         setUser(null);
+        localStorage.removeItem("user");
     };
+
+    useEffect(() => {
+        if (user) {
+            localStorage.setItem("user", JSON.stringify(user));
+        }
+    }, [user]);
 
     return (
         <UserContext.Provider value={{ user, setUser, logout }}>

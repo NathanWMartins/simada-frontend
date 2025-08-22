@@ -17,7 +17,7 @@ export default function TopPerformerCard({ name, avatarUrl, score, delta, sx }: 
     return (
         <Box
             sx={{
-                display: "flex", flexDirection: "column", height: 250, width: 130,
+                display: "flex", flexDirection: "column", height: 250, width: 150,
                 alignItems: "center", p: 2, borderRadius: 2, border: "1px solid",
                 borderColor: "divider", bgcolor: "background.paper", ...sx
             }}

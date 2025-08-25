@@ -1,5 +1,5 @@
-import { api } from "../api";
-import { Alert, AlertDTO } from "../types/types";
+import { api } from "../../api";
+import { Alert, AlertDTO } from "../../types/types";
 
 function mapAlertaDTO(d: AlertDTO): Alert {
   return {
@@ -16,7 +16,7 @@ function mapAlertaDTO(d: AlertDTO): Alert {
 export async function getAlerts(params?: { days?: number; limit?: number }) {
   const { days = 7, limit = 10 } = params ?? {};
   const { data } = await api.get<AlertDTO[]>("/trainer/alerts", {
-    params: { days, limit },
+    params: { days, limit, category: "PERFORMANCE"},
   });
   return (data ?? []).map(mapAlertaDTO);
 }

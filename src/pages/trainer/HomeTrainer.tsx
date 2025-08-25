@@ -9,6 +9,7 @@ import type { TrainingStats, TopPerformer } from "../../services/types/types";
 import { getTrainerStats, getTopPerformers } from "../../services/trainer/trainerService";
 import AlertsPanel from "../../components/homePageTrainer/AlertsPanel";
 import { useUserContext } from "../../contexts/UserContext";
+import PsicoemocionalAlerts from "../../components/homePageTrainer/PsicoemocionalAlerts";
 
 export default function HomeTrainer() {
     const theme = useTheme();
@@ -155,12 +156,15 @@ export default function HomeTrainer() {
                     </Box>
                 </Box>
 
-                <Box sx={{ width: "55%", mt: 10 }}>
-                    <Box sx={{ mt: 3 }}>
+                <Box sx={{ display: "flex", gap: 1, px: 8, mt: 10 }}>
+                    <Box sx={{ width: "50%" }}>
                         <AlertsPanel days={7} limit={5} />
                     </Box>
-                </Box>
 
+                    <Box sx={{ width: "50%" }}>
+                        <PsicoemocionalAlerts />
+                    </Box>
+                </Box>
                 <SwitchLightDarkMode />
             </Box>
         </>

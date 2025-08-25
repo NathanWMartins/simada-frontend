@@ -1,0 +1,104 @@
+import { useEffect, useState } from "react";
+import { Avatar, Box, Chip, Paper, Typography } from "@mui/material";
+import PsychologyIcon from "@mui/icons-material/Psychology";
+import type { SxProps } from "@mui/system";
+import type { PsychoAlert } from "../../services/types/types";
+import { getPsychoAlerts } from "../../services/trainer/psycho/psychoService";
+
+type Props = { days?: number; limit?: number; title?: string; sx?: SxProps };
+
+const riskMeta: Record<
+    PsychoAlert["risk"],
+    { label: string; chipSx: SxProps; valueColor: "text.secondary" | "warning.main" | "error.main" }
+> = {
+    LOW: { label: "Low Risk", chipSx: { bgcolor: "success.main", color: "success.contrastText" }, valueColor: "text.secondary" },
+    CAUTION: { label: "Caution Required", chipSx: { bgcolor: "warning.main", color: "warning.contrastText" }, valueColor: "warning.main" },
+    HIGH: { label: "High Risk", chipSx: { bgcolor: "error.main", color: "error.contrastText" }, valueColor: "error.main" },
+};
+
+export default function PsicoemocionalAlerts({
+    days = 7,
+    limit = 5,
+    title = "Psicoemocional avaliation",
+    sx,
+}: Props) {
+    const [items, setItems] = useState<PsychoAlert[]>([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const data = await getPsychoAlerts({ days, limit });
+                setItems(data);
+            } catch {
+                setItems([]);
+            }
+        })();
+    }, [days, limit]);
+
+    const list = items.length ? items : Array(3).fill(null);
+
+    return (
+        <Paper elevation={4} sx={{ p: 2.5, borderRadius: 3, position: "relative", bgcolor: "background.default", ...sx }}>
+            {/* Header */}
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
+                <PsychologyIcon fontSize="small" />
+                <Typography variant="subtitle1" fontWeight={700}>{title}</Typography>
+            </Box>
+
+            {/* Lista */}
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.25 }}>
+                {list.map((raw, i) => {
+                    const a: PsychoAlert = raw ?? {
+                        athleteName: "Nome",
+                        athletePhoto: undefined,
+                        date: "",
+                        risk: "CAUTION",
+                        fatigue: "Info",
+                        mood: "Info",
+                        hoursSlept: undefined,
+                    };
+                    const risk = riskMeta[a.risk];
+
+                    return (
+                        <Box
+                            key={raw ? `${a.athleteName}-${i}` : `placeholder-${i}`}
+                            sx={{ p: 1.25, borderRadius: 2, bgcolor: "background.paper", display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, minWidth: 180 }}>
+                                <Avatar src={a.athletePhoto || undefined} alt={a.athleteName} sx={{ width: 44, height: 44 }} />
+                                <Box>
+                                    <Typography variant="subtitle2" fontWeight={700}>{a.athleteName}</Typography>
+                                    <Typography variant="caption" color="text.secondary">
+                                        {a.date ? new Date(a.date).toLocaleDateString("pt-BR") : "—/—/—"}
+                                    </Typography>
+                                </Box>
+                            </Box>
+
+                            <Box sx={{ flex: 1, minWidth: 0 }}>
+                                <Box sx={{ display: "grid", gridTemplateColumns: "120px 1fr", columnGap: 2, rowGap: 0.25, }} >
+                                    <Typography variant="body2" color="text.secondary">Fatigued</Typography>
+                                    <Typography variant="body2" color={risk.valueColor}>{a.fatigue ?? "Info"}</Typography>
+
+                                    <Typography variant="body2" color="text.secondary">Humor</Typography>
+                                    <Typography variant="body2" color={risk.valueColor}>{a.humor ?? "Info"}</Typography>
+
+                                    <Typography variant="body2" color="text.secondary">Hours Slept</Typography>
+                                    <Typography variant="body2" color={risk.valueColor}>
+                                        {typeof a.hoursSlept === "number" ? `${a.hoursSlept} hours` : "X hours"}
+                                    </Typography>
+                                </Box>
+                            </Box>
+
+                            <Box sx={{ minWidth: 120, display: "flex", justifyContent: "flex-end" }}>
+                                <Chip
+                                    size="small" label={risk.label}
+                                    sx={{ borderRadius: 999, px: 1.5, fontWeight: 700, ...risk.chipSx, }}
+                                />
+                            </Box>
+                        </Box>
+                    );
+                })}
+            </Box>
+        </Paper>
+    );
+}

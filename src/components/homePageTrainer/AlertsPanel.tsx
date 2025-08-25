@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Avatar, Box, Paper, Typography, useTheme } from "@mui/material";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { Alert } from "../../services/types/types";
-import { getAlerts } from "../../services/alerts/alertsService";
+import { getAlerts } from "../../services/trainer/alerts/alertsService";
 
 type Props = {
     title?: string;
@@ -40,7 +40,7 @@ export default function AlertsPanel({
 
     return (
         <Paper elevation={4} sx={{
-            p: 2, borderRadius: 3, position: "relative", maxWidth: 900, mx: 11,
+            p: 2, borderRadius: 3, position: "relative", maxWidth: "100%", mx: 2,
             bgcolor: theme.palette.background.default
         }}>
             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1.5 }}>
@@ -52,18 +52,14 @@ export default function AlertsPanel({
             </Box>
 
             <Box sx={{
-                display: "flex", flexDirection: "column", gap: 1.5,
+                display: "flex", flexDirection: "column", gap: 1.5, mt: 3
             }}>
-                {(alerts.length ? alerts : Array(3 ).fill(null)).map((a, i) => (
+                {(alerts.length ? alerts : Array(3).fill(null)).map((a, i) => (
                     <Box
                         key={a?.id ?? i}
                         sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 2,
-                            p: 1.5,
-                            borderRadius: 2,
-                            bgcolor: theme.palette.background.paper,
+                            display: "flex", alignItems: "center", gap: 2, p: 1.5, borderRadius: 2,
+                            bgcolor: theme.palette.background.paper, height: 80
                         }}
                     >
                         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, minWidth: 160 }}>

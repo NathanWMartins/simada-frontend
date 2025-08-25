@@ -55,6 +55,10 @@ export interface AlertDTO {
     suggested_action?: string | null;
     athlete_name?: string;
     athlete_photo?: string | null;
+
+    fatigue?: string | null;
+    humor?: string | null;
+    hours_slept?: number | null;
 }
 
 export interface Alert {
@@ -65,4 +69,14 @@ export interface Alert {
     action?: string | null;
     athleteName: string;
     athletePhoto?: string;
+}
+
+export interface PsychoAlert {
+    athleteName: string;
+    athletePhoto?: string;
+    date: string;
+    risk: "LOW" | "CAUTION" | "HIGH";
+    fatigue?: string | null;
+    humor?: string | null;
+    hoursSlept?: number | null;
 }

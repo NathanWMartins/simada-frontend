@@ -80,3 +80,17 @@ export interface PsychoAlert {
     humor?: string | null;
     hoursSlept?: number | null;
 }
+
+//Session
+export interface Session {
+    id: number;
+    coachId: number;
+    start: string;
+    end: string;
+    type: "training" | "game";
+    title: string;
+    score?: string | null;
+    description?: string | null;
+    location?: string | null;
+}
+

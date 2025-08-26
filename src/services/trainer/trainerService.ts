@@ -12,8 +12,8 @@ function mapTopPerformerDTO(d: TopPerformerDTO): TopPerformer {
   };
 }
 
-export async function getTrainerStats(): Promise<TrainingStats> {
-  const { data } = await api.get<TrainingStats>("/trainer/stats");
+export async function getTrainerStats(trainerId: number): Promise<TrainingStats> {
+  const { data } = await api.get<TrainingStats>("/trainer/stats", { params: { trainerId } });
   return data;
 }
 

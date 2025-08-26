@@ -21,15 +21,12 @@ export default function HomeTrainer() {
 
 
     useEffect(() => {
-        (async () => {
-            try {
-                const data = await getTrainerStats();
-                setStats(data);
-            } catch (error) {
-                console.error("Erro ao buscar estatísticas:", error);
-            }
-        })();
-    }, []);
+        if (user) {
+            getTrainerStats(user.id)
+                .then((data) => setStats(data))
+                .catch((err) => console.error("Erro ao buscar estatísticas:", err));
+        }
+    }, [user]);
 
     useEffect(() => {
         fetchTopPerformers();

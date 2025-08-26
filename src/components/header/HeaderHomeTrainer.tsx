@@ -27,7 +27,7 @@ function HeaderHomeTrainer() {
 
   const navItems = [
     { label: "Home", path: "/home-trainer" },
-    { label: "Sessions", path: "/trainer" },
+    { label: "Sessions", path: "/sessions-trainer" },
     { label: "My Athletes", path: "/athletes" },
     { label: "Support/Help", path: "/support" }
   ];

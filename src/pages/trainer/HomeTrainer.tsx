@@ -65,7 +65,7 @@ export default function HomeTrainer() {
 
     return (
         <>
-            <Box sx={{ backgroundColor: theme.palette.background.paper, height: '200vh' }}>
+            <Box sx={{ backgroundColor: theme.palette.background.paper, height: '180vh' }}>
 
                 <HeaderHomeTrainer />
 

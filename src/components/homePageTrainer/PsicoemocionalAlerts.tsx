@@ -4,6 +4,7 @@ import PsychologyIcon from "@mui/icons-material/Psychology";
 import type { SxProps } from "@mui/system";
 import { getPsychoAlerts } from "../../services/trainer/alerts/alertsService";
 import type { PsychoAlert } from "../../services/types/alertType";
+import { useUserContext } from "../../contexts/UserContext";
 
 type Props = { days?: number; limit?: number; title?: string; sx?: SxProps };
 
@@ -38,12 +39,14 @@ export default function PsicoemocionalAlerts({
     sx,
 }: Props) {
     const [items, setItems] = useState<PsychoAlert[]>([]);
+    const {user} = useUserContext();
 
     useEffect(() => {
+        if (!user?.id) return;
         (async () => {
             try {
-                // const result = await getPsychoAlerts({ days, limit });
-                // setItems(result);
+                const result = await getPsychoAlerts({trainerId: user.id, days, limit });
+                setItems(result);
             } catch {
                 setItems([]);
             }

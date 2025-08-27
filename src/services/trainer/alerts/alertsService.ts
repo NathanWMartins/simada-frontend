@@ -95,16 +95,12 @@ export async function getPerformanceAlerts(params: {
 }
 
 // Conveniência: somente PSICO
-export async function getPsychoAlerts(params?: {
-  trainerId: number;
-  days?: number;
-  limit?: number;
+export async function getPsychoAlerts(params: {
+  trainerId: number; days?: number; limit?: number;
 }): Promise<PsychoAlert[]> {
-  const { trainerId, days = 7, limit = 10 } = params ?? {};
-  const { data } = await api.get<AlertDTO[]>("/trainer/alerts", {
+  const { trainerId, days = 7, limit = 10 } = params;
+  const { data } = await api.get<PsychoAlert[]>("/trainer/alerts", {
     params: { trainerId, days, limit, category: "PSICO" },
   });
-  return (data ?? [])
-    .filter(isPsychoDTO)
-    .map(mapPsycho);
+  return data ?? [];
 }

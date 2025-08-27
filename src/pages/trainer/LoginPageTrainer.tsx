@@ -66,36 +66,34 @@ function LoginPageTrainer() {
             });
             return;
         }
-        navigate("/home-trainer");
-        // try {
-        //     const response = await login({ email, password });
+        try {
+            const response = await login({ email, password });
 
-        //     if (response.status === 200 || response.status === 201) {
-        //         setSnackbar({
-        //             open: true,
-        //             message: "Account loged successfully!",
-        //             severity: "success",
-        //         });
-        //         console.log("login payload:", response.data);
-        //         setUser({
-        //             ...response.data,
-        //             fotoUsuario: response.data.fotoUsuario ?? undefined,
-        //         });
-        //         navigate("/home-trainer");
-        //     } else {
-        //         setSnackbar({
-        //             open: true,
-        //             message: response.data?.message || "Error login user",
-        //             severity: "error",
-        //         });
-        //     }
-        // } catch (error: any) {
-        //     setSnackbar({
-        //         open: true,
-        //         message: error.message || "Error logging in",
-        //         severity: "error",
-        //     });
-        // }
+            if (response.status === 200 || response.status === 201) {
+                setSnackbar({
+                    open: true,
+                    message: "Account loged successfully!",
+                    severity: "success",
+                });
+                setUser({
+                    ...response.data,
+                    fotoUsuario: response.data.fotoUsuario ?? undefined,
+                });
+                navigate("/home-trainer");
+            } else {
+                setSnackbar({
+                    open: true,
+                    message: response.data?.message || "Error login user",
+                    severity: "error",
+                });
+            }
+        } catch (error: any) {
+            setSnackbar({
+                open: true,
+                message: error.message || "Error logging in",
+                severity: "error",
+            });
+        }
     };
 
     // const handleGoogle = async () => {

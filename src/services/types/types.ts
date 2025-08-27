@@ -46,41 +46,6 @@ export interface LoginData {
     password: string;
 }
 
-// Alert
-export interface AlertDTO {
-    alert_date: string;
-    alert_type: string;
-    alert_message: string;
-    alert_status?: string | null;
-    suggested_action?: string | null;
-    athlete_name?: string;
-    athlete_photo?: string | null;
-
-    fatigue?: string | null;
-    humor?: string | null;
-    hours_slept?: number | null;
-}
-
-export interface Alert {
-    date: string;
-    type: string;
-    message: string;
-    status?: string | null;
-    action?: string | null;
-    athleteName: string;
-    athletePhoto?: string;
-}
-
-export interface PsychoAlert {
-    athleteName: string;
-    athletePhoto?: string;
-    date: string;
-    risk: "LOW" | "CAUTION" | "HIGH";
-    fatigue?: string | null;
-    humor?: string | null;
-    hoursSlept?: number | null;
-}
-
 //Session
 export interface Session {
     id: number;

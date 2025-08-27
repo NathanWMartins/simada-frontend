@@ -88,7 +88,7 @@ function RegisterPageTrainer() {
                     ...response.data,
                     fotoUsuario: response.data.fotoUsuario ?? undefined,
                 });
-                navigate("/home-trainer");
+                navigate("/trainer-home");
             } else {
                 setSnackbar({
                     open: true,
@@ -111,7 +111,7 @@ function RegisterPageTrainer() {
 
     //         if (response && response.status === 200) {
     //             setSnackbar({ open: true, message: "Cadastro com Google realizado!", severity: "success" });
-    //             navigate("/home-trainer");
+    //             navigate("/trainer-home");
     //         } else {
     //             setSnackbar({ open: true, message: "Erro no cadadstro com Google", severity: "error" });
     //         }

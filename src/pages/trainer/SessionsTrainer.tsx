@@ -1,4 +1,3 @@
-// src/pages/trainer/SessionsTrainer.tsx
 import React, { useEffect, useMemo, useState } from "react";
 import {
     Box, Paper, Typography, IconButton, TextField, Button, Avatar, InputAdornment,
@@ -14,6 +13,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import HeaderHomeTrainer from "../../components/header/HeaderHomeTrainer";
 import type { Session } from "../../services/types/types";
 import { getSessions } from "../../services/trainer/session/sessionsService";
+import { SwitchLightDarkMode } from "../../components/common";
+import InfoIcon from '@mui/icons-material/Info';
 
 export default function SessionsTrainer() {
     const theme = useTheme();
@@ -156,21 +157,6 @@ export default function SessionsTrainer() {
                         >
                             Filter
                         </Button>
-
-                        <IconButton
-                            aria-label="Add session"
-                            size="small"
-                            sx={(t) => ({
-                                ml: "auto",
-                                bgcolor: t.palette.success.main,
-                                color: t.palette.success.contrastText,
-                                "&:hover": { bgcolor: t.palette.success.dark },
-                                borderRadius: 2,
-                            })}
-                        // onClick={() => navigate("/sessions/new")}
-                        >
-                            <AddIcon />
-                        </IconButton>
                     </Box>
 
                     {/* Popover de filtro */}
@@ -295,6 +281,11 @@ export default function SessionsTrainer() {
 
                                 {/* Actions */}
                                 <Box sx={{ width: 120, display: "flex", justifyContent: "flex-end", gap: 1 }}>
+                                    <Tooltip title="Delete">
+                                        <IconButton size="small">
+                                            <InfoIcon fontSize="small" />
+                                        </IconButton>
+                                    </Tooltip>
                                     <Tooltip title="View">
                                         <IconButton size="small">
                                             <VisibilityIcon fontSize="small" />
@@ -316,6 +307,7 @@ export default function SessionsTrainer() {
                     })}
                 </Paper>
             </Box>
+            <SwitchLightDarkMode />
         </Box>
     );
 }

@@ -26,9 +26,9 @@ function HeaderHomeTrainer() {
   };
 
   const navItems = [
-    { label: "Home", path: "/home-trainer" },
-    { label: "Sessions", path: "/sessions-trainer" },
-    { label: "My Athletes", path: "/athletes" },
+    { label: "Home", path: "/trainer-home" },
+    { label: "Sessions", path: "/trainer-sessions" },
+    { label: "My Athletes", path: "/trainer-athletes" },
     { label: "Support/Help", path: "/support" }
   ];
 

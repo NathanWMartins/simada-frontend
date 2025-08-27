@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Box, Divider, Paper, Typography } from "@mui/material";
+import { Box, Divider, Paper, Typography, Skeleton, Alert as MuiAlert } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import HeaderHomeTrainer from "../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../components/common";
@@ -136,17 +136,49 @@ export default function HomeTrainer() {
                                 height: 240, display: "flex", alignItems: "center",
                                 justifyContent: "center"
                             }}>
-                                <Box sx={{ display: "flex", flexDirection: "row", gap: 2, justifyContent: "center" }}>
-                                    {(topPerformers.length > 0 ? topPerformers : Array(3).fill(null)).map((p, idx) => (
-                                        <TopPerformerCard
-                                            key={idx}
-                                            name={p?.name}
-                                            avatarUrl={p?.avatarUrl}
-                                            score={p?.score}
-                                            delta={p?.delta}
-                                        />
-                                    ))}
+                                <Box
+                                    sx={{
+                                        height: 240,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    {loadingTop ? (
+                                        <Box sx={{ display: "flex", gap: 2 }}>
+                                            {[0, 1, 2].map((i) => (
+                                                <Paper
+                                                    key={i}
+                                                    sx={{ height: 250, width: 130, borderRadius: 2, p: 2, bgcolor: "action.hover" }}
+                                                >
+                                                    <Skeleton variant="circular" width={60} height={60} sx={{ mx: "auto", mt: 1 }} />
+                                                    <Skeleton variant="text" width="70%" sx={{ mx: "auto", mt: 2 }} />
+                                                    <Skeleton variant="text" width="50%" sx={{ mx: "auto", mt: 1 }} />
+                                                    <Skeleton variant="text" width="40%" sx={{ mx: "auto", mt: 1 }} />
+                                                </Paper>
+                                            ))}
+                                        </Box>
+                                    ) : errorTop ? (
+                                        <Box sx={{ px: 2, width: "100%" }}>
+                                            <MuiAlert severity="error" variant="outlined">{errorTop}</MuiAlert>
+                                        </Box>
+                                    ) : topPerformers.length === 0 ? (
+                                        <Typography color="text.secondary">Nenhum performer encontrado.</Typography>
+                                    ) : (
+                                        <Box sx={{ display: "flex", flexDirection: "row", gap: 2, justifyContent: "center" }}>
+                                            {topPerformers.map((p, idx) => (
+                                                <TopPerformerCard
+                                                    key={idx}
+                                                    name={p.name}
+                                                    avatarUrl={p.avatarUrl}
+                                                    score={p.score}
+                                                    delta={p.delta}
+                                                />
+                                            ))}
+                                        </Box>
+                                    )}
                                 </Box>
+
 
                             </Box>
                         </Paper>

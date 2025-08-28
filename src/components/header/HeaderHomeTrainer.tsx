@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import LogoLight from '../../assets/LogoWiKoLight.png';
 import LogoDark from '../../assets/LogoWiKoDark.png';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useUserContext } from '../../contexts/UserContext';
 import { ExpandMore } from '@mui/icons-material';
@@ -14,6 +14,7 @@ function HeaderHomeTrainer() {
   const theme = useTheme();
   const logo = theme.palette.mode === 'dark' ? LogoDark : LogoLight;
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useUserContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -54,6 +55,7 @@ function HeaderHomeTrainer() {
             variant="contained"
             color="success"
             startIcon={<CalendarMonthIcon fontSize="small" />}
+            onClick={() => navigate('/trainer-new-session')}
             sx={{
               mr: 2, backgroundColor: '#2CAE4D', textTransform: 'none', color: '#fff',
               width: '150px', height: '30px', '&:hover': { backgroundColor: '#249B45' }

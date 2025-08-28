@@ -49,11 +49,13 @@ export interface LoginData {
 //Session
 export interface Session {
     id: number;
-    coachId: number;
+    trainerId?: number;
+    trainerPhoto?: string;
     start: string;
     end: string;
     type: "training" | "game";
     title: string;
+    athleteCount: number;
     score?: string | null;
     description?: string | null;
     location?: string | null;

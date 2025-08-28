@@ -12,13 +12,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HeaderHomeTrainer from "../../components/header/HeaderHomeTrainer";
 import type { Session } from "../../services/types/types";
-import { getSessions } from "../../services/trainer/session/sessionsService";
+import { getTrainerSessions } from "../../services/trainer/session/sessionsService";
 import { SwitchLightDarkMode } from "../../components/common";
 import InfoIcon from '@mui/icons-material/Info';
+import { useUserContext } from "../../contexts/UserContext";
 
 export default function SessionsTrainer() {
     const theme = useTheme();
 
+    const { user } = useUserContext();
     const [sessions, setSessions] = useState<Session[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -31,9 +33,10 @@ export default function SessionsTrainer() {
     useEffect(() => {
         (async () => {
             try {
+                if (!user) return;
                 setLoading(true);
                 setError(null);
-                const data = await getSessions();
+                const data = await getTrainerSessions(user.id);
                 setSessions(data);
             } catch (e: any) {
                 console.error(e);
@@ -241,13 +244,15 @@ export default function SessionsTrainer() {
                                     <Typography variant="body2" sx={{ fontWeight: 600 }}>
                                         {isSkeleton
                                             ? "—"
-                                            : r.title /* para jogo você já pode salvar como 'Time X vs Time Y' no campo titulo */}
+                                            : r.title}
                                     </Typography>
                                 </Box>
 
                                 {/* Athletes (placeholder até integrar) */}
                                 <Box sx={{ flex: 1.3, color: "text.secondary" }}>
-                                    {isSkeleton ? "—" : "— Athletes"}
+                                    {isSkeleton
+                                        ? "—"
+                                        : r.athleteCount}
                                 </Box>
 
                                 {/* Score */}
@@ -276,7 +281,8 @@ export default function SessionsTrainer() {
 
                                 {/* Owner */}
                                 <Box sx={{ flex: 1 }}>
-                                    <Avatar sx={{ width: 26, height: 26 }} />
+                                    <Avatar sx={{ width: 26, height: 26 }}
+                                        src={r.trainerPhoto || undefined}/>
                                 </Box>
 
                                 {/* Actions */}

@@ -1,4 +1,3 @@
-// src/pages/trainer/MyAthletes.tsx
 import React, { useEffect, useMemo, useState } from "react";
 import {
     Box, Paper, Typography, IconButton, TextField, Button, Avatar, InputAdornment,
@@ -15,11 +14,12 @@ import HeaderHomeTrainer from "../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../components/common";
 import { getAthletes } from "../../services/trainer/athletes/athletesService";
 import { TrainerAthletes } from "../../services/types/types";
-
+import { useUserContext } from "../../contexts/UserContext";
 
 export default function MyAthletes() {
     const theme = useTheme();
 
+    const {user} = useUserContext();
     const [athletes, setAthletes] = useState<TrainerAthletes[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -32,9 +32,10 @@ export default function MyAthletes() {
     useEffect(() => {
         (async () => {
             try {
+                if(!user) return
                 setLoading(true);
                 setError(null);
-                const data = await getAthletes(); // <- seu service real
+                const data = await getAthletes(user.id, { q: "jo", status: "active", page: 2, limit: 20 });
                 setAthletes(data ?? []);
             } catch (e: any) {
                 console.error(e);

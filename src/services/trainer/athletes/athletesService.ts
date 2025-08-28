@@ -1,6 +1,12 @@
-// src/services/trainer/athletes/athletesService.ts
 import { api } from "../../api";
 import { AthleteDTO, TrainerAthletes } from "../../types/types";
+
+type GetAthletesParams = {
+  q?: string;
+  status?: "active" | "injured" | "inactive";
+  page?: number;   // 1-based
+  limit?: number;  // default 50
+};
 
 /** Mapeia DTO → UI (garante defaults) */
 function mapAthlete(d: AthleteDTO): TrainerAthletes {
@@ -15,20 +21,19 @@ function mapAthlete(d: AthleteDTO): TrainerAthletes {
   };
 }
 
-/** -------- Listagem com filtros -------- */
-export async function getAthletes(params?: {
-  /** busca por nome/email/telefone */
-  q?: string;
-  /** status para filtrar */
-  status?: "active" | "injured" | "inactive";
-  /** paginação (opcional) */
-  page?: number;
-  limit?: number;
-}): Promise<TrainerAthletes[]> {
-  const { q, status, page, limit } = params ?? {};
-  const { data } = await api.get<AthleteDTO[]>("/trainer/athletes", {
-    params: { q, status, page, limit },
-  });
+export async function getAthletes(userId: number, params: GetAthletesParams = {}): Promise<TrainerAthletes[]> {
+  const limit = params.limit ?? 50;
+  const offset = ((params.page ?? 1) - 1) * limit;
+
+  const query: Record<string, string | number> = {
+    trainerId: userId,
+    limit,
+    offset,
+  };
+  if (params.q?.trim()) query.q = params.q.trim();
+  if (params.status) query.status = params.status;
+
+  const { data } = await api.get<AthleteDTO[]>("/trainer/athletes", { params: query });
   return (data ?? []).map(mapAthlete);
 }
 

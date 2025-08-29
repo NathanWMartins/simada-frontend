@@ -24,7 +24,7 @@ export interface SessionDTO {
   end?: string | null;
   type: SessionType;
   title: string;
-  athletes_count: number;  
+  athletes_count: number;
   score?: string | null;
   description?: string | null;
   location?: string | null;
@@ -34,10 +34,10 @@ export interface NewSessionRequest {
   trainerId: number;
   type: SessionType;
   title: string;
-  start: string;        
-  athletesCount: number; 
+  date: string;
+  athletesCount: number;
   score?: string | null;
-  notes?: string | null; 
+  notes?: string | null;
   location?: string | null;
 }
 

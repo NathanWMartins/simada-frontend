@@ -1,4 +1,3 @@
-import { Session } from "inspector";
 import { api } from "../../api";
 import { TrainerSession } from "../../../types/sessionType";
 
@@ -8,14 +7,14 @@ export interface NewSessionPayload {
   trainerId: number;
   type: SessionType;
   title: string;
-  start: string;            // ISO string
+  date: string;        
   athletesCount: number;
-  score?: string | null;    // para game
-  notes?: string | null;    // opcional
+  score?: string | null;
+  notes?: string | null;
 }
 
 export async function getTrainerSessions(trainerId: number): Promise<TrainerSession[]> {
-  const { data } = await api.get<TrainerSession[]>("/trainer/sessions", { params: { trainerId }});
+  const { data } = await api.get<TrainerSession[]>("/session/get", { params: { trainerId }});
   return data ?? [];
 }
 
@@ -24,10 +23,10 @@ export function newSession(payload: NewSessionPayload) {
     trainer_id: payload.trainerId,
     type: payload.type,
     title: payload.title,
-    start: payload.start,
+    date: payload.date,
     athletes_count: payload.athletesCount,
     score: payload.score ?? null,
-    description: payload.notes ?? null,
+    notes: payload.notes ?? null,
   };
-  return api.post("/trainer/sessions", body);
+  return api.post("/session/register", body);
 }

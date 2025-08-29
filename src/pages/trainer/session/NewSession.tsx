@@ -75,13 +75,11 @@ export default function NewSession() {
     try {
       if (!user) return;
 
-      const startISO = new Date(`${date}T00:00:00`).toISOString();
-
       const response = await newSession({
         trainerId: user.id,
         type: sessionType as "training" | "game",
         title: title.trim(),
-        start: startISO,
+        date: date,
         athletesCount: Number(athletes),
         score: sessionType === "game" ? (score?.trim() || null) : null,
         notes: notes?.trim() || null,

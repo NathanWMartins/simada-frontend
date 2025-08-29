@@ -3,7 +3,7 @@ import { Avatar, Box, Chip, Paper, Typography, Skeleton, Alert as MuiAlert } fro
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import type { SxProps } from "@mui/system";
 import { getPsychoAlerts } from "../../services/trainer/alerts/alertsService";
-import type { PsychoAlert } from "../../services/types/alertType";
+import type { PsychoAlert } from "../../types/alertType";
 import { useUserContext } from "../../contexts/UserContext";
 
 type Props = { days?: number; limit?: number; title?: string; sx?: SxProps };

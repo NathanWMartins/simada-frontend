@@ -1,5 +1,5 @@
 import { api } from "../api";
-import { TopPerformer, TopPerformerDTO, TrainingStats } from "../types/types";
+import { TopPerformer, TopPerformerDTO, TrainingStats } from "../../types/types";
 
 function mapTopPerformerDTO(d: TopPerformerDTO): TopPerformer {
   const previous = d.ultima_pontuacao ?? null;

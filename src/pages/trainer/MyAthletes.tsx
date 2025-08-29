@@ -13,7 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import HeaderHomeTrainer from "../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../components/common";
 import { getAthletes } from "../../services/trainer/athletes/athletesService";
-import { TrainerAthletes } from "../../services/types/types";
+import { TrainerAthletes } from "../../types/types";
 import { useUserContext } from "../../contexts/UserContext";
 
 export default function MyAthletes() {

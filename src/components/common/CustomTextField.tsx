@@ -1,29 +1,22 @@
-import { TextField, useTheme } from "@mui/material";
+import { TextField, useTheme, type TextFieldProps } from "@mui/material";
 import { useState } from "react";
 
-interface CustomTextFieldProps {
-  label: string;
-  type?: string;
-  color?: "primary" | "secondary" | "success" | "error" | "info" | "warning";
-  restriction?: "onlyLetters" | "onlyNumbers" | "none";
-  value?: string;
+type Restriction = "onlyLetters" | "onlyNumbers" | "none";
+
+interface CustomTextFieldProps extends Omit<TextFieldProps, "onChange"> {
+  restriction?: Restriction;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error?: boolean;
-  helperText?: string;
 }
 
 const CustomTextField: React.FC<CustomTextFieldProps> = ({
-  label,
-  type = "text",
-  color = "success",
   restriction = "none",
   value: propValue,
   onChange: propOnChange,
-  error = false,
-  helperText = "",
+  sx,
+  ...rest
 }) => {
   const theme = useTheme();
-  const [value, setValue] = useState("");
+  const [localValue, setLocalValue] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = e.target.value;
@@ -31,7 +24,6 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
     if (restriction === "onlyLetters") {
       newValue = newValue.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
     }
-
     if (restriction === "onlyNumbers") {
       newValue = newValue.replace(/[^0-9]/g, "");
     }
@@ -39,21 +31,17 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
     if (propOnChange) {
       propOnChange({ ...e, target: { ...e.target, value: newValue } });
     } else {
-      setValue(newValue);
+      setLocalValue(newValue);
     }
   };
 
   return (
     <TextField
-      label={label}
-      type={type}
       variant="outlined"
       size="small"
-      color={color}
-      error={error}
-      helperText={helperText}
-      value={propValue !== undefined ? propValue : value} // usa propValue se existir
+      value={propValue ?? localValue}
       onChange={handleChange}
+      fullWidth
       sx={{
         mt: 1,
         mb: 1,
@@ -62,6 +50,7 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
         input: { color: theme.palette.text.primary },
         label: { color: theme.palette.text.secondary },
       }}
+      {...rest}
     />
   );
 };

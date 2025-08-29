@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { LoginData, RegisterAthleteData, RegisterTrainerData } from "../types/types";
+import { LoginData, RegisterAthleteData, RegisterTrainerData } from "../../types/types";
 
 const API_URL = "http://localhost:8080/auth";
 

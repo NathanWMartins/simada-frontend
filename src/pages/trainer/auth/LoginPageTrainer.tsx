@@ -6,12 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../../services/auth/authService';
 import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, GoogleButton, Logo } from '../../../components/common';
 import { useUserContext } from '../../../contexts/UserContext';
-
-type SnackbarState = {
-    open: boolean;
-    message: string;
-    severity: "error" | "success" | "warning" | "info";
-};
+import { SnackbarState } from '../../../types/types';
 
 function LoginPageTrainer() {
     const theme = useTheme();
@@ -64,35 +59,34 @@ function LoginPageTrainer() {
             });
             return;
         }
-        navigate("/trainer-home");
-        // try {
-        //     const response = await login({ email, password });
+        try {
+            const response = await login({ email, password });
 
-        //     if (response.status === 200 || response.status === 201) {
-        //         setSnackbar({
-        //             open: true,
-        //             message: "Account loged successfully!",
-        //             severity: "success",
-        //         });
-        //         setUser({
-        //             ...response.data,
-        //             fotoUsuario: response.data.fotoUsuario ?? undefined,
-        //         });
-        //         navigate("/trainer-home");
-        //     } else {
-        //         setSnackbar({
-        //             open: true,
-        //             message: response.data?.message || "Error login user",
-        //             severity: "error",
-        //         });
-        //     }
-        // } catch (error: any) {
-        //     setSnackbar({
-        //         open: true,
-        //         message: error.message || "Error logging in",
-        //         severity: "error",
-        //     });
-        // }
+            if (response.status === 200 || response.status === 201) {
+                setSnackbar({
+                    open: true,
+                    message: "Account loged successfully!",
+                    severity: "success",
+                });
+                setUser({
+                    ...response.data,
+                    fotoUsuario: response.data.fotoUsuario ?? undefined,
+                });
+                navigate("/trainer-home");
+            } else {
+                setSnackbar({
+                    open: true,
+                    message: response.data?.message || "Error login user",
+                    severity: "error",
+                });
+            }
+        } catch (error: any) {
+            setSnackbar({
+                open: true,
+                message: error.message || "Error logging in",
+                severity: "error",
+            });
+        }
     };
 
     // const handleGoogle = async () => {

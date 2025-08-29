@@ -1,3 +1,10 @@
+//Snackbar
+export interface SnackbarState {
+    open: boolean;
+    message: string;
+    severity: "error" | "success" | "warning" | "info";
+};
+
 export interface TrainingStats {
     completedTraining: number;
     trainingThisWeek: number;
@@ -46,21 +53,6 @@ export interface LoginData {
     password: string;
 }
 
-//Session
-export interface Session {
-    id: number;
-    trainerId?: number;
-    trainerPhoto?: string;
-    start: string;
-    end: string;
-    type: "training" | "game";
-    title: string;
-    athleteCount: number;
-    score?: string | null;
-    description?: string | null;
-    location?: string | null;
-}
-
 //Trainer athletes
 export interface TrainerAthletes {
     id: number;
@@ -76,7 +68,7 @@ export interface AthleteDTO {
     id: number;
     name: string;
     email: string;
-    birth: string;   
+    birth: string;
     phone?: string | null;
     avatarUrl?: string | null;
     status?: "active" | "injured" | "inactive" | null;

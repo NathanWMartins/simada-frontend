@@ -11,17 +11,17 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HeaderHomeTrainer from "../../components/header/HeaderHomeTrainer";
-import type { Session } from "../../services/types/types";
 import { getTrainerSessions } from "../../services/trainer/session/sessionsService";
 import { SwitchLightDarkMode } from "../../components/common";
 import InfoIcon from '@mui/icons-material/Info';
 import { useUserContext } from "../../contexts/UserContext";
+import { TrainerSession } from "../../types/sessionType";
 
 export default function SessionsTrainer() {
     const theme = useTheme();
 
     const { user } = useUserContext();
-    const [sessions, setSessions] = useState<Session[]>([]);
+    const [sessions, setSessions] = useState<TrainerSession[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -33,12 +33,12 @@ export default function SessionsTrainer() {
     useEffect(() => {
         (async () => {
             try {
-                if (!user) return;
+                if (!user?.id) return;
                 setLoading(true);
                 setError(null);
-                const data = await getTrainerSessions(user.id);
-                setSessions(data);
-            } catch (e: any) {
+                const data = await getTrainerSessions(user.id); 
+                setSessions(data);                           
+            } catch (e) {
                 console.error(e);
                 setError("Falha ao carregar sessões");
                 setSessions([]);
@@ -46,7 +46,7 @@ export default function SessionsTrainer() {
                 setLoading(false);
             }
         })();
-    }, []);
+    }, [user?.id]);
 
     const handleOpenFilter = (e: React.MouseEvent<HTMLElement>) => setFilterAnchor(e.currentTarget);
     const handleCloseFilter = () => setFilterAnchor(null);
@@ -73,7 +73,7 @@ export default function SessionsTrainer() {
         new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 
     // linhas para mostrar enquanto carrega / erro
-    const listToRender: ("skeleton" | Session)[] =
+    const listToRender: ("skeleton" | TrainerSession)[] =
         loading ? Array.from({ length: 8 }, () => "skeleton") : (filtered.length ? filtered : []);
 
     return (
@@ -218,7 +218,7 @@ export default function SessionsTrainer() {
 
                     {listToRender.map((row, i) => {
                         const isSkeleton = row === "skeleton";
-                        const r = row as Session;
+                        const r = row as TrainerSession;
 
                         return (
                             <Box
@@ -282,7 +282,7 @@ export default function SessionsTrainer() {
                                 {/* Owner */}
                                 <Box sx={{ flex: 1 }}>
                                     <Avatar sx={{ width: 26, height: 26 }}
-                                        src={r.trainerPhoto || undefined}/>
+                                        src={r.trainerPhoto || undefined} />
                                 </Box>
 
                                 {/* Actions */}

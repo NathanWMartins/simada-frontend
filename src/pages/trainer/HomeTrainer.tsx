@@ -5,7 +5,7 @@ import HeaderHomeTrainer from "../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../components/common";
 import StarIcon from "@mui/icons-material/Star";
 import TopPerformerCard from "../../components/homePageTrainer/TopPerformerCard";
-import type { TrainingStats, TopPerformer } from "../../services/types/types";
+import type { TrainingStats, TopPerformer } from "../../types/types";
 import { getTrainerStats, getTopPerformers } from "../../services/trainer/trainerService";
 import AlertsPanel from "../../components/homePageTrainer/AlertsPanel";
 import { useUserContext } from "../../contexts/UserContext";

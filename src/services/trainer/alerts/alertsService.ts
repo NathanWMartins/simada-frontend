@@ -7,8 +7,8 @@ import type {
   PerformanceAlertDTO,
   PsychoAlertDTO,
   AlertType,
-} from "../../types/alertType";
-import { isPerformanceDTO, isPsychoDTO } from "../../types/alertType";
+} from "../../../types/alertType";
+import { isPerformanceDTO, isPsychoDTO } from "../../../types/alertType";
 
 // helpers
 const toNumberOrNull = (v: unknown) =>

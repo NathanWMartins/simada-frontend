@@ -1,11 +1,11 @@
 import { api } from "../../api";
-import { AthleteDTO, TrainerAthletes } from "../../types/types";
+import { AthleteDTO, TrainerAthletes } from "../../../types/types";
 
 type GetAthletesParams = {
   q?: string;
   status?: "active" | "injured" | "inactive";
-  page?: number;   // 1-based
-  limit?: number;  // default 50
+  page?: number;
+  limit?: number;
 };
 
 /** Mapeia DTO → UI (garante defaults) */

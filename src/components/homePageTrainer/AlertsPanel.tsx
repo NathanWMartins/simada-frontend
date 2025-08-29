@@ -5,7 +5,7 @@ import {
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { useUserContext } from "../../contexts/UserContext";
 import { getPerformanceAlerts } from "../../services/trainer/alerts/alertsService";
-import { PerformanceAlert } from "../../services/types/alertType";
+import { PerformanceAlert } from "../../types/alertType";
 
 type Props = {
     title?: string;

@@ -1,4 +1,4 @@
-export type SessionType = "training" | "game";
+export type SessionType = "Training" | "Game";
 
 // O QUE O APP USA
 export interface Session {
@@ -45,12 +45,12 @@ export interface TrainerSession {
   id: number;
   trainerId?: number;
   trainerPhoto?: string;
-  start: string;
-  end: string;
+  date: string;
   type: SessionType;
   title: string;
   athleteCount: number;
   score?: string | null;
   description?: string | null;
   location?: string | null;
+  has_metrics: boolean;
 }

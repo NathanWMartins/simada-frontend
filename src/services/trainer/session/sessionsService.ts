@@ -1,20 +1,17 @@
 import { api } from "../../api";
-import { TrainerSession } from "../../../types/sessionType";
-
-export type SessionType = "training" | "game";
+import { SessionType, TrainerSession } from "../../../types/sessionType";
 
 export interface NewSessionPayload {
   trainerId: number;
   type: SessionType;
   title: string;
-  date: string;        
-  athletesCount: number;
+  date: string;
   score?: string | null;
   notes?: string | null;
 }
 
 export async function getTrainerSessions(trainerId: number): Promise<TrainerSession[]> {
-  const { data } = await api.get<TrainerSession[]>("/session/get", { params: { trainerId }});
+  const { data } = await api.get<TrainerSession[]>("/session/get", { params: { trainerId } });
   return data ?? [];
 }
 
@@ -24,9 +21,12 @@ export function newSession(payload: NewSessionPayload) {
     type: payload.type,
     title: payload.title,
     date: payload.date,
-    athletes_count: payload.athletesCount,
     score: payload.score ?? null,
     notes: payload.notes ?? null,
   };
   return api.post("/session/register", body);
+}
+
+export async function deleteSession(id: number): Promise<void> {
+  await api.delete(`/session/${id}`);
 }

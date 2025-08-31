@@ -3,7 +3,6 @@ import {
   Box,
   Paper,
   Typography,
-  TextField,
   Button,
   MenuItem,
   Snackbar,
@@ -25,7 +24,6 @@ export default function NewSession() {
 
   const [sessionType, setSessionType] = useState("");
   const [title, setTitle] = useState("");
-  const [athletes, setAthletes] = useState<number | string>("");
   const [date, setDate] = useState("");
   const [score, setScore] = useState("");
   const [notes, setNotes] = useState("");
@@ -60,9 +58,7 @@ export default function NewSession() {
 
     if (!sessionType) { errors.push("Session Type is required"); setErrorSessionType(true); }
     if (!title) { errors.push("Password is required"); setErrorTitle(true); }
-    if (!athletes) { errors.push("Athletes is required"); setErrorAthletes(true); }
     if (!date) { errors.push("Date is required"); setErrorDate(true); }
-    if (!score) { errors.push("Score is required"); setErrorScore(true); }
 
     if (errors.length > 0) {
       setSnackbar({
@@ -77,15 +73,14 @@ export default function NewSession() {
 
       const response = await newSession({
         trainerId: user.id,
-        type: sessionType as "training" | "game",
+        type: sessionType as "Training" | "Game",
         title: title.trim(),
         date: date,
-        athletesCount: Number(athletes),
-        score: sessionType === "game" ? (score?.trim() || null) : null,
+        score: sessionType === "Game" ? (score?.trim() || null) : null,
         notes: notes?.trim() || null,
       });
 
-      if (response.status === 200 || response.status === 201) {
+      if (response.status === 204) {
         setSnackbar({
           open: true,
           message: "Session created successfully!",
@@ -151,24 +146,35 @@ export default function NewSession() {
             mx: "auto",
           }}
         >
-          {/* UM ÚNICO GRID: 2 colunas, itens aos pares */}
+
+          {/* GRID COM ÁREAS – notas ocupa 2 linhas, score alinha ao fim */}
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
               columnGap: 3,
               rowGap: 3,
               alignItems: "start",
+              gridTemplateColumns: "1fr 1fr",
+              gridTemplateAreas: `
+      "titleL titleR"
+      "type   title"
+      "date   notes"
+      "score  notes"
+      "button button"
+    `,
             }}
           >
             {/* Linha 1: títulos */}
-            <Typography variant="subtitle1">Create your Session</Typography>
-            <Typography variant="body2" sx={{ textAlign: "right" }}>
+            <Typography variant="subtitle1" sx={{ gridArea: "titleL" }}>
+              Create your Session
+            </Typography>
+            <Typography variant="body2" sx={{ gridArea: "titleR", textAlign: "right" }}>
               After creating your session, you can import the CSV spreadsheet with player data.
             </Typography>
 
             {/* Linha 2: Session Type | Title */}
             <SessionField
+              sx={{ gridArea: "type" }}
               select
               label="Session Type"
               value={sessionType}
@@ -177,11 +183,12 @@ export default function NewSession() {
               helperText={errorSessionType ? "Required field" : ""}
               FormHelperTextProps={{ sx: { minHeight: 20 } }}
             >
-              <MenuItem value="training">Training</MenuItem>
-              <MenuItem value="game">Game</MenuItem>
+              <MenuItem value="Training">Training</MenuItem>
+              <MenuItem value="Game">Game</MenuItem>
             </SessionField>
 
             <SessionField
+              sx={{ gridArea: "title" }}
               label="Title"
               placeholder="Match/Session Title (e.g., Brazil x Argentina)"
               value={title}
@@ -191,19 +198,9 @@ export default function NewSession() {
               FormHelperTextProps={{ sx: { minHeight: 20 } }}
             />
 
-            {/* Linha 3: Number of Athletes | Date */}
+            {/* Linha 3: Date | Notes (notes ocupa 2 linhas) */}
             <SessionField
-              label="Number of Athletes"
-              type="text"
-              restriction="onlyNumbers"
-              value={String(athletes)}
-              onChange={(e) => setAthletes(e.target.value)}
-              error={errorAthletes}
-              helperText={errorAthletes ? "Required field" : ""}
-              FormHelperTextProps={{ sx: { minHeight: 20 } }}
-            />
-
-            <SessionField
+              sx={{ gridArea: "date" }}
               label="Date"
               type="date"
               value={date}
@@ -214,8 +211,19 @@ export default function NewSession() {
               FormHelperTextProps={{ sx: { minHeight: 20 } }}
             />
 
-            {/* Linha 4: Score | Notes (notes ocupa só a col 2) */}
             <SessionField
+              sx={{ gridArea: "notes" }}
+              label="Session Notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              multiline
+              rows={4} 
+              tall
+            />
+
+            {/* Linha 4: Score*/}
+            <SessionField
+              sx={{ gridArea: "score", alignSelf: "end" }}
               label="Score"
               placeholder="0 - 0"
               value={score}
@@ -225,17 +233,8 @@ export default function NewSession() {
               FormHelperTextProps={{ sx: { minHeight: 20 } }}
             />
 
-            <SessionField
-              label="Session Notes"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              multiline
-              rows={4}
-              tall
-            />
-
-            {/* Linha 5: botão central ocupando as 2 colunas */}
-            <Box sx={{ gridColumn: "1 / -1", display: "flex", justifyContent: "center", mt: 1 }}>
+            {/* Linha 5: botão centralizado nas 2 colunas */}
+            <Box sx={{ gridArea: "button", display: "flex", justifyContent: "center", mt: 1 }}>
               <Button
                 variant="contained"
                 sx={{
@@ -251,6 +250,7 @@ export default function NewSession() {
               </Button>
             </Box>
           </Box>
+
         </Paper>
       </Box>
       <Snackbar

@@ -4,7 +4,7 @@ import LoginPageTrainer from '../pages/trainer/auth/LoginPageTrainer'
 import RegisterPageTrainer from '../pages/trainer/auth/RegisterPageTrainer'
 import HomeTrainer from '../pages/trainer/HomeTrainer'
 import LoginPageAthlete from '../pages/athlete/LoginPageAthlete'
-import SessionsTrainer from '../pages/trainer/SessionsTrainer'
+import SessionsTrainer from '../pages/trainer/session/SessionsTrainer'
 import MyAthletes from '../pages/trainer/MyAthletes'
 import NewSession from '../pages/trainer/session/NewSession'
 

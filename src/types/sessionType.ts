@@ -54,3 +54,12 @@ export interface TrainerSession {
   location?: string | null;
   has_metrics: boolean;
 }
+
+export interface UpdateSessionPayload {
+  type: SessionType;
+  title: string;
+  date: string;
+  score?: string | null;
+  description?: string | null;
+  location?: string | null;
+}

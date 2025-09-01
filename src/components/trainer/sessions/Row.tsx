@@ -3,7 +3,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
-import type { TrainerSession } from "../../types/sessionType";
+import type { TrainerSession } from "../../../types/sessionType";
 
 type Props = {
     s: TrainerSession; formatDate: (iso: string) => string;

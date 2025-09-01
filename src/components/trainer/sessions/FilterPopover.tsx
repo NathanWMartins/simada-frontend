@@ -1,5 +1,5 @@
 import { Popover, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import type { FilterType } from "../../hooks/useSessionsList";
+import type { FilterType } from "../../../hooks/useSessionsList";
 
 type Props = {
     anchorEl: HTMLElement | null; open: boolean; onClose: () => void;

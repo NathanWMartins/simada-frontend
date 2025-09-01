@@ -3,9 +3,9 @@ import {
     Avatar, Box, Paper, Typography, useTheme, Skeleton, Alert as MuiAlert,
 } from "@mui/material";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-import { useUserContext } from "../../contexts/UserContext";
-import { getPerformanceAlerts } from "../../services/trainer/alerts/alertsService";
-import { PerformanceAlert } from "../../types/alertType";
+import { useUserContext } from "../../../contexts/UserContext";
+import { PerformanceAlert } from "../../../types/alertType";
+import { getPerformanceAlerts } from "../../../services/trainer/alerts/alertsService";
 
 type Props = {
     title?: string;

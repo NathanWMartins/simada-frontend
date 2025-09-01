@@ -5,13 +5,13 @@ import AddIcon from "@mui/icons-material/Add";
 import HeaderHomeTrainer from "../../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../../components/common";
 import { useUserContext } from "../../../contexts/UserContext";
-import SessionsToolbar from "../../../components/sessions/Toolbar";
-import FilterPopover from "../../../components/sessions/FilterPopover";
-import SessionRow from "../../../components/sessions/Row";
-import ImportCsvDialog from "../../../components/sessions/dialog/ImportCsvDialog";
-import ConfirmDeleteDialog from "../../../components/sessions/dialog/ConfirmDelete";
-import NotesDialog from "../../../components/sessions/dialog/NotesDialog";
-import EditSessionDialog from "../../../components/sessions/dialog/EditSessionDialog"; // ⬅️ novo
+import SessionsToolbar from "../../../components/trainer/sessions/Toolbar";
+import FilterPopover from "../../../components/trainer/sessions/FilterPopover";
+import SessionRow from "../../../components/trainer/sessions/Row";
+import ImportCsvDialog from "../../../components/trainer/sessions/dialog/ImportCsvDialog";
+import ConfirmDeleteDialog from "../../../components/trainer/sessions/dialog/ConfirmDelete";
+import NotesDialog from "../../../components/trainer/sessions/dialog/NotesDialog";
+import EditSessionDialog from "../../../components/trainer/sessions/dialog/EditSessionDialog"; // ⬅️ novo
 import { useNavigate } from "react-router-dom";
 import { UpdateSessionPayload } from "../../../types/sessionType";
 import { useSessionsList, FilterType } from "../../../hooks/useSessionsList";

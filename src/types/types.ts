@@ -52,24 +52,3 @@ export interface LoginData {
     email: string;
     password: string;
 }
-
-//Trainer athletes
-export interface TrainerAthletes {
-    id: number;
-    name: string;
-    email: string;
-    birth: string;
-    phone?: string | null;
-    avatarUrl?: string | null;
-    status?: "active" | "injured" | "inactive";
-};
-
-export interface AthleteDTO {
-    id: number;
-    name: string;
-    email: string;
-    birth: string;
-    phone?: string | null;
-    avatarUrl?: string | null;
-    status?: "active" | "injured" | "inactive" | null;
-}

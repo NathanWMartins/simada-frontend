@@ -5,8 +5,9 @@ import RegisterPageTrainer from '../pages/trainer/auth/RegisterPageTrainer'
 import HomeTrainer from '../pages/trainer/HomeTrainer'
 import LoginPageAthlete from '../pages/athlete/LoginPageAthlete'
 import SessionsTrainer from '../pages/trainer/session/SessionsTrainer'
-import MyAthletes from '../pages/trainer/MyAthletes'
+import MyAthletes from '../pages/trainer/athlete/MyAthletes'
 import NewSession from '../pages/trainer/session/NewSession'
+import EditAthlete from '../pages/trainer/athlete/EditAthlete'
 
 function AppRoutes() {
     return (
@@ -17,9 +18,10 @@ function AppRoutes() {
             <Route path="/trainer-login" element={<LoginPageTrainer />} />
             <Route path="/trainer-register" element={<RegisterPageTrainer />} />
             <Route path="/trainer-home" element={<HomeTrainer />} />
-            <Route path="/trainer-sessions" element={<SessionsTrainer />} />
-            <Route path="/trainer-athletes" element={<MyAthletes />} />
+            <Route path="/trainer-sessions" element={<SessionsTrainer />} />            
             <Route path="/trainer-new-session" element={<NewSession />} />
+            <Route path="/trainer-athletes" element={<MyAthletes />} />
+            <Route path="/athletes/:id/edit" element={<EditAthlete />} />
 
             {/*Athlete Routes*/}
             <Route path="/athlete-login" element={<LoginPageAthlete />} />

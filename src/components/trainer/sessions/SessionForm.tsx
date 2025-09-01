@@ -1,7 +1,7 @@
 import { Box, Button, MenuItem, Typography } from "@mui/material";
-import SessionField from "../../components/common/SessionField";
+import SessionField from "../../common/SessionField";
 import { useState } from "react";
-import type { SessionType, UpdateSessionPayload } from "../../types/sessionType";
+import type { SessionType, UpdateSessionPayload } from "../../../types/sessionType";
 
 type Props = {
     initial: UpdateSessionPayload;

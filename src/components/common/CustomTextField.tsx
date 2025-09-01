@@ -38,6 +38,7 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
   return (
     <TextField
       variant="outlined"
+      color="success"
       size="small"
       value={propValue ?? localValue}
       onChange={handleChange}

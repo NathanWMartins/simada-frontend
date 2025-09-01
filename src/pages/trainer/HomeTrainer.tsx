@@ -4,12 +4,12 @@ import { useTheme } from "@mui/material/styles";
 import HeaderHomeTrainer from "../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../components/common";
 import StarIcon from "@mui/icons-material/Star";
-import TopPerformerCard from "../../components/homePageTrainer/TopPerformerCard";
+import TopPerformerCard from "../../components/trainer/homePageTrainer/TopPerformerCard";
 import type { TrainingStats, TopPerformer } from "../../types/types";
 import { getTrainerStats, getTopPerformers } from "../../services/trainer/trainerService";
-import AlertsPanel from "../../components/homePageTrainer/AlertsPanel";
+import AlertsPanel from "../../components/trainer/homePageTrainer/AlertsPanel";
 import { useUserContext } from "../../contexts/UserContext";
-import PsicoemocionalAlerts from "../../components/homePageTrainer/PsicoemocionalAlerts";
+import PsicoemocionalAlerts from "../../components/trainer/homePageTrainer/PsicoemocionalAlerts";
 
 export default function HomeTrainer() {
     const theme = useTheme();

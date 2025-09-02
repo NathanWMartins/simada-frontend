@@ -28,13 +28,11 @@ export async function getAthletes(
   return data ?? [];
 }
 
-/** --------- Buscar por ID --------- */
 export async function getAthleteById(trainerId: number, athleteId: number): Promise<TrainerAthletes> {
   const { data } = await api.get<TrainerAthletes>(`/trainer/${trainerId}/athletes/${athleteId}`);
   return data;
 }
 
-/** --------- Criar --------- */
 // export async function createAthlete(payload: {
 //   name: string;
 //   email: string;
@@ -47,12 +45,14 @@ export async function getAthleteById(trainerId: number, athleteId: number): Prom
 //   return mapAthlete(data);
 // }
 
-/** --------- Atualizar --------- */
 export async function updateAthlete(trainerId: number, athleteId: number, payload: UpdateAthletePayload) {
   return api.put(`/trainer/${trainerId}/update/athlete/${athleteId}`, payload);
 }
 
-/** --------- Remover --------- */
 export async function deleteAthlete(id: number): Promise<void> {
-  await api.delete(`/trainer/athletes/${id}`);
+  await api.delete(`/trainer/athlete/${id}`);
+}
+
+export async function inviteAthlete(trainerId: number, email: string) {
+  return api.post(`/trainer/${trainerId}/athlete-invitations`, { email });
 }

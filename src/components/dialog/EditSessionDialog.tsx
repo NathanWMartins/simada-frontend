@@ -1,6 +1,6 @@
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
-import SessionForm from "../SessionForm";
-import { UpdateSessionPayload } from "../../../../types/sessionType";
+import SessionForm from "../trainer/sessions/SessionForm";
+import { UpdateSessionPayload } from "../../types/sessionType";
 
 type Props = {
   open: boolean;

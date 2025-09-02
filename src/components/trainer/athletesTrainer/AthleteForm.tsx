@@ -314,7 +314,6 @@ export default function AthleteForm({ initial, saving, onCancel, onSubmit }: Pro
                     variant="contained"
                     color="success"
                     onClick={async () => {
-                        // normaliza números antes de enviar
                         const ex = values.extra ?? {};
                         setValues(prev => ({
                             ...prev,

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import HeaderHomeTrainer from "../../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../../components/common";
 import { useUserContext } from "../../../contexts/UserContext";
-import { getAthleteById, updateAthlete } from "../../../services/trainer/athletes/athletesService";
+import { getAthleteById, updateAthlete } from "../../../services/trainer/athletes/trainerAthletesService";
 import type { TrainerAthletes, UpdateAthletePayload } from "../../../types/athleteType";
 import AthleteForm from "../../../components/trainer/athletesTrainer/AthleteForm";
 
@@ -13,7 +13,7 @@ export default function EditAthlete() {
     const theme = useTheme();
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-    const { user } = useUserContext();
+    const { user } = useUserContext();    
 
     const [athlete, setAthlete] = useState<TrainerAthletes | null>(null);
     const [loading, setLoading] = useState(true);

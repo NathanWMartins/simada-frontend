@@ -8,10 +8,10 @@ import { useUserContext } from "../../../contexts/UserContext";
 import SessionsToolbar from "../../../components/trainer/sessions/Toolbar";
 import FilterPopover from "../../../components/trainer/sessions/FilterPopover";
 import SessionRow from "../../../components/trainer/sessions/Row";
-import ImportCsvDialog from "../../../components/trainer/sessions/dialog/ImportCsvDialog";
-import ConfirmDeleteDialog from "../../../components/trainer/sessions/dialog/ConfirmDelete";
-import NotesDialog from "../../../components/trainer/sessions/dialog/NotesDialog";
-import EditSessionDialog from "../../../components/trainer/sessions/dialog/EditSessionDialog"; // ⬅️ novo
+import ImportCsvDialog from "../../../components/dialog/ImportCsvDialog";
+import ConfirmDeleteDialog from "../../../components/dialog/ConfirmDelete";
+import NotesDialog from "../../../components/dialog/NotesDialog";
+import EditSessionDialog from "../../../components/dialog/EditSessionDialog"; // ⬅️ novo
 import { useNavigate } from "react-router-dom";
 import { UpdateSessionPayload } from "../../../types/sessionType";
 import { useSessionsList, FilterType } from "../../../hooks/useSessionsList";
@@ -50,7 +50,7 @@ export default function SessionsTrainer() {
   const [notesCtx, setNotesCtx] = useState<{ id: number; title: string; value: string } | null>(null);
   const [notesLoading, setNotesLoading] = useState(false);
 
-  // dialogs: editar sessão (quando já tem métricas)
+  // dialogs: editar sessão
   const [editOpen, setEditOpen] = useState(false);
   const [editSaving, setEditSaving] = useState(false);
   const [editInitial, setEditInitial] = useState<UpdateSessionPayload | null>(null);
@@ -73,12 +73,10 @@ export default function SessionsTrainer() {
   // handlers da linha
   const onEdit = (s: any) => {
     if (!s.has_metrics) {
-      // sem métricas -> importar CSV
       setImportCtx({ id: s.id, title: s.title });
       setImportOpen(true);
       return;
     }
-    // com métricas -> abrir form de edição
     setEditId(s.id);
     const ymd = /^\d{4}-\d{2}-\d{2}$/.test(s.date)
       ? s.date
@@ -105,7 +103,7 @@ export default function SessionsTrainer() {
     setConfirmOpen(true);
   };
 
-  // salvar edição
+  // salvar
   const handleSaveEdit = async (values: UpdateSessionPayload) => {
     if (!editId) return;
     try {
@@ -277,8 +275,6 @@ export default function SessionsTrainer() {
       {/* Confirmar remoção */}
       <ConfirmDeleteDialog
         open={confirmOpen}
-        title={confirmCtx?.title}
-        hasMetrics={confirmCtx?.has}
         loading={confirmLoading}
         onClose={() => setConfirmOpen(false)}
         onConfirm={async () => {
@@ -293,6 +289,9 @@ export default function SessionsTrainer() {
             setConfirmOpen(false);
           }
         }}
+        entity="session"
+        itemName={confirmCtx?.title}
+        warningNote={confirmCtx?.has ? "Attention: this session has imported metrics." : undefined}
       />
 
       {/* Notas */}

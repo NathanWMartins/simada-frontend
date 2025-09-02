@@ -1,20 +1,26 @@
+// components/athletes/AthleteRow.tsx
 import { Avatar, Box, IconButton, Skeleton, Tooltip, Typography } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TrainerAthletes } from "../../../types/athleteType";
 import { useNavigate } from "react-router-dom";
+import ConfirmDeleteDialog from "../../dialog/ConfirmDelete";
+import { useState } from "react";
 
 type Props = {
     athlete?: TrainerAthletes;
     formatDate: (iso: string) => string;
+    onDelete?: (id: number) => Promise<void> | void;
 };
 
-export default function AthleteRow({ athlete, formatDate }: Props) {
+export default function AthleteRow({ athlete, formatDate, onDelete }: Props) {
     const a = athlete;
     const isSkeleton = !a;
     const navigate = useNavigate();
     const position = isSkeleton ? "" : ((a as any).position ?? "—");
+
+    const [confirmOpen, setConfirmOpen] = useState(false);
 
     return (
         <Box
@@ -87,13 +93,33 @@ export default function AthleteRow({ athlete, formatDate }: Props) {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Delete">
-                            <IconButton size="small" color="error">
+                            <IconButton
+                                size="small"
+                                color="error"
+                                onClick={() => setConfirmOpen(true)}
+                            >
                                 <DeleteIcon fontSize="small" />
                             </IconButton>
                         </Tooltip>
                     </>
                 )}
             </Box>
+
+            {/* Confirmar remoção */}
+            {!isSkeleton && (
+                <ConfirmDeleteDialog
+                    open={confirmOpen}
+                    onClose={() => setConfirmOpen(false)}
+                    onConfirm={async () => {
+                        if (onDelete) {
+                            await onDelete(a!.id);
+                        }
+                        setConfirmOpen(false);
+                    }}
+                    entity="athlete"
+                    itemName={athlete?.name}
+                />
+            )}
         </Box>
     );
 }

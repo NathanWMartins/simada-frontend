@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { getAthletes } from "../services/trainer/athletes/athletesService";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { deleteAthlete, getAthletes } from "../services/trainer/athletes/trainerAthletesService";
 import type { TrainerAthletes } from "../types/athleteType";
 
 export type PositionFilter = "All" | "Goalkeeper" | "Defender" | "Midfielder" | "Forward";
@@ -32,6 +32,11 @@ export function useAthletesList(trainerId?: number) {
         })();
     }, [trainerId]);
 
+    const remove = useCallback(async (id: number) => {
+        await deleteAthlete(id);
+        setRaw(prev => prev.filter(s => s.id !== id));
+    }, []);
+
     const list = useMemo(() => {
         const lower = search.trim().toLowerCase();
         return raw.filter((a) => {
@@ -60,5 +65,6 @@ export function useAthletesList(trainerId?: number) {
         position,
         setPosition,
         formatDate,
+        remove
     };
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, IconButton, Paper, Typography } from "@mui/material";
+import { Alert, Box, IconButton, Paper, Snackbar, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import HeaderHomeTrainer from "../../../components/header/HeaderHomeTrainer";
@@ -13,12 +13,25 @@ export default function MyAthletes() {
     const theme = useTheme();
     const { user } = useUserContext();
 
-    const { loading, error, list, search, setSearch, position, setPosition, formatDate } =
+    const { loading, error, list, search, setSearch, remove, position, setPosition, formatDate } =
         useAthletesList(user?.id);
 
     const [filterAnchor, setFilterAnchor] = useState<HTMLElement | null>(null);
 
-    const skeletons = Array.from({ length: 8 }).map((_, i) => <AthleteRow key={`sk-${i}`} formatDate={formatDate} />);
+    const skeletons = Array.from({ length: 8 }).map((_, i) => (
+        <AthleteRow
+            key={`sk-${i}`}
+            formatDate={formatDate}
+            onDelete={async () => { }}
+        />
+    ));
+
+    const [snack, setSnack] = useState<{ open: boolean; message: string; severity: "success" | "error" }>({
+        open: false,
+        message: "",
+        severity: "success",
+    });
+
 
     return (
         <Box sx={{ bgcolor: theme.palette.background.paper, minHeight: "100vh" }}>
@@ -66,9 +79,28 @@ export default function MyAthletes() {
 
                     {loading
                         ? skeletons
-                        : list.map((a) => <AthleteRow key={a.id} athlete={a} formatDate={formatDate} />)}
+                        : list.map((a) => <AthleteRow key={a.id} athlete={a} formatDate={formatDate}
+                            onDelete={async (id) => {
+                                try {
+                                    await remove(id);
+                                    setSnack({ open: true, message: "Athlete removed successfully.", severity: "success" });
+                                } catch {
+                                    setSnack({ open: true, message: "Faile removing athlete.", severity: "error" });
+                                }
+                            }} />)}
                 </Paper>
             </Box>
+
+            <Snackbar
+                open={snack.open}
+                autoHideDuration={3500}
+                onClose={() => setSnack((s) => ({ ...s, open: false }))}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+                <Alert severity={snack.severity} sx={{ width: "100%" }}>
+                    {snack.message}
+                </Alert>
+            </Snackbar>
 
             <SwitchLightDarkMode />
         </Box>

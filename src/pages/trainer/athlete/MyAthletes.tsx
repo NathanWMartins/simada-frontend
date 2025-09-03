@@ -8,6 +8,8 @@ import { useUserContext } from "../../../contexts/UserContext";
 import { useAthletesList } from "../../../hooks/useAthletesList";
 import { AthleteRow, EmptyOrError, ListHeader, PositionFilterPopover } from "../../../components/trainer/athletesTrainer";
 import AthletesToolbar from "../../../components/trainer/athletesTrainer/AthletsToolBar";
+import InviteDialog from "../../../components/dialog/InviteDialog";
+import { inviteAthlete } from "../../../services/trainer/athletes/inviteService";
 
 export default function MyAthletes() {
     const theme = useTheme();
@@ -17,6 +19,7 @@ export default function MyAthletes() {
         useAthletesList(user?.id);
 
     const [filterAnchor, setFilterAnchor] = useState<HTMLElement | null>(null);
+    const [inviteOpen, setInviteOpen] = useState(false);
 
     const skeletons = Array.from({ length: 8 }).map((_, i) => (
         <AthleteRow
@@ -51,7 +54,10 @@ export default function MyAthletes() {
                         }}
                     >
                         <Typography variant="h6" fontWeight={700} color="#fff">My Athletes</Typography>
-                        <IconButton size="small" sx={{ bgcolor: "rgba(255,255,255,0.15)", color: "#fff", "&:hover": { bgcolor: "rgba(255,255,255,0.25)" } }}>
+                        <IconButton size="small"
+                            sx={{ bgcolor: "rgba(255,255,255,0.15)", color: "#fff", "&:hover": { bgcolor: "rgba(255,255,255,0.25)" } }}
+                            onClick={() => setInviteOpen(true)}
+                        >
                             <AddIcon />
                         </IconButton>
                     </Box>
@@ -90,6 +96,20 @@ export default function MyAthletes() {
                             }} />)}
                 </Paper>
             </Box>
+
+            <InviteDialog
+                open={inviteOpen}
+                onClose={() => setInviteOpen(false)}
+                onInvite={async (email) => {
+                    if (!user?.id) return;
+                    try {
+                        await inviteAthlete(user.id, email);
+                        setSnack({ open: true, message: "Invite sent successfully.", severity: "success" });
+                    } catch (e: any) {
+                        setSnack({ open: true, message: e?.response?.data?.message || "Failed to send invite.", severity: "error" });
+                    }
+                }}
+            />
 
             <Snackbar
                 open={snack.open}

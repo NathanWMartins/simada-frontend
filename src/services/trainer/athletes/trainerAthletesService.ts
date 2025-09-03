@@ -52,7 +52,3 @@ export async function updateAthlete(trainerId: number, athleteId: number, payloa
 export async function deleteAthlete(id: number): Promise<void> {
   await api.delete(`/trainer/athlete/${id}`);
 }
-
-export async function inviteAthlete(trainerId: number, email: string) {
-  return api.post(`/trainer/${trainerId}/athlete-invitations`, { email });
-}

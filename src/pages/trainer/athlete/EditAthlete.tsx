@@ -74,7 +74,7 @@ export default function EditAthlete() {
                 </Paper>
 
                 {/* conteúdo */}
-                <Paper elevation={4} sx={{ borderRadius: 3, p: 3, bgcolor: theme.palette.background.default, maxWidth: 1200, mx: "auto" }}>
+                <Paper elevation={4} sx={{ borderRadius: 3, p: 3, bgcolor: theme.palette.background.default, maxWidth: 1400, mx: "auto" }}>
                     {loading && (
                         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", py: 6 }}>
                             <CircularProgress size={28} />

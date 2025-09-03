@@ -1,11 +1,11 @@
 import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
-import athletePhoto from '../../assets/athlete-photo.png'
+import athletePhoto from '../../../assets/athlete-photo.png'
 import { styled } from '@mui/material/styles';
-import Logo from '../../components/common/Logo';
+import Logo from '../../../components/common/Logo';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../services/auth/authService';
-import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, GoogleButton } from '../../components/common';
+import { login } from '../../../services/auth/authService';
+import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, GoogleButton } from '../../../components/common';
 
 type SnackbarState = {
     open: boolean;

@@ -1,30 +1,21 @@
+// components/athletes/InviteDialog.tsx
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from "@mui/material";
 import { useState } from "react";
 
-export default function InviteDialog({ open, onClose, onInvite }: {
-    open: boolean;
-    onClose: () => void;
-    onInvite: (email: string) => Promise<void> | void;
-}) {
-    const [email, setEmail] = useState("");
-    const [loading, setLoading] = useState(false);
+type Props = { open: boolean; onClose: () => void; onInvite: (email: string) => Promise<void> | void; };
 
+export default function InviteDialog({ open, onClose, onInvite }: Props) {
+    const [email, setEmail] = useState(""); const [loading, setLoading] = useState(false);
     const submit = async () => {
+        if (!email.trim()) return;
         setLoading(true);
-        await onInvite(email.trim());
-        setLoading(false);
-        onClose();
-        setEmail("");
+        try { await onInvite(email.trim()); onClose(); setEmail(""); } finally { setLoading(false); }
     };
-
     return (
         <Dialog open={open} onClose={() => !loading && onClose()} maxWidth="xs" fullWidth>
             <DialogTitle>Invite athlete</DialogTitle>
             <DialogContent dividers>
-                <TextField
-                    autoFocus fullWidth label="Athlete e-mail"
-                    type="email" value={email} onChange={e => setEmail(e.target.value)}
-                />
+                <TextField autoFocus fullWidth label="Athlete e-mail" type="email" value={email} onChange={e => setEmail(e.target.value)} />
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} disabled={loading}>Cancel</Button>

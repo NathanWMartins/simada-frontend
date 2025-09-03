@@ -168,7 +168,6 @@ export default function AthleteForm({ initial, saving, onCancel, onSubmit }: Pro
                 Changes affect only this athlete profile.
             </Typography>
 
-            {/* Nome | Posição */}
             <TextField
                 label="Name"
                 value={values.name ?? ""}

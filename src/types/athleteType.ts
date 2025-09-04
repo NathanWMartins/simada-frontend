@@ -43,4 +43,6 @@ export interface AthleteDTO {
   shirt_number: string;
   position: AthletePosition;
   avatarUrl?: string | null;
+
+  extra?: AthleteExtraData | null;
 }

@@ -216,7 +216,10 @@ export default function SessionsTrainer() {
           )}
 
           {filtered.map((s) => (
-            <SessionRow key={s.id} s={s} formatDate={formatDate} onInfo={onInfo} onEdit={onEdit} onDelete={onDelete} />
+            <SessionRow key={s.id} s={s} formatDate={formatDate} onInfo={onInfo} onEdit={onEdit} onDelete={onDelete}
+              onNoMetrics={() =>
+                setSnack({ open: true, message: "This session doesn't have metrics to visualize.", severity: "error" })
+              } />
           ))}
         </Paper>
       </Box>

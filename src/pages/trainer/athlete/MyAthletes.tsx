@@ -6,7 +6,7 @@ import HeaderHomeTrainer from "../../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../../components/common";
 import { useUserContext } from "../../../contexts/UserContext";
 import { useAthletesList } from "../../../hooks/useAthletesList";
-import { AthleteRow, EmptyOrError, ListHeader, PositionFilterPopover } from "../../../components/trainer/athletesTrainer";
+import { AthleteRow, EmptyOrError, ListHeader, AthleteFilterPopover } from "../../../components/trainer/athletesTrainer";
 import AthletesToolbar from "../../../components/trainer/athletesTrainer/AthletsToolBar";
 import InviteDialog from "../../../components/dialog/InviteDialog";
 import { inviteAthlete } from "../../../services/trainer/athletes/inviteService";
@@ -15,11 +15,16 @@ export default function MyAthletes() {
     const theme = useTheme();
     const { user } = useUserContext();
 
-    const { loading, error, list, search, setSearch, remove, position, setPosition, formatDate } =
-        useAthletesList(user?.id);
-
     const [filterAnchor, setFilterAnchor] = useState<HTMLElement | null>(null);
     const [inviteOpen, setInviteOpen] = useState(false);
+
+    const {
+        list, loading, error,
+        search, setSearch,
+        position, setPosition, remove,
+        injury, setInjury,
+        formatDate,
+    } = useAthletesList(user?.id);
 
     const skeletons = Array.from({ length: 8 }).map((_, i) => (
         <AthleteRow
@@ -71,12 +76,14 @@ export default function MyAthletes() {
                         onOpenFilter={(e) => setFilterAnchor(e.currentTarget)}
                     />
 
-                    <PositionFilterPopover
-                        open={!!filterAnchor}
+                    <AthleteFilterPopover
+                        open={Boolean(filterAnchor)}
                         anchorEl={filterAnchor}
                         onClose={() => setFilterAnchor(null)}
-                        value={position}
-                        onChange={setPosition}
+                        valuePosition={position}
+                        onChangePosition={setPosition}
+                        valueInjury={injury}
+                        onChangeInjury={setInjury}
                     />
 
                     <ListHeader />

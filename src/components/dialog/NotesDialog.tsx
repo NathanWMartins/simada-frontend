@@ -11,7 +11,7 @@ export default function NotesDialog({ open, title, value, loading, onClose, onSa
     useEffect(() => { setText(value ?? ""); }, [value, open]);
     return (
         <Dialog open={open} onClose={() => !loading && onClose()} fullWidth maxWidth="sm">
-            <DialogTitle>Notas da sessão</DialogTitle>
+            <DialogTitle>Sesion Notes</DialogTitle>
             <DialogContent dividers>
                 <Typography variant="body2" sx={{ mb: 1 }}>{title}</Typography>
                 <TextField
@@ -21,9 +21,9 @@ export default function NotesDialog({ open, title, value, loading, onClose, onSa
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} disabled={loading}>Cancelar</Button>
+                <Button onClick={onClose} disabled={loading}>Cancel</Button>
                 <Button variant="contained" color="success" onClick={() => onSave(text)} disabled={loading}>
-                    {loading ? "Salvando..." : "Salvar"}
+                    {loading ? "Saving..." : "Save"}
                 </Button>
             </DialogActions>
         </Dialog>

@@ -27,6 +27,7 @@ export default function AthletesToolbar({ search, onSearch, onOpenFilter }: Prop
                 }}
                 sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
             />
+
             <Button
                 variant="outlined"
                 startIcon={<FilterListIcon />}

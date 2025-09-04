@@ -1,10 +1,15 @@
+// hooks/useAthletesList.ts
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { deleteAthlete, getAthletes } from "../services/trainer/athletes/trainerAthletesService";
 import type { TrainerAthletes } from "../types/athleteType";
 
 export type PositionFilter = "All" | "Goalkeeper" | "Defender" | "Midfielder" | "Forward";
+export type InjuryFilter = "All" | "Healthy" | "Injured" | "Rehab";
 
 export const POSITIONS: PositionFilter[] = ["All", "Goalkeeper", "Defender", "Midfielder", "Forward"];
+export const STATUS: InjuryFilter[] = ["All", "Healthy", "Injured", "Rehab"];
+
+const norm = (s?: string | null) => (s ?? "").trim().toLowerCase();
 
 export function useAthletesList(trainerId?: number) {
     const [raw, setRaw] = useState<TrainerAthletes[]>([]);
@@ -13,6 +18,7 @@ export function useAthletesList(trainerId?: number) {
 
     const [search, setSearch] = useState("");
     const [position, setPosition] = useState<PositionFilter>("All");
+    const [injury, setInjury] = useState<InjuryFilter>("All");
 
     useEffect(() => {
         if (!trainerId) return;
@@ -38,20 +44,34 @@ export function useAthletesList(trainerId?: number) {
     }, []);
 
     const list = useMemo(() => {
-        const lower = search.trim().toLowerCase();
-        return raw.filter((a) => {
-            const matchText =
-                !lower ||
-                a.name.toLowerCase().includes(lower) ||
-                (a.email ?? "").toLowerCase().includes(lower) ||
-                (a.phone ?? "").toLowerCase().includes(lower);
+        const q = search.trim().toLowerCase();
 
-            const pos = (a as any).position as string | undefined;
-            const matchPos = position === "All" || (pos && pos.toLowerCase() === position.toLowerCase());
+        return raw.filter(a => {
+            // texto
+            const textOk =
+                !q ||
+                a.name.toLowerCase().includes(q) ||
+                (a.email ?? "").toLowerCase().includes(q) ||
+                (a.phone ?? "").toLowerCase().includes(q);
 
-            return matchText && matchPos;
+            // posição
+            const posOk =
+                position === "All" ||
+                (a.position && norm(a.position) === norm(position));
+
+            const injuryVal =
+                a.extra?.injury_status ??
+                (a as any).injury_status ??       
+                (a as any).extraData?.injury_status ??
+                null;
+
+            const injuryOk =
+                injury === "All" ||
+                (injuryVal != null && norm(injuryVal) === norm(injury));
+
+            return textOk && posOk && injuryOk;
         });
-    }, [raw, search, position]);
+    }, [raw, search, position, injury]);
 
     const formatDate = (iso: string) =>
         new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -60,11 +80,10 @@ export function useAthletesList(trainerId?: number) {
         loading,
         error,
         list,
-        search,
-        setSearch,
-        position,
-        setPosition,
+        search, setSearch,
+        position, setPosition,
+        injury, setInjury,
         formatDate,
-        remove
+        remove,
     };
 }

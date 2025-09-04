@@ -6,8 +6,8 @@ export interface SnackbarState {
 };
 
 export interface TrainingStats {
-    completedTraining: number;
-    trainingThisWeek: number;
+    completedTrainings: number;
+    trainingsThisWeek: number;
     matchesPlayed: number;
     matchesThisMonth: number;
     totalSessions: number;

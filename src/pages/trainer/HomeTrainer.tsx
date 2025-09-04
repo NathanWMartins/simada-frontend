@@ -24,8 +24,8 @@ export default function HomeTrainer() {
         if (user) {
             getTrainerStats(user.id)
                 .then((data) => setStats(data))
-                .catch((err) => console.error("Erro ao buscar estatísticas:", err));
-        }
+                .catch((err) => console.error("Erro ao buscar estatísticas:", err));                
+        }        
     }, [user]);
 
     useEffect(() => {
@@ -47,8 +47,8 @@ export default function HomeTrainer() {
     }
 
     const statsList = [
-        { label: "Completed Training", value: stats?.completedTraining ?? 0 },
-        { label: "Training this Week", value: stats?.trainingThisWeek ?? 0 },
+        { label: "Completed Training", value: stats?.completedTrainings ?? 0 },
+        { label: "Training this Week", value: stats?.trainingsThisWeek ?? 0 },
         { label: "Matches Played", value: stats?.matchesPlayed ?? 0 },
         { label: "Matches this Month", value: stats?.matchesThisMonth ?? 0 },
         { label: "Total Sessions", value: stats?.totalSessions ?? 0 },

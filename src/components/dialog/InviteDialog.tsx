@@ -1,4 +1,3 @@
-// components/athletes/InviteDialog.tsx
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from "@mui/material";
 import { useState } from "react";
 
@@ -15,11 +14,19 @@ export default function InviteDialog({ open, onClose, onInvite }: Props) {
         <Dialog open={open} onClose={() => !loading && onClose()} maxWidth="xs" fullWidth>
             <DialogTitle>Invite athlete</DialogTitle>
             <DialogContent dividers>
-                <TextField autoFocus fullWidth label="Athlete e-mail" type="email" value={email} onChange={e => setEmail(e.target.value)} />
+                <TextField color="success" autoFocus fullWidth label="Athlete e-mail" type="email" value={email} onChange={e => setEmail(e.target.value)} />
             </DialogContent>
             <DialogActions>
-                <Button onClick={onClose} disabled={loading}>Cancel</Button>
-                <Button onClick={submit} variant="contained" color="success" disabled={loading || !email}>Send invite</Button>
+                <Button color="inherit" onClick={onClose} disabled={loading}>Cancel</Button>
+                <Button
+                    onClick={submit}
+                    variant="contained"
+                    color="success"
+                    disabled={loading || !email}
+                >
+                    {loading ? "Sending..." : "Send invite"}
+                </Button>
+
             </DialogActions>
         </Dialog>
     );

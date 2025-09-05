@@ -308,7 +308,7 @@ export default function AthleteForm({ initial, saving, onCancel, onSubmit }: Pro
 
             {/* Ações */}
             <Box sx={{ gridColumn: "1 / -1", display: "flex", justifyContent: "flex-end", gap: 1, mt: 1 }}>
-                <Button onClick={onCancel} disabled={!!saving}>Cancel</Button>
+                <Button color="inherit" onClick={onCancel} disabled={!!saving}>Cancel</Button>
                 <Button
                     variant="contained"
                     color="success"

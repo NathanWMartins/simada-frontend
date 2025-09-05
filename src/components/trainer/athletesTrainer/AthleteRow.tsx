@@ -1,12 +1,11 @@
-// components/athletes/AthleteRow.tsx
 import { Avatar, Box, IconButton, Skeleton, Tooltip, Typography } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TrainerAthletes } from "../../../types/athleteType";
 import { useNavigate } from "react-router-dom";
 import ConfirmDeleteDialog from "../../dialog/ConfirmDelete";
 import { useState } from "react";
+import { SmartToy } from "@mui/icons-material";
 
 type Props = {
     athlete?: TrainerAthletes;
@@ -82,9 +81,9 @@ export default function AthleteRow({ athlete, formatDate, onDelete }: Props) {
                     </>
                 ) : (
                     <>
-                        <Tooltip title="View">
+                        <Tooltip title="Analyze">
                             <IconButton size="small">
-                                <VisibilityIcon fontSize="small" />
+                                <SmartToy fontSize="small" />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Edit">

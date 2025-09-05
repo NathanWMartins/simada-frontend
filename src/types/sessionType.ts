@@ -53,6 +53,7 @@ export interface TrainerSession {
   description?: string | null;
   location?: string | null;
   has_metrics: boolean;
+  has_psico: boolean;
 }
 
 export interface UpdateSessionPayload {

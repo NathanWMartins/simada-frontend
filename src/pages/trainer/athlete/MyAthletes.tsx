@@ -6,10 +6,10 @@ import HeaderHomeTrainer from "../../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../../components/common";
 import { useUserContext } from "../../../contexts/UserContext";
 import { useAthletesList } from "../../../hooks/useAthletesList";
-import { AthleteRow, EmptyOrError, ListHeader, AthleteFilterPopover } from "../../../components/trainer/athletesTrainer";
 import AthletesToolbar from "../../../components/trainer/athletesTrainer/AthletsToolBar";
 import InviteDialog from "../../../components/dialog/InviteDialog";
 import { inviteAthlete } from "../../../services/trainer/athletes/inviteService";
+import { AthleteFilterPopover, AthleteRow, EmptyOrError, ListHeader } from "../../../components/trainer";
 
 export default function MyAthletes() {
     const theme = useTheme();

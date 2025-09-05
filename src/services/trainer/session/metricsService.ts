@@ -5,8 +5,6 @@ export async function uploadSessionMetrics(sessionId: number, file: File): Promi
     const form = new FormData();
     form.append("file", file);
 
-    console.log(form);
-
     await api.post(`/trainer/sessions/${sessionId}/metrics/import`, form, {
         headers: { "Content-Type": "multipart/form-data" },
     });

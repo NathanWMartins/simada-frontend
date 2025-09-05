@@ -32,6 +32,19 @@ const riskMeta: Record<
     },
 };
 
+function toRisk(status?: string | null): Risk {
+    switch ((status ?? "").toUpperCase()) {
+        case "LOW":
+            return "LOW";
+        case "HIGH":
+            return "HIGH";
+        case "CAUTION":
+            return "CAUTION";
+        default:
+            return "CAUTION";
+    }
+}
+
 export default function PsicoemocionalAlerts({
     days = 7,
     limit = 5,
@@ -117,8 +130,7 @@ export default function PsicoemocionalAlerts({
                 // lista de alertas
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1.25 }}>
                     {items.map((a, i) => {
-                        const riskKey: Risk = (a.status as Risk) || "CAUTION";
-                        const risk = riskMeta[riskKey];
+                        const risk = riskMeta[toRisk(a.status)];
 
                         return (
                             <Box

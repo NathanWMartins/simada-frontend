@@ -5,24 +5,23 @@ import AddIcon from "@mui/icons-material/Add";
 import HeaderHomeTrainer from "../../../components/header/HeaderHomeTrainer";
 import { SwitchLightDarkMode } from "../../../components/common";
 import { useUserContext } from "../../../contexts/UserContext";
-import SessionsToolbar from "../../../components/trainer/sessions/Toolbar";
-import FilterPopover from "../../../components/trainer/sessions/FilterPopover";
-import SessionRow from "../../../components/trainer/sessions/Row";
 import ImportCsvDialog from "../../../components/dialog/ImportCsvDialog";
 import ConfirmDeleteDialog from "../../../components/dialog/ConfirmDelete";
 import NotesDialog from "../../../components/dialog/NotesDialog";
-import EditSessionDialog from "../../../components/dialog/EditSessionDialog"; // ⬅️ novo
+import EditSessionDialog from "../../../components/dialog/EditSessionDialog";
 import { useNavigate } from "react-router-dom";
 import { UpdateSessionPayload } from "../../../types/sessionType";
 import { useSessionsList, FilterType } from "../../../hooks/useSessionsList";
 import { updateSession } from "../../../services/trainer/session/metricsService";
+import SessionsToolbar from "../../../components/trainer/sessions/Toolbar";
+import { FilterPopover } from "../../../components/trainer";
+import SessionRow from "../../../components/trainer/sessions/Row";
 
 export default function SessionsTrainer() {
   const theme = useTheme();
   const { user } = useUserContext();
   const navigate = useNavigate();
 
-  // hook centralizado que carrega/lista/salva notas/importa csv/remove
   const { sessions, loading, formatDate, importCsv, remove, saveNotes, setSessions } =
     useSessionsList(user?.id);
 
@@ -216,11 +215,25 @@ export default function SessionsTrainer() {
           )}
 
           {filtered.map((s) => (
-            <SessionRow key={s.id} s={s} formatDate={formatDate} onInfo={onInfo} onEdit={onEdit} onDelete={onDelete}
+            <SessionRow
+              key={s.id}
+              s={s}
+              formatDate={formatDate}
+              onInfo={onInfo}
+              onEdit={onEdit}
+              onDelete={onDelete}
               onNoMetrics={() =>
                 setSnack({ open: true, message: "This session doesn't have metrics to visualize.", severity: "error" })
-              } />
+              }
+              onPsyCreated={(sessionId, emails) => {
+                setSessions(prev =>
+                  prev.map(x => x.id === sessionId ? { ...x, has_psico: true } : x)
+                );
+                setSnack({ open: true, message: `Formulário sent to ${emails.length} athlete(s).`, severity: "success" });
+              }}
+            />
           ))}
+
         </Paper>
       </Box>
 
@@ -254,9 +267,23 @@ export default function SessionsTrainer() {
           URL.revokeObjectURL(url);
         }}
         onImport={async (file) => {
-          await importCsv(importCtx!.id, file);
-          setSnack({ open: true, message: "Metrics imported successfully.", severity: "success" });
-          setImportOpen(false);
+          try {
+            await importCsv(importCtx!.id, file);
+            setSnack({
+              open: true,
+              message: "Métricas importadas com sucesso.",
+              severity: "success",
+            });
+            setImportOpen(false);
+          } catch (e: any) {
+            console.error("Erro ao importar CSV", e);
+            const backendMessage = e?.response?.data?.message || e?.response?.data?.error;
+            setSnack({
+              open: true,
+              message: backendMessage ?? "Falha ao importar CSV.",
+              severity: "error",
+            });
+          }
         }}
       />
 

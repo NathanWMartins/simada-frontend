@@ -25,7 +25,7 @@ function AppRoutes() {
             <Route path="/coach-new-session" element={<NewSession />} />
             <Route path="/coach-athletes" element={<MyAthletes />} />
             <Route path="/athletes/:id/edit" element={<EditAthlete />} />
-            <Route path="/coach/psy-form/${s.id}/answers" element={<PsychoAnswers />} />
+            <Route path="/coach/psy-form/:id/answers" element={<PsychoAnswers />} />
 
             {/*Athlete Routes*/}
             <Route path="/athlete-login" element={<LoginPageAthlete />} />

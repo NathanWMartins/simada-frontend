@@ -8,8 +8,8 @@ import type { CoachSession } from "../../../types/sessionType";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../../contexts/UserContext";
 import { useState } from "react";
-import { createPsyFormInvite } from "../../../services/coach/session/psyFormType";
 import PsyFormLinkDialog from "../../dialog/PsyFormLinkDialog";
+import { createPsyFormInvite } from "../../../services/coach/session/psychoEmocional/psyFormType";
 
 type Props = {
     s: CoachSession;
@@ -67,7 +67,7 @@ export default function SessionRow({
             setLinkOpen(true);
             onPsyCreated?.(s.id, emails);
         } catch (e: any) {
-            const msg = e?.response?.data?.message || e?.message || "Falha ao gerar/enviar o formulário.";
+            const msg = e?.response?.data?.message || e?.message || "Failed generating/sending form.";
             alert(msg);
         } finally {
             setSending(false);
@@ -75,10 +75,10 @@ export default function SessionRow({
     };
 
     const psyTooltip = sending
-        ? "Enviando convites..."
+        ? "Sending invites..."
         : s.has_psycho
-            ? "Visualizar respostas"
-            : "Gerar formulário";
+            ? "Visualize answers"
+            : "Generate form";
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { api } from "../../api";
+import { api } from "../../../api";
 
 export async function createPsyFormInvite(coachId: number, sessionId?: number) {
     const { data } = await api.post("/psycho-form/create", { sessionId }, { params: { coachId } });
@@ -11,7 +11,7 @@ export async function validatePsyForm(token: string) {
 }
 
 export async function submitPsyForm(token: string, payload: {
-    sRPE: number; fatigue: number; soreness: number; mood: number; energy: number;
+    srpe: number; fatigue: number; soreness: number; mood: number; energy: number;
 }) {
     await api.post(`/psycho-form/${token}/submit`, payload);
 }

@@ -140,9 +140,9 @@ export default function InviteSignup() {
                             backgroundPosition: "center",
                             bgcolor: theme.palette.background.default,
                             display: { xs: "none", sm: "block" },
-                            maxWidth: 400,   // limita a largura máxima
-                            minHeight: 480,  // altura mínima pra manter proporção
-                            alignSelf: "center", // centraliza verticalmente no card
+                            maxWidth: 400, 
+                            minHeight: 480,
+                            alignSelf: "center",
                         }}
                     />
 

@@ -14,11 +14,11 @@ import {
 } from "@mui/material";
 import LogoLight from '../../assets/LogoWiKoLight.png';
 import LogoDark from '../../assets/LogoWiKoDark.png';
-import { submitPsyForm, validatePsyForm } from "../../services/coach/session/psyFormType";
 import { SwitchLightDarkMode } from "../../components/common";
+import { submitPsyForm, validatePsyForm } from "../../services/coach/session/psychoEmocional/psyFormType";
 
 type FormData = {
-    sRPE: string;
+    srpe: string;
     fatigue: string;
     soreness: string;
     mood: string;
@@ -35,7 +35,7 @@ export default function PsychoFormPage() {
 
 
     const [form, setForm] = useState<FormData>({
-        sRPE: "",
+        srpe: "",
         fatigue: "",
         soreness: "",
         mood: "",
@@ -87,7 +87,7 @@ export default function PsychoFormPage() {
         try {
             setLoading(true);
             await submitPsyForm(token, {
-                sRPE: Number(form.sRPE),
+                srpe: Number(form.srpe),
                 fatigue: Number(form.fatigue),
                 soreness: Number(form.soreness),
                 mood: Number(form.mood),
@@ -151,7 +151,7 @@ export default function PsychoFormPage() {
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                     {(
                         [
-                            { key: "sRPE", label: "Session Rating Exertion" },
+                            { key: "srpe", label: "Session Rating Exertion" },
                             { key: "fatigue", label: "Fatigue" },
                             { key: "soreness", label: "Soreness" },
                             { key: "mood", label: "Mood" },

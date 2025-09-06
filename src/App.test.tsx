@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
+import { Logo } from './components/common';
 
 test('renders SIMADA logo', () => {
-  render(<App />);
+  render(<Logo />);
   const logoElement = screen.getByAltText(/SIMADA Logo/i);
   expect(logoElement).toBeInTheDocument();
 });

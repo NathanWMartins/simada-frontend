@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { LoginData, RegisterAthleteData, RegisterTrainerData } from "../../types/types";
+import { LoginData, RegisterAthleteData, RegisterCoachData } from "../../types/types";
 
 const API_URL = "http://localhost:8080/auth";
 
@@ -9,17 +9,17 @@ export const login = async (data: LoginData) => {
     const response = await axios.post(`${API_URL}/login`, data);
     return response;
   } catch (error: any) {
-    console.error("Erro ao logar:", error);
-    throw new Error(error.response?.data || "Erro ao logar");
+    console.error("Login error:", error);
+    throw new Error(error.response?.data || "Login error");
   }
 };
 
-export const registerTrainer = async (data: RegisterTrainerData) => {
+export const registerCoach = async (data: RegisterCoachData) => {
   try {
-    const response = await axios.post(`${API_URL}/register/trainer`, data);
+    const response = await axios.post(`${API_URL}/register/coach`, data);
     return response;
   } catch (error: any) {
-    console.error("Erro ao registrar treinador:", error);
+    console.error("Error when registering coach:", error);
 
     const msg =
       error.response?.data?.message ||
@@ -37,8 +37,8 @@ export const registerAthlete = async (data: RegisterAthleteData) => {
     const response = await axios.post(`${API_URL}/register/athlete`, data);
     return response;
   } catch (error: any) {
-    console.error("Erro ao registrar atleta:", error);
-    throw new Error(error.response?.data || "Erro no registro");
+    console.error("Error when registering athlete:", error);
+    throw new Error(error.response?.data || "Register erro");
   }
 };
 

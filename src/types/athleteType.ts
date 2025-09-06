@@ -11,14 +11,14 @@ export interface AthleteExtraData {
   injury_status?: "Healthy" | "Injured" | "Rehab" | null;
 }
 
-export interface TrainerAthletes {
+export interface CoachAthletes {
   id: number;
   name: string;
   email?: string | null;
   phone?: string | null;
   birth: string;
   avatarUrl?: string | null;
-  shirt_number: string;
+  jersey_number: string;
   position?: AthletePosition | null;
 
   extra?: AthleteExtraData | null;
@@ -40,7 +40,7 @@ export interface AthleteDTO {
   email: string;
   birth: string;
   phone?: string | null;
-  shirt_number: string;
+  jersey_number: string;
   position: AthletePosition;
   avatarUrl?: string | null;
 

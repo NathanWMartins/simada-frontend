@@ -1,5 +1,5 @@
 // TIPOS DE ALERTA
-export type AlertType = "PERFORMANCE" | "PSICO";
+export type AlertType = "PERFORMANCE" | "PSYCHO";
 
 /** ------------------------ DTOs (vindos do backend) ------------------------ **/
 
@@ -25,9 +25,9 @@ export interface PerformanceAlertDTO extends AlertBaseDTO {
     unit?: string | null;
 }
 
-// Psico específico
+// Psycho específico
 export interface PsychoAlertDTO extends AlertBaseDTO {
-    alert_type: "PSICO";
+    alert_type: "PSYCHO";
     fatigue?: string | null;
     humor?: string | null;
     hours_slept?: number | string | null;
@@ -59,9 +59,9 @@ export interface PerformanceAlert extends AlertBase {
     unit?: string | null;
 }
 
-// Psico na UI
+// Psycho na UI
 export interface PsychoAlert extends AlertBase {
-    type: "PSICO";
+    type: "PSYCHO";
     fatigue?: string | null;
     mood?: string | null;
     hoursSlept?: number | null;
@@ -75,5 +75,5 @@ export function isPerformanceDTO(d: AlertDTO): d is PerformanceAlertDTO {
     return d.alert_type === "PERFORMANCE";
 }
 export function isPsychoDTO(d: AlertDTO): d is PsychoAlertDTO {
-    return d.alert_type === "PSICO";
+    return d.alert_type === "PSYCHO";
 }

@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
-import { TrainerSession } from "../types/sessionType";
-import { deleteSession, getTrainerSessions } from "../services/trainer/session/sessionsService";
-import { updateSessionNotes, uploadSessionMetrics } from "../services/trainer/session/metricsService";
+import { CoachSession } from "../types/sessionType";
+import { deleteSession, getCoachSessions } from "../services/coach/session/sessionsService";
+import { updateSessionNotes, uploadSessionMetrics } from "../services/coach/session/metricsService";
 
 export type FilterType = "All" | "Training" | "Game";
 
-export function useSessionsList(trainerId?: number) {
-    const [sessions, setSessions] = useState<TrainerSession[]>([]);
+export function useSessionsList(coachId?: number) {
+    const [sessions, setSessions] = useState<CoachSession[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const fetch = useCallback(async () => {
-        if (!trainerId) return;
+        if (!coachId) return;
         try {
             setLoading(true);
             setError(null);
-            const data = await getTrainerSessions(trainerId);
+            const data = await getCoachSessions(coachId);
             setSessions(data);
         } catch (e) {
             console.error(e);
@@ -24,7 +24,7 @@ export function useSessionsList(trainerId?: number) {
         } finally {
             setLoading(false);
         }
-    }, [trainerId]);
+    }, [coachId]);
 
     useEffect(() => { fetch(); }, [fetch]);
 

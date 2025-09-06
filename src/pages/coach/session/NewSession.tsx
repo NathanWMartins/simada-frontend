@@ -1,0 +1,273 @@
+import React, { useState } from "react";
+import {
+  Box,
+  Paper,
+  Typography,
+  Button,
+  MenuItem,
+  Snackbar,
+  Alert,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import HeaderHomeCoach from "../../../components/header/HeaderHomeCoach";
+import { SwitchLightDarkMode } from "../../../components/common";
+import { useUserContext } from "../../../contexts/UserContext";
+import { SnackbarState } from "../../../types/types";
+import { useNavigate } from "react-router-dom";
+import SessionField from "../../../components/common/SessionField";
+import { newSession } from "../../../services/coach/session/sessionsService";
+
+export default function NewSession() {
+  const theme = useTheme();
+  const { user } = useUserContext();
+  const navigate = useNavigate();
+
+  const [sessionType, setSessionType] = useState("");
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+  const [score, setScore] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const [errorSessionType, setErrorSessionType] = useState(false);
+  const [errorTitle, setErrorTitle] = useState(false);
+  const [errorAthletes, setErrorAthletes] = useState(false);
+  const [errorDate, setErrorDate] = useState(false);
+  const [errorScore, setErrorScore] = useState(false);
+  const [snackbar, setSnackbar] = useState<SnackbarState>({
+    open: false,
+    message: "",
+    severity: "error",
+  });
+
+  const resetError = () => {
+    setErrorSessionType(false);
+    setErrorTitle(false);
+    setErrorAthletes(false);
+    setErrorDate(false);
+    setErrorScore(false);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
+
+  const handleNewSession = async () => {
+    const errors: string[] = [];
+
+    resetError();
+
+    if (!sessionType) { errors.push("Session Type is required"); setErrorSessionType(true); }
+    if (!title) { errors.push("Password is required"); setErrorTitle(true); }
+    if (!date) { errors.push("Date is required"); setErrorDate(true); }
+
+    if (errors.length > 0) {
+      setSnackbar({
+        open: true,
+        message: errors.join("\n"),
+        severity: "error",
+      });
+      return;
+    }
+    try {
+      if (!user) return;
+
+      const response = await newSession({
+        coachId: user.id,
+        type: sessionType as "Training" | "Game",
+        title: title.trim(),
+        date: date,
+        score: sessionType === "Game" ? (score?.trim() || null) : null,
+        notes: notes?.trim() || null,
+      });
+
+      if (response.status === 204) {
+        setSnackbar({
+          open: true,
+          message: "Session created successfully!",
+          severity: "success",
+        });
+        navigate("/coach-sessions");
+      } else {
+        setSnackbar({
+          open: true,
+          message: (response.data?.message as string) || "Error creating session",
+          severity: "error",
+        });
+      }
+    } catch (error: any) {
+      setSnackbar({
+        open: true,
+        message: error?.message || "Error creating session",
+        severity: "error",
+      });
+    }
+  };
+
+  return (
+    <Box sx={{ bgcolor: theme.palette.background.paper, minHeight: "100vh" }}>
+      <HeaderHomeCoach />
+
+      <Box sx={{ px: 8, pt: 4, pb: 8 }}>
+        {/* Barra verde */}
+        <Paper
+          elevation={4}
+          sx={{
+            position: "relative",
+            mb: 2,
+            borderRadius: 3,
+            overflow: "hidden",
+            bgcolor: "transparent",
+          }}
+        >
+          <Box
+            sx={{
+              px: 2.5,
+              py: 1.5,
+              display: "flex",
+              alignItems: "center",
+              background:
+                "linear-gradient(90deg, #1db954 0%, #17a24a 50%, #12903f 100%)",
+            }}
+          >
+            <Typography variant="h6" fontWeight={700} color="#fff">
+              + New Session
+            </Typography>
+          </Box>
+        </Paper>
+
+        {/* Formulário */}
+        <Paper
+          elevation={4}
+          sx={{
+            borderRadius: 3,
+            p: 4,
+            bgcolor: theme.palette.background.default,
+            maxWidth: 1500,
+            mx: "auto",
+          }}
+        >
+
+          {/* GRID COM ÁREAS – notas ocupa 2 linhas, score alinha ao fim */}
+          <Box
+            sx={{
+              display: "grid",
+              columnGap: 3,
+              rowGap: 3,
+              alignItems: "start",
+              gridTemplateColumns: "1fr 1fr",
+              gridTemplateAreas: `
+      "titleL titleR"
+      "type   title"
+      "date   notes"
+      "score  notes"
+      "button button"
+    `,
+            }}
+          >
+            {/* Linha 1: títulos */}
+            <Typography variant="subtitle1" sx={{ gridArea: "titleL" }}>
+              Create your Session
+            </Typography>
+            <Typography variant="body2" sx={{ gridArea: "titleR", textAlign: "right" }}>
+              After creating your session, you can import the CSV spreadsheet with player data.
+            </Typography>
+
+            {/* Linha 2: Session Type | Title */}
+            <SessionField
+              sx={{ gridArea: "type" }}
+              select
+              label="Session Type"
+              value={sessionType}
+              onChange={(e) => setSessionType(e.target.value)}
+              error={errorSessionType}
+              helperText={errorSessionType ? "Required field" : ""}
+              FormHelperTextProps={{ sx: { minHeight: 20 } }}
+            >
+              <MenuItem value="Training">Training</MenuItem>
+              <MenuItem value="Game">Game</MenuItem>
+            </SessionField>
+
+            <SessionField
+              sx={{ gridArea: "title" }}
+              label="Title"
+              placeholder="Match/Session Title (e.g., Brazil x Argentina)"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              error={errorTitle}
+              helperText={errorTitle ? "Required field" : ""}
+              FormHelperTextProps={{ sx: { minHeight: 20 } }}
+            />
+
+            {/* Linha 3: Date | Notes (notes ocupa 2 linhas) */}
+            <SessionField
+              sx={{ gridArea: "date" }}
+              label="Date"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              error={errorDate}
+              helperText={errorDate ? "Required field" : ""}
+              FormHelperTextProps={{ sx: { minHeight: 20 } }}
+            />
+
+            <SessionField
+              sx={{ gridArea: "notes" }}
+              label="Session Notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              multiline
+              rows={4} 
+              tall
+            />
+
+            {/* Linha 4: Score*/}
+            <SessionField
+              sx={{ gridArea: "score", alignSelf: "end" }}
+              label="Score"
+              placeholder="0 - 0"
+              value={score}
+              onChange={(e) => setScore(e.target.value)}
+              error={errorScore}
+              helperText={errorScore ? "Required field" : ""}
+              FormHelperTextProps={{ sx: { minHeight: 20 } }}
+            />
+
+            {/* Linha 5: botão centralizado nas 2 colunas */}
+            <Box sx={{ gridArea: "button", display: "flex", justifyContent: "center", mt: 1 }}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#1db954",
+                  "&:hover": { backgroundColor: "#17a24a" },
+                  borderRadius: 2,
+                  px: 4,
+                  color: "white",
+                }}
+                onClick={handleNewSession}
+              >
+                Add Session
+              </Button>
+            </Box>
+          </Box>
+
+        </Paper>
+      </Box>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%", whiteSpace: "pre-line" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+      <SwitchLightDarkMode />
+    </Box>
+  );
+}

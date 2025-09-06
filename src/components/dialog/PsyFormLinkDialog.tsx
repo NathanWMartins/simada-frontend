@@ -55,7 +55,7 @@ export default function PsyFormLinkDialog({ open, sentTo = [], onClose }: Props)
         >
             <DialogTitle id="psy-form-dialog-title" sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <CheckCircleIcon color="success" />
-                Psicoemocional Form
+                PsychoEmocional Form
             </DialogTitle>
 
             <DialogContent dividers>
@@ -75,7 +75,7 @@ export default function PsyFormLinkDialog({ open, sentTo = [], onClose }: Props)
 
                     {count === 0 ? (
                         <Typography variant="body2" color="text.secondary">
-                            Nenhum e-mail listado para esta sessão.
+                            Any e-mail listed for this session.
                         </Typography>
                     ) : (
                         <List dense disablePadding>

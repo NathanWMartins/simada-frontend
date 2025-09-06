@@ -1,5 +1,5 @@
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
-import SessionForm from "../trainer/sessions/SessionForm";
+import SessionForm from "../coach/sessions/SessionForm";
 import { UpdateSessionPayload } from "../../types/sessionType";
 
 type Props = {

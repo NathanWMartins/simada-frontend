@@ -15,11 +15,11 @@ export interface TrainingStats {
 }
 
 export interface TopPerformerDTO {
-    nome_atleta: string;
-    foto?: string | null;
-    data_atualizacao: string;
-    pontuacao: number;
-    ultima_pontuacao?: number | null;
+    athlete_name: string;
+    photo?: string | null;
+    update_date: string;
+    score: number;
+    last_score?: number | null;
 }
 
 export interface TopPerformer {
@@ -31,20 +31,19 @@ export interface TopPerformer {
 }
 
 //Auth
-export interface RegisterTrainerData {
-    fullName: string;
+export interface RegisterCoachData {
+    name: string;
     email: string;
     password: string;
-    modality?: string;
     gender?: string;
 }
 
 export interface RegisterAthleteData {
-    fullName: string;
+    name: string;
     email: string;
     password: string;
     gender?: string;
-    shirtNumber?: string;
+    jerseyNumber?: string;
     position?: string;
 }
 

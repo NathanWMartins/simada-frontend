@@ -2,7 +2,7 @@ import { api } from "../api";
 
 export async function fetchInvite(token: string) {
   const { data } = await api.get(`/athletes/invitations/${token}`);
-  return data as { email: string; trainerName: string };
+  return data as { email: string; coachName: string };
 }
 
 export async function completeInvite(payload: {

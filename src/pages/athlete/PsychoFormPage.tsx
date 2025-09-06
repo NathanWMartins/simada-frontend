@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import LogoLight from '../../assets/LogoWiKoLight.png';
 import LogoDark from '../../assets/LogoWiKoDark.png';
-import { submitPsyForm, validatePsyForm } from "../../services/trainer/session/psyFormType";
+import { submitPsyForm, validatePsyForm } from "../../services/coach/session/psyFormType";
 import { SwitchLightDarkMode } from "../../components/common";
 
 type FormData = {
@@ -140,7 +140,7 @@ export default function PsychoFormPage() {
                 />
                 <Typography variant="h6" fontWeight={600} gutterBottom textAlign="center"
                     sx={{ color: theme.palette.text.primary }}>
-                    Questionário Psicoemocional
+                    Psychoemocional Avaluation
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary"

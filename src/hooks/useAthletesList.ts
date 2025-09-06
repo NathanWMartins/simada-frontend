@@ -1,7 +1,6 @@
-// hooks/useAthletesList.ts
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { deleteAthlete, getAthletes } from "../services/trainer/athletes/trainerAthletesService";
-import type { TrainerAthletes } from "../types/athleteType";
+import { deleteAthlete, getAthletes } from "../services/coach/athletes/coachAthletesService";
+import type { CoachAthletes } from "../types/athleteType";
 
 export type PositionFilter = "All" | "Goalkeeper" | "Defender" | "Midfielder" | "Forward";
 export type InjuryFilter = "All" | "Healthy" | "Injured" | "Rehab";
@@ -11,8 +10,8 @@ export const STATUS: InjuryFilter[] = ["All", "Healthy", "Injured", "Rehab"];
 
 const norm = (s?: string | null) => (s ?? "").trim().toLowerCase();
 
-export function useAthletesList(trainerId?: number) {
-    const [raw, setRaw] = useState<TrainerAthletes[]>([]);
+export function useAthletesList(coachId?: number) {
+    const [raw, setRaw] = useState<CoachAthletes[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -21,22 +20,22 @@ export function useAthletesList(trainerId?: number) {
     const [injury, setInjury] = useState<InjuryFilter>("All");
 
     useEffect(() => {
-        if (!trainerId) return;
+        if (!coachId) return;
         (async () => {
             try {
                 setLoading(true);
                 setError(null);
-                const data = await getAthletes(trainerId, { page: 1, limit: 20 });
+                const data = await getAthletes(coachId, { page: 1, limit: 20 });
                 setRaw(data ?? []);
             } catch (e) {
                 console.error(e);
-                setError("Falha ao carregar atletas.");
+                setError("Faile loading athletes.");
                 setRaw([]);
             } finally {
                 setLoading(false);
             }
         })();
-    }, [trainerId]);
+    }, [coachId]);
 
     const remove = useCallback(async (id: number) => {
         await deleteAthlete(id);

@@ -3,9 +3,9 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 export type UserResponse = {
     id: number;
     email: string;
-    tipoUsuario: 'treinador' | 'atleta';
-    fotoUsuario?: string | null;
-    nome?: string | null;
+    userType: 'coach' | 'athlete';
+    userPhoto?: string | null;
+    name?: string | null;
 };
 
 interface UserContextType {

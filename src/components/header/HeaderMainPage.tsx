@@ -26,7 +26,7 @@ function HeaderMainPage() {
 
           <Button
             variant="contained"
-            onClick={() => navigate('/trainer-login')}
+            onClick={() => navigate('/coach-login')}
             sx={{
               mr: 1, backgroundColor: '#2CAE4D', textTransform: 'none',
               color: '#fff', width: '130px', height: '30px',
@@ -35,11 +35,11 @@ function HeaderMainPage() {
               }
             }}
           >
-            Trainer Login
+            Coach Login
           </Button>
           <Button
             variant="contained"
-            onClick={() => navigate('/athlete-login')} // Atleta
+            onClick={() => navigate('/athlete-login')} 
             sx={{
               mr: 1, backgroundColor: '#2CAE4D', textTransform: 'none',
               color: '#fff', width: '130px', height: '30px',

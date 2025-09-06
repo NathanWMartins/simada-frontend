@@ -3,8 +3,8 @@ export type SessionType = "Training" | "Game";
 // O QUE O APP USA
 export interface Session {
   id: number;
-  trainerId?: number;
-  trainerPhoto?: string;
+  coachId?: number;
+  coachPhoto?: string;
   start: string;
   end: string;
   type: SessionType;
@@ -18,8 +18,8 @@ export interface Session {
 // O QUE O BACK ENVIA/ESPERA
 export interface SessionDTO {
   id: number;
-  trainer_id?: number;
-  trainer_photo?: string | null;
+  coach_id?: number;
+  coach_photo?: string | null;
   start: string;
   end?: string | null;
   type: SessionType;
@@ -31,7 +31,7 @@ export interface SessionDTO {
 }
 
 export interface NewSessionRequest {
-  trainerId: number;
+  coachId: number;
   type: SessionType;
   title: string;
   date: string;
@@ -41,10 +41,10 @@ export interface NewSessionRequest {
   location?: string | null;
 }
 
-export interface TrainerSession {
+export interface CoachSession {
   id: number;
-  trainerId?: number;
-  trainerPhoto?: string;
+  coachId?: number;
+  coachPhoto?: string;
   date: string;
   type: SessionType;
   title: string;
@@ -53,7 +53,7 @@ export interface TrainerSession {
   description?: string | null;
   location?: string | null;
   has_metrics: boolean;
-  has_psico: boolean;
+  has_psycho: boolean;
 }
 
 export interface UpdateSessionPayload {

@@ -26,7 +26,7 @@ export default function InviteSignup() {
     const token = params.get("invite") || "";
 
     const [loading, setLoading] = useState(true);
-    const [inv, setInv] = useState<{ email: string; trainerName: string } | null>(null);
+    const [inv, setInv] = useState<{ email: string; coachName: string } | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     // form
@@ -174,7 +174,7 @@ export default function InviteSignup() {
                                 textAlign: "center",
                             }}
                         >
-                            Invited by <b>{inv?.trainerName}</b>
+                            Invited by <b>{inv?.coachName}</b>
                         </Typography>
 
                         {/* Campos */}

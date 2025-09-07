@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useSearchParams } from 'react-router-dom'
 import MainPage from '../pages/MainPage'
 import LoginPageCoach from '../pages/coach/auth/LoginPageCoach'
 import RegisterPageCoach from '../pages/coach/auth/RegisterPageCoach'
@@ -10,7 +10,7 @@ import NewSession from '../pages/coach/session/NewSession'
 import EditAthlete from '../pages/coach/athlete/EditAthlete'
 import InviteSignup from '../pages/athlete/auth/InviteSignup'
 import PsychoFormPage from '../pages/athlete/PsychoFormPage'
-import PsychoAnswers from '../pages/coach/psychoEmocional/PsychoAnswers'
+import PsychoAnswers from '../pages/coach/psycho/PsychoAnswers'
 
 function AppRoutes() {
     return (

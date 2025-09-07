@@ -25,17 +25,6 @@ export interface PerformanceAlertDTO extends AlertBaseDTO {
     unit?: string | null;
 }
 
-// Psycho específico
-export interface PsychoAlertDTO extends AlertBaseDTO {
-    alert_type: "PSYCHO";
-    fatigue?: string | null;
-    humor?: string | null;
-    hours_slept?: number | string | null;
-}
-
-// Union de DTO
-export type AlertDTO = PerformanceAlertDTO | PsychoAlertDTO;
-
 /** ------------------------ MODELOS de UI (front) ------------------------ **/
 
 export interface AlertBase {
@@ -61,19 +50,39 @@ export interface PerformanceAlert extends AlertBase {
 
 // Psycho na UI
 export interface PsychoAlert extends AlertBase {
-    type: "PSYCHO";
-    fatigue?: string | null;
-    mood?: string | null;
-    hoursSlept?: number | null;
+    alertId: number;
+    athleteId: number;
+    sessionId: number;
+    answerId: number;
+    athleteName: string;
+    athletePhoto: string;
+    srpe: number;
+    fatigue: number;
+    soreness: number;
+    mood: number;
+    energy: number;
+    total: number;
+    risk: string;
+    date: string;
 }
 
-// Union na UI (se precisar lidar com ambos juntos)
-export type AnyAlert = PerformanceAlert | PsychoAlert;
-
-/** ------------------------ Type Guards (DTO) ------------------------ **/
-export function isPerformanceDTO(d: AlertDTO): d is PerformanceAlertDTO {
-    return d.alert_type === "PERFORMANCE";
+export interface PsyAnswerDTO {
+    answerId: number;
+    athleteId: number;
+    athleteName: string;
+    athleteEmail: string;
+    athletePosition?: string | null;
+    athletePhoto?: string | null;
+    submittedAt?: string | null;
+    srpe?: number | null;
+    fatigue?: number | null;
+    soreness?: number | null;
+    mood?: number | null;
+    energy?: number | null;
+    token?: string | null;
 }
-export function isPsychoDTO(d: AlertDTO): d is PsychoAlertDTO {
-    return d.alert_type === "PSYCHO";
+
+export interface GetPsychoAnswersParams{
+  q?: string;         
+  position?: string;
 }

@@ -31,16 +31,16 @@ import { SwitchLightDarkMode } from "../../../components/common";
 
 function colorPositive(value?: number) {
   if (value == null) return "text.secondary";
-  if (value <= 2) return "error.main";     
-  if (value === 3) return "warning.main";  
-  return "success.main";                  
+  if (value <= 4) return "error.main";  
+  if (value === 5) return "warning.main";
+  return "success.main";
 }
 
 function colorNegative(value?: number) {
   if (value == null) return "text.secondary";
-  if (value >= 4) return "error.main";    
-  if (value === 3) return "warning.main";  
-  return "success.main";                  
+  if (value >= 7) return "error.main";
+  if (value === 6) return "warning.main";
+  return "success.main";
 }
 function average(ns: number[]) {
   const arr = ns.filter((n) => Number.isFinite(n));
@@ -69,7 +69,7 @@ export default function PsychoAnswersPage() {
         const data = await getPsychoAnswersBySession(sessionId);
         setRows(data);
       } catch (e: any) {
-        setError(e?.response?.data?.message || "Não foi possível carregar as respostas.");
+        setError(e?.response?.data?.message || "Failed loading answers.");
       } finally {
         setLoading(false);
       }
@@ -142,7 +142,7 @@ export default function PsychoAnswersPage() {
           <Stack direction="row" alignItems="center" spacing={1}>
             <PsychologyIcon />
             <Typography variant="h6" fontWeight={700}>
-              Psicoemocional — Respostas da Sessão #{sessionId}
+              Psychoemocional — Sessions Answers #{sessionId}
             </Typography>
           </Stack>
 
@@ -154,7 +154,7 @@ export default function PsychoAnswersPage() {
               onClick={() => exportAnswersToCSV(filtered)}
               disabled={!filtered.length}
             >
-              Exportar CSV
+              Export CSV
             </Button>
           </Stack>
         </Stack>
@@ -163,7 +163,7 @@ export default function PsychoAnswersPage() {
         <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
           <Card sx={{ flex: 1 }}>
             <CardContent>
-              <Typography variant="overline" color="text.secondary">Respondentes</Typography>
+              <Typography variant="overline" color="text.secondary">Answers</Typography>
               <Typography variant="h5" fontWeight={700}>{summary.count}</Typography>
             </CardContent>
           </Card>
@@ -214,7 +214,7 @@ export default function PsychoAnswersPage() {
           <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
             <TextField
               fullWidth
-              placeholder="Buscar por nome ou e-mail"
+              placeholder="Search for name or email"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               InputProps={{
@@ -228,12 +228,12 @@ export default function PsychoAnswersPage() {
 
             <TextField
               select
-              label="Posição"
+              label="Position"
               value={position}
               onChange={(e) => setPosition(e.target.value)}
               sx={{ minWidth: 220 }}
             >
-              <MenuItem value="">Todas as posições</MenuItem>
+              <MenuItem value="">All positions</MenuItem>
               {positions.map((p) => (
                 <MenuItem key={p} value={p}>{p}</MenuItem>
               ))}
@@ -245,7 +245,7 @@ export default function PsychoAnswersPage() {
         <Paper sx={{ p: 2, borderRadius: 3 }}>
           {!filtered.length ? (
             <Typography color="text.secondary" sx={{ textAlign: "center", py: 6 }}>
-              Nenhuma resposta encontrada com os filtros atuais.
+              Any answer finded using the filter.
             </Typography>
           ) : (
             <Box sx={{ overflowX: "auto" }}>

@@ -24,8 +24,8 @@ export default function HomeCoach() {
         if (user) {
             getCoachStats(user.id)
                 .then((data) => setStats(data))
-                .catch((err) => console.error("Erro ao buscar estatísticas:", err));                
-        }        
+                .catch((err) => console.error("Erro ao buscar estatísticas:", err));
+        }
     }, [user]);
 
     useEffect(() => {
@@ -185,15 +185,17 @@ export default function HomeCoach() {
                     </Box>
                 </Box>
 
-                <Box sx={{ display: "flex", gap: 1, px: 8, mt: 10 }}>
-                    <Box sx={{ width: "50%" }}>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 8, mt: 10 }}>
+                    <Box sx={{ width: "100%" }}>
                         <AlertsPanel days={7} limit={5} />
                     </Box>
 
-                    <Box sx={{ width: "50%" }}>
+                    {/* Psicoemocional sempre ocupa 100% */}
+                    <Box sx={{ width: "100%" }}>
                         <PsychoemocionalAlerts />
                     </Box>
                 </Box>
+
                 <SwitchLightDarkMode />
             </Box>
         </>

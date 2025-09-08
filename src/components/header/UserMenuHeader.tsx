@@ -16,7 +16,7 @@ const UserMenuHeader: React.FC<UserMenuProps> = ({ anchorEl, onClose }) => {
         onClose();
         switch (action) {
             case "profile":
-                navigate("/profile");
+                navigate("/coach-profile");
                 break;
             case "settings":
                 navigate("/settings");

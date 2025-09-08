@@ -1,5 +1,6 @@
 import { api } from "../api";
 import { TopPerformer, TopPerformerDTO, TrainingStats } from "../../types/types";
+import { CoachProfileDTO } from "../../types/coachType";
 
 function mapTopPerformerDTO(d: TopPerformerDTO): TopPerformer {
   const previous = d.last_score ?? null;
@@ -22,4 +23,23 @@ export async function getTopPerformers(limit = 3): Promise<TopPerformer[]> {
     params: { limit },
   });
   return (data ?? []).map(mapTopPerformerDTO);
+}
+
+export async function getCoachProfile(coachId: number): Promise<CoachProfileDTO | null> {
+  if (!coachId) return null;
+  const { data } = await api.get<CoachProfileDTO>(`/coach/profile/${coachId}`);
+  return data ?? null;
+}
+
+export async function uploadCoachAvatar(coachId: number, file: File): Promise<{ photoUrl: string } | null> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const { data } = await api.post<{ photoUrl: string }>(`/coach/profile/${coachId}/avatar`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return data ?? null;
+}
+
+export async function updateCoachProfile(coachId: number, payload: CoachProfileDTO): Promise<void> {
+  await api.put(`/coach/profile/${coachId}`, payload);
 }

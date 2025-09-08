@@ -1,4 +1,4 @@
-import { Route, Routes, useSearchParams } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import MainPage from '../pages/MainPage'
 import LoginPageCoach from '../pages/coach/auth/LoginPageCoach'
 import RegisterPageCoach from '../pages/coach/auth/RegisterPageCoach'
@@ -11,6 +11,7 @@ import EditAthlete from '../pages/coach/athlete/EditAthlete'
 import InviteSignup from '../pages/athlete/auth/InviteSignup'
 import PsychoFormPage from '../pages/athlete/PsychoFormPage'
 import PsychoAnswers from '../pages/coach/psycho/PsychoAnswers'
+import CoachProfileEdit from '../pages/coach/auth/CoachProfileEdit'
 
 function AppRoutes() {
     return (
@@ -21,6 +22,7 @@ function AppRoutes() {
             <Route path="/coach-login" element={<LoginPageCoach />} />
             <Route path="/coach-register" element={<RegisterPageCoach />} />
             <Route path="/coach-home" element={<HomeCoach />} />
+            <Route path="/coach-profile" element={<CoachProfileEdit />} />
             <Route path="/coach-sessions" element={<SessionsCoach />} />
             <Route path="/coach-new-session" element={<NewSession />} />
             <Route path="/coach-athletes" element={<MyAthletes />} />

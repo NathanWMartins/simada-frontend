@@ -3,7 +3,6 @@ import { AthleteDTO, CoachAthletes, UpdateAthletePayload } from "../../../types/
 
 type GetAthletesParams = {
   q?: string;
-  status?: "active" | "injured" | "inactive";
   page?: number;
   limit?: number;
 };
@@ -32,18 +31,6 @@ export async function getAthleteById(coachId: number, athleteId: number): Promis
   const { data } = await api.get<CoachAthletes>(`/coach/${coachId}/athletes/${athleteId}`);
   return data;
 }
-
-// export async function createAthlete(payload: {
-//   name: string;
-//   email: string;
-//   birth: string; // ISO
-//   phone?: string | null;
-//   avatarUrl?: string | null;
-//   status?: "active" | "injured" | "inactive";
-// }): Promise<CoachAthletes> {
-//   const { data } = await api.post<AthleteDTO>("/coach/athletes", payload);
-//   return mapAthlete(data);
-// }
 
 export async function updateAthlete(coachId: number, athleteId: number, payload: UpdateAthletePayload) {
   return api.put(`/coach/${coachId}/update/athlete/${athleteId}`, payload);

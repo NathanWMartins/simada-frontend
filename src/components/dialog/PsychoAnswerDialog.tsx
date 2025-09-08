@@ -68,9 +68,9 @@ export default function PsychoAnswerDialog({ open, onClose, sessionId, athleteId
                 mood: Number(answer.mood ?? 0),
                 energy: Number(answer.energy ?? 0),
             });
-            setRecoText(resp?.recommendations ?? "Sem recomendações no momento.");
+            setRecoText(resp?.recommendations ?? "Any recommendations at the moment.");
         } catch (e: any) {
-            setRecoError(e?.response?.data?.message ?? "Não foi possível obter recomendações.");
+            setRecoError(e?.response?.data?.message ?? "Error loading recommendations.");
         } finally {
             setRecoLoading(false);
         }
@@ -161,7 +161,7 @@ export default function PsychoAnswerDialog({ open, onClose, sessionId, athleteId
 
                         {recoText && (
                             <Box sx={{ mt: 2, p: 2, bgcolor: "background.paper", borderRadius: 2, border: theme => `1px solid ${theme.palette.divider}` }}>
-                                <Typography variant="subtitle2" gutterBottom>Recomendações</Typography>
+                                <Typography variant="subtitle2" gutterBottom>Recomendations</Typography>
                                 <Typography variant="body2" whiteSpace="pre-wrap">{recoText}</Typography>
                             </Box>
                         )}

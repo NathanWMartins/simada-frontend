@@ -16,7 +16,7 @@ import CoachProfileEdit from '../pages/coach/auth/CoachProfileEdit'
 function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<MainPage />} />
+            <Route path="/" element={<MainPage />} />            
 
             {/*Coach Routes*/}
             <Route path="/coach-login" element={<LoginPageCoach />} />

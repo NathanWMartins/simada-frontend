@@ -41,8 +41,6 @@ export async function getPsychoAnswerByAthlete(
 }
 
 export async function askPsyRecommendations(payload: PsyRecoRequest): Promise<PsyRecoResponse> {
-  // Sugestão de endpoint no back que chama o Groq:
-  // POST /coach/psy-form/:sessionId/athletes/:athleteId/recommendations
   const { sessionId, athleteId, ...metrics } = payload;
   const { data } = await api.post<PsyRecoResponse>(
     `/coach/psy-form/${sessionId}/athletes/${athleteId}/recommendations`,

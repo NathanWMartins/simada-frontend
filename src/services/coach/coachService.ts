@@ -43,3 +43,12 @@ export async function uploadCoachAvatar(coachId: number, file: File): Promise<{ 
 export async function updateCoachProfile(coachId: number, payload: CoachProfileDTO): Promise<void> {
   await api.put(`/coach/profile/${coachId}`, payload);
 }
+
+export async function deleteOrTransferCoachAccount(
+  coachId: number,
+  transferToEmail?: string
+): Promise<void> {
+  await api.post(`/coach/profile/${coachId}/delete-or-transfer`, {
+    transferToEmail: transferToEmail?.trim() || null,
+  });
+}

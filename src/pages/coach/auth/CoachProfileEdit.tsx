@@ -1,18 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-    Alert, Avatar, Box, Button, Chip, CircularProgress, MenuItem,
+    Alert, Avatar, Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem,
     Paper, Snackbar, Stack, TextField, Typography, useTheme
 } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useUserContext } from "../../../contexts/UserContext";
-import { getCoachProfile, updateCoachProfile, uploadCoachAvatar } from "../../../services/coach/coachService";
+import { deleteOrTransferCoachAccount, getCoachProfile, updateCoachProfile, uploadCoachAvatar } from "../../../services/coach/coachService";
 import { CoachProfile } from "../../../types/coachType";
 import HeaderHomeCoach from "../../../components/header/HeaderHomeCoach";
 import { SwitchLightDarkMode } from "../../../components/common";
+import { useNavigate } from "react-router-dom";
 
 export default function CoachProfileEdit() {
     const theme = useTheme();
     const isLight = theme.palette.mode === "light";
+    const navigate = useNavigate();
     const { user, setUser } = useUserContext();
     const coachId = useMemo(() => Number(user?.id ?? 0), [user?.id]);
 
@@ -29,6 +31,15 @@ export default function CoachProfileEdit() {
 
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+
+    const [deleteOpen, setDeleteOpen] = useState(false);
+    const [transferEmail, setTransferEmail] = useState("");
+    const [deleting, setDeleting] = useState(false);
+    const [confirmText, setConfirmText] = useState("");
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isTransfer = transferEmail.trim().length > 0;
+    const emailInvalid = isTransfer && !emailRe.test(transferEmail.trim());
+    const needConfirmPhrase = !isTransfer;
 
     useEffect(() => {
         if (!coachId) return;
@@ -170,7 +181,7 @@ export default function CoachProfileEdit() {
                             }}
                         >
                             {/* Coluna esquerda: Avatar + info curta */}
-                            <Stack spacing={2} sx={{ gridArea: "left" }}>
+                            <Stack spacing={3} sx={{ gridArea: "left" }}>
                                 <Stack direction="row" spacing={2} alignItems="center">
                                     <Avatar src={avatarPreview ?? undefined} sx={{ width: 96, height: 96 }}>
                                         {form.name?.[0]?.toUpperCase()}
@@ -178,7 +189,7 @@ export default function CoachProfileEdit() {
                                     <Stack spacing={0.5}>
                                         <Typography variant="subtitle1" fontWeight={800}>{form.name || "—"}</Typography>
                                         <Typography variant="body2" color="text.secondary">{form.email || "—"}</Typography>
-                                        <Chip size="small" label={"Trainer"} />
+                                        <Chip size="small" label={"Coach"} />
                                     </Stack>
                                 </Stack>
 
@@ -226,8 +237,7 @@ export default function CoachProfileEdit() {
                                 <ProfileField label="Phone" placeholder="+55 11 9 9999-9999" value={form.phone} onChange={setField("phone")} />
                             </Box>
 
-                            {/* Botão salvar */}
-                            <Box sx={{ gridArea: "button", display: "flex", justifyContent: "center", mt: 1 }}>
+                            <Box sx={{ gridArea: "button", display: "flex", justifyContent: "center", mt: 1, gap: 2, flexWrap: "wrap", ml: "auto" }}>
                                 <Button
                                     variant="contained"
                                     sx={{ backgroundColor: "#1db954", "&:hover": { backgroundColor: "#17a24a" }, borderRadius: 2, px: 4, color: "white" }}
@@ -236,11 +246,102 @@ export default function CoachProfileEdit() {
                                 >
                                     {saving ? "Saving..." : "Save Changes"}
                                 </Button>
+
+                                <Button
+                                    variant="outlined"
+                                    color="error"
+                                    onClick={() => { setDeleteOpen(true); setTransferEmail(""); setConfirmText(""); }}
+                                    sx={{ borderRadius: 2, px: 3 }}
+                                >
+                                    Delete Account
+                                </Button>
                             </Box>
+
                         </Box>
                     )}
                 </Paper>
             </Box>
+
+            <Dialog open={deleteOpen} onClose={() => setDeleteOpen(false)} fullWidth maxWidth="sm">
+                <DialogTitle component="div">Delete Account</DialogTitle>
+                <DialogContent dividers>
+                    <Stack spacing={2}>
+                        <Typography variant="body2">
+                            You can <strong>transfer</strong> all your athletes, sessions and related data to another coach
+                            by entering their email below. If you leave it empty, <strong>all your data will be deleted permanently</strong>.
+                        </Typography>
+
+                        <TextField
+                            label="Transfer to coach email (optional)"
+                            placeholder="othercoach@email.com"
+                            value={transferEmail}
+                            onChange={(e) => setTransferEmail(e.target.value)}
+                            error={emailInvalid}
+                            helperText={emailInvalid ? "Invalid email." : "Leave blank to delete everything."}
+                            fullWidth
+                            size="small"
+                        />
+
+                        {!isTransfer && (
+                            <Alert severity="warning" variant="outlined">
+                                No transfer email provided. All data related to this coach (athletes, sessions, answers, files) will be <strong>deleted</strong>.
+                                Type <strong>DELETE</strong> to confirm.
+                            </Alert>
+                        )}
+
+                        {!isTransfer && (
+                            <TextField
+                                label='Type "DELETE" to confirm'
+                                value={confirmText}
+                                onChange={(e) => setConfirmText(e.target.value)}
+                                fullWidth
+                                size="small"
+                            />
+                        )}
+                    </Stack>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDeleteOpen(false)} disabled={deleting}>Cancel</Button>
+                    <Button
+                        onClick={async () => {
+                            if (emailInvalid) return;
+                            if (needConfirmPhrase && confirmText.trim().toUpperCase() !== "DELETE") {
+                                setSnackbar({ open: true, severity: "error", message: 'Please type "DELETE" to confirm.' });
+                                return;
+                            }
+                            try {
+                                setDeleting(true);
+                                await deleteOrTransferCoachAccount(coachId, transferEmail.trim() || undefined);
+                                setSnackbar({
+                                    open: true,
+                                    severity: "success",
+                                    message: isTransfer
+                                        ? "Data transferred successfully. Your account has been removed."
+                                        : "Account and all related data deleted successfully.",
+                                });
+
+                                setUser?.(null);
+                                navigate("/");
+                            } catch (e: any) {
+                                setSnackbar({
+                                    open: true,
+                                    severity: "error",
+                                    message: e?.response?.data?.message ?? "Failed to process the request.",
+                                });
+                            } finally {
+                                setDeleting(false);
+                            }
+                        }}
+                        color={isTransfer ? "primary" : "error"}
+                        variant="contained"
+                        disabled={deleting || emailInvalid || (needConfirmPhrase && confirmText.trim().toUpperCase() !== "DELETE")}
+                    >
+                        {deleting
+                            ? (isTransfer ? "Transferring..." : "Deleting...")
+                            : (isTransfer ? "Transfer & Delete Account" : "Delete Account")}
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             <Snackbar
                 open={snackbar.open}

@@ -2,6 +2,7 @@ import { api } from "../api";
 
 export async function fetchInvite(token: string) {
   const { data } = await api.get(`/athletes/invitations/${token}`);
+  console.log(data);
   return data as { email: string; coachName: string };
 }
 

@@ -1,5 +1,5 @@
 import { UpdateSessionPayload } from "../../../types/sessionType";
-import { api } from "../../api";
+import { api } from "../../../api/api";
 
 export async function uploadSessionMetrics(sessionId: number, file: File): Promise<void> {
     const form = new FormData();

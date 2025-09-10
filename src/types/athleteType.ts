@@ -46,3 +46,13 @@ export interface AthleteDTO {
 
   extra?: AthleteExtraData | null;
 }
+
+export interface AthleteProfile {
+  id: number;
+  name: string;
+  email: string;
+  gender?: string | null;
+  phone?: string | null;
+  nationality?: string | null;
+  photoUrl?: string | null;
+}

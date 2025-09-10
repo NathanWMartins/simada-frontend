@@ -9,13 +9,9 @@ import SportsScoreIcon from "@mui/icons-material/SportsScore";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import { useNavigate } from "react-router-dom";
-
-import TopBar from "../../components/athlete/TopBar";
 import StatCard from "../../components/athlete/StatCard";
-import SettingsIcon from '@mui/icons-material/Settings';
 import DetailsList from "../../components/athlete/DetailList";
 import MiniCalendar from "../../components/athlete/MiniCalendar";
-
 import {
     getAthleteSummary, getAthletePerformance, getAthleteRecent, getAthleteNextMatch, getAthleteCalendar,
     type PerfHighlight, type MatchInfo, type CalendarEvent
@@ -24,8 +20,9 @@ import { useUserContext } from "../../contexts/UserContext";
 import type { Athletes } from "../../types/athleteType";
 import HeaderHomeAthlete from "../../components/header/HeaderHomeAthlete";
 import { SwitchLightDarkMode } from "../../components/common";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import GroupsIcon from '@mui/icons-material/Groups';
+import { AccountBox } from "@mui/icons-material";
+
 export default function AthleteHomePage() {
     const theme = useTheme();
     const navigate = useNavigate();
@@ -267,7 +264,7 @@ export default function AthleteHomePage() {
                                 </Card>
 
                                 <Card
-                                    onClick={() => navigate("/team")}
+                                    onClick={() => navigate("/athlete/team")}
                                     sx={{
                                         borderRadius: 2,
                                         p: 3,
@@ -286,7 +283,7 @@ export default function AthleteHomePage() {
                                 </Card>
 
                                 <Card
-                                    onClick={() => navigate("/settings")}
+                                    onClick={() => navigate("/athlete/profile")}
                                     sx={{
                                         borderRadius: 2,
                                         p: 3,
@@ -299,8 +296,8 @@ export default function AthleteHomePage() {
                                     }}
                                 >
                                     <Stack direction="column" alignItems="center" spacing={1}>
-                                        <SettingsIcon fontSize="large" sx={{ color: "#2CAE4D" }} />
-                                        <Typography fontWeight={600}>Settings</Typography>
+                                        <AccountBox fontSize="large" sx={{ color: "#2CAE4D" }} />
+                                        <Typography fontWeight={600}>Profile</Typography>
                                     </Stack>
                                 </Card>
                             </Stack>

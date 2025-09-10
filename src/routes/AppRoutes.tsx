@@ -13,12 +13,14 @@ import PsychoFormPage from '../pages/athlete/psycho/PsychoFormPage'
 import PsychoAnswers from '../pages/coach/psycho/PsychoAnswers'
 import CoachProfileEdit from '../pages/coach/auth/CoachProfileEdit'
 import AthleteHomePage from '../pages/athlete/AthleteHomePage'
+import SessionsAthlete from '../pages/athlete/sessions/SessionsAthlete'
+import MyTeam from '../pages/athlete/team/MyTeam'
+import AthleteProfileEdit from '../pages/athlete/auth/AthleteProfileEdit'
 
 function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<MainPage />} />            
-
             {/*Coach Routes*/}
             <Route path="/coach-login" element={<LoginPageCoach />} />
             <Route path="/coach-register" element={<RegisterPageCoach />} />
@@ -33,6 +35,9 @@ function AppRoutes() {
             {/*Athlete Routes*/}
             <Route path="/athlete-login" element={<LoginPageAthlete />} />
             <Route path="/athlete-home" element={<AthleteHomePage />} />
+            <Route path="/athlete/sessions" element={<SessionsAthlete />} />
+            <Route path="/athlete/team" element={<MyTeam />} />
+            <Route path="/athlete/profile" element={<AthleteProfileEdit />} />
             <Route path="/signup" element={<InviteSignup />} />
             <Route path="/psycho-form/:token" element={<PsychoFormPage />} />
 

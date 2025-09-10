@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api } from "../../api/api";
 import { TopPerformer, TopPerformerDTO, TrainingStats } from "../../types/types";
 import { CoachProfileDTO } from "../../types/coachType";
 

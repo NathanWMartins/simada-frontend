@@ -5,9 +5,10 @@ import { useUserContext } from "../../contexts/UserContext";
 interface UserMenuProps {
     anchorEl: null | HTMLElement;
     onClose: () => void;
+    user: string;
 }
 
-const UserMenuHeader: React.FC<UserMenuProps> = ({ anchorEl, onClose }) => {
+const UserMenuHeader: React.FC<UserMenuProps> = ({ anchorEl, onClose, user }) => {
     const navigate = useNavigate();
     const { logout } = useUserContext();
     const open = Boolean(anchorEl);
@@ -16,10 +17,8 @@ const UserMenuHeader: React.FC<UserMenuProps> = ({ anchorEl, onClose }) => {
         onClose();
         switch (action) {
             case "profile":
-                navigate("/coach-profile");
-                break;
-            case "settings":
-                navigate("/settings");
+                if(user === "coach") navigate("/coach-profile");
+                else navigate("/athlete/profile");
                 break;
             case "logout":
                 logout();

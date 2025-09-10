@@ -74,7 +74,7 @@ function HeaderHomeCoach() {
               <ExpandMore />
             </IconButton>
 
-            <UserMenuHeader anchorEl={anchorEl} onClose={handleCloseMenu} />
+            <UserMenuHeader anchorEl={anchorEl} onClose={handleCloseMenu} user={"coach"} />
           </Box>
         </Toolbar>
       </AppBar>

@@ -1,4 +1,4 @@
-import { api } from "../../api";
+import { api } from "../../../api/api";
 import { SessionType, CoachSession } from "../../../types/sessionType";
 
 export interface NewSessionPayload {

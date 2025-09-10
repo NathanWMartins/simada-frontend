@@ -1,10 +1,9 @@
-import { AppBar, Avatar, Box, Button, IconButton, Toolbar } from '@mui/material';
+import { AppBar, Avatar, Box, IconButton, Toolbar } from '@mui/material';
 import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import LogoLight from '../../assets/LogoWiKoLight.png';
 import LogoDark from '../../assets/LogoWiKoDark.png';
 import { useLocation, useNavigate } from 'react-router-dom';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useUserContext } from '../../contexts/UserContext';
 import { ExpandMore } from '@mui/icons-material';
 import NavItemHeader from './NavItemHeader';
@@ -28,8 +27,8 @@ export default function HeaderHomeAthlete() {
 
   const navItems = [
     { label: "Home", path: "/athlete-home" },
-    { label: "My Sessions", path: "/coach-sessions" },
-    { label: "My Team", path: "/coach-athletes" },
+    { label: "My Sessions", path: "/athlete/sessions" },
+    { label: "My Team", path: "/athlete/team" },
     { label: "Support/Help", path: "/support" }
   ];
 
@@ -61,7 +60,7 @@ export default function HeaderHomeAthlete() {
               <ExpandMore />
             </IconButton>
 
-            <UserMenuHeader anchorEl={anchorEl} onClose={handleCloseMenu} />
+            <UserMenuHeader anchorEl={anchorEl} onClose={handleCloseMenu} user={"athlete"} />
           </Box>
         </Toolbar>
       </AppBar>

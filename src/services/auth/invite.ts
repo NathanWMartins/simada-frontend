@@ -1,4 +1,4 @@
-import { api } from "../api";
+import { api } from "../../api/api";
 
 export async function fetchInvite(token: string) {
   const { data } = await api.get(`/athletes/invitations/${token}`);

@@ -1,5 +1,5 @@
 import { Athletes } from "../../types/athleteType";
-import { api } from "../api";
+import { api } from "../../api/api";
 
 export type PerfHighlight = { points: number; rank: number };
 

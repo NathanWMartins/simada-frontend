@@ -6,7 +6,7 @@ import HeaderHomeCoach from "../../../components/header/HeaderHomeCoach";
 import { SwitchLightDarkMode } from "../../../components/common";
 import { useUserContext } from "../../../contexts/UserContext";
 import { getAthleteById, updateAthlete } from "../../../services/coach/athletes/coachAthletesService";
-import type { CoachAthletes, UpdateAthletePayload } from "../../../types/athleteType";
+import type { Athletes, UpdateAthletePayload } from "../../../types/athleteType";
 import AthleteForm from "../../../components/coach/athletesCoach/AthleteForm";
 
 export default function EditAthlete() {
@@ -15,7 +15,7 @@ export default function EditAthlete() {
     const { id } = useParams<{ id: string }>();
     const { user } = useUserContext();    
 
-    const [athlete, setAthlete] = useState<CoachAthletes | null>(null);
+    const [athlete, setAthlete] = useState< Athletes| null>(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [snack, setSnack] = useState<{ open: boolean; message: string; severity: "success" | "error" }>({

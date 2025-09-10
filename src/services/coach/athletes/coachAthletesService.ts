@@ -1,5 +1,5 @@
 import { api } from "../../api";
-import { AthleteDTO, CoachAthletes, UpdateAthletePayload } from "../../../types/athleteType";
+import { AthleteDTO, Athletes, UpdateAthletePayload } from "../../../types/athleteType";
 
 type GetAthletesParams = {
   q?: string;
@@ -10,7 +10,7 @@ type GetAthletesParams = {
 export async function getAthletes(
   userId: number,
   params: GetAthletesParams = {}
-): Promise<CoachAthletes[]> {
+): Promise<Athletes[]> {
   const limit = Math.max(1, params.limit ?? 50);
   const page = Math.max(1, params.page ?? 1);
   const offset = (page - 1) * limit;
@@ -27,8 +27,8 @@ export async function getAthletes(
   return data ?? [];
 }
 
-export async function getAthleteById(coachId: number, athleteId: number): Promise<CoachAthletes> {
-  const { data } = await api.get<CoachAthletes>(`/coach/${coachId}/athletes/${athleteId}`);
+export async function getAthleteById(coachId: number, athleteId: number): Promise<Athletes> {
+  const { data } = await api.get<Athletes>(`/coach/${coachId}/athletes/${athleteId}`);
   return data;
 }
 

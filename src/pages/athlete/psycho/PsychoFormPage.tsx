@@ -12,10 +12,10 @@ import {
     CircularProgress,
     useTheme,
 } from "@mui/material";
-import LogoLight from '../../assets/LogoWiKoLight.png';
-import LogoDark from '../../assets/LogoWiKoDark.png';
-import { SwitchLightDarkMode } from "../../components/common";
-import { submitPsyForm, validatePsyForm } from "../../services/coach/session/psychoEmocional/psyFormType";
+import LogoLight from '../../../assets/LogoWiKoLight.png';
+import LogoDark from '../../../assets/LogoWiKoDark.png';
+import { submitPsyForm, validatePsyForm } from "../../../services/coach/session/psychoEmocional/psyFormType";
+import { SwitchLightDarkMode } from "../../../components/common";
 
 type FormData = {
     srpe: string;

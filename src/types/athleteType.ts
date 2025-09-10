@@ -11,7 +11,7 @@ export interface AthleteExtraData {
   injury_status?: "Healthy" | "Injured" | "Rehab" | null;
 }
 
-export interface CoachAthletes {
+export interface Athletes {
   id: number;
   name: string;
   email?: string | null;

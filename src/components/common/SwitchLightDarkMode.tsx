@@ -4,7 +4,7 @@ import { useThemeMode } from '../../contexts/ThemeContext';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-function SwitchLightDarkMode() {
+export default function SwitchLightDarkMode() {
     const theme = useTheme();
     const { mode, toggleTheme } = useThemeMode();
     return (
@@ -16,10 +16,8 @@ function SwitchLightDarkMode() {
                     boxShadow: 4, '&:hover': { backgroundColor: mode === 'light' ? '#e0e0e0' : '#555', },
                 }}
             >
-                {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                {mode === 'light' ? <Brightness7Icon /> : <Brightness4Icon />}
             </Fab>
         </>
     )
 }
-
-export default SwitchLightDarkMode

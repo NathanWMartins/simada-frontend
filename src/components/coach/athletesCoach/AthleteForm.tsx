@@ -1,7 +1,7 @@
 import { Box, Button, MenuItem, TextField, InputAdornment, Divider, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
-import { AthletePosition, CoachAthletes, UpdateAthletePayload } from "../../../types/athleteType";
+import { AthletePosition, Athletes, UpdateAthletePayload } from "../../../types/athleteType";
 
 const POSITIONS: AthletePosition[] = ["Goalkeeper", "Defender", "Midfielder", "Forward"];
 const DOMINANT_FEET = ["Left", "Right", "Both"] as const;
@@ -16,7 +16,7 @@ const clampNN = (v: number | null) => (v != null && v < 0 ? 0 : v);
 const round1 = (v: number) => Math.round(v * 10) / 10;
 
 type Props = {
-    initial: CoachAthletes;
+    initial: Athletes;
     saving?: boolean;
     onCancel: () => void;
     onSubmit: (values: UpdateAthletePayload) => Promise<void> | void;

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { deleteAthlete, getAthletes } from "../services/coach/athletes/coachAthletesService";
-import type { CoachAthletes } from "../types/athleteType";
+import type { Athletes } from "../types/athleteType";
 
 export type PositionFilter = "All" | "Goalkeeper" | "Defender" | "Midfielder" | "Forward";
 export type InjuryFilter = "All" | "Healthy" | "Injured" | "Rehab";
@@ -11,7 +11,7 @@ export const STATUS: InjuryFilter[] = ["All", "Healthy", "Injured", "Rehab"];
 const norm = (s?: string | null) => (s ?? "").trim().toLowerCase();
 
 export function useAthletesList(coachId?: number) {
-    const [raw, setRaw] = useState<CoachAthletes[]>([]);
+    const [raw, setRaw] = useState<Athletes[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 

@@ -1,14 +1,14 @@
 import { Avatar, Box, IconButton, Skeleton, Tooltip, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { CoachAthletes } from "../../../types/athleteType";
+import { Athletes } from "../../../types/athleteType";
 import { useNavigate } from "react-router-dom";
 import ConfirmDeleteDialog from "../../dialog/ConfirmDelete";
 import { useState } from "react";
 import { SmartToy } from "@mui/icons-material";
 
 type Props = {
-    athlete?: CoachAthletes;
+    athlete?: Athletes;
     formatDate: (iso: string) => string;
     onDelete?: (id: number) => Promise<void> | void;
 };

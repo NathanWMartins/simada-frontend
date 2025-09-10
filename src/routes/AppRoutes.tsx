@@ -9,9 +9,10 @@ import MyAthletes from '../pages/coach/athlete/MyAthletes'
 import NewSession from '../pages/coach/session/NewSession'
 import EditAthlete from '../pages/coach/athlete/EditAthlete'
 import InviteSignup from '../pages/athlete/auth/InviteSignup'
-import PsychoFormPage from '../pages/athlete/PsychoFormPage'
+import PsychoFormPage from '../pages/athlete/psycho/PsychoFormPage'
 import PsychoAnswers from '../pages/coach/psycho/PsychoAnswers'
 import CoachProfileEdit from '../pages/coach/auth/CoachProfileEdit'
+import AthleteHomePage from '../pages/athlete/AthleteHomePage'
 
 function AppRoutes() {
     return (
@@ -31,6 +32,7 @@ function AppRoutes() {
 
             {/*Athlete Routes*/}
             <Route path="/athlete-login" element={<LoginPageAthlete />} />
+            <Route path="/athlete-home" element={<AthleteHomePage />} />
             <Route path="/signup" element={<InviteSignup />} />
             <Route path="/psycho-form/:token" element={<PsychoFormPage />} />
 

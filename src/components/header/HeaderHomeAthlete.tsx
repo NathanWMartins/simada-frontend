@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import LogoLight from '../../assets/LogoWiKoLight.png';
 import LogoDark from '../../assets/LogoWiKoDark.png';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useUserContext } from '../../contexts/UserContext';
 import { ExpandMore } from '@mui/icons-material';
 import NavItemHeader from './NavItemHeader';
@@ -13,7 +13,6 @@ export default function HeaderHomeAthlete() {
   const theme = useTheme();
   const logo = theme.palette.mode === 'dark' ? LogoDark : LogoLight;
   const location = useLocation();
-  const navigate = useNavigate();
   const { user } = useUserContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 

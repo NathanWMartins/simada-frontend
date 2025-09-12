@@ -16,6 +16,7 @@ import AthleteHomePage from '../pages/athlete/AthleteHomePage'
 import SessionsAthlete from '../pages/athlete/sessions/SessionsAthlete'
 import MyTeam from '../pages/athlete/team/MyTeam'
 import AthleteProfileEdit from '../pages/athlete/auth/AthleteProfileEdit'
+import RiskCalculationsCoach from '../pages/coach/athlete/RiskCalculations'
 
 function AppRoutes() {
     return (
@@ -30,6 +31,7 @@ function AppRoutes() {
             <Route path="/coach-new-session" element={<NewSession />} />
             <Route path="/coach-athletes" element={<MyAthletes />} />
             <Route path="/athletes/:id/edit" element={<EditAthlete />} />
+            <Route path="/coach/athletes/:athleteId/risk" element={<RiskCalculationsCoach />} />
             <Route path="/coach/psy-form/:id/answers" element={<PsychoAnswers />} />
 
             {/*Athlete Routes*/}

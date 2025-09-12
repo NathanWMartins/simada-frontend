@@ -2,7 +2,7 @@ export { default as FilterPopover } from './sessions/FilterPopover';
 export { default as Row } from './sessions/Row';
 export { default as SessionForm } from './sessions/SessionForm';
 export { default as Toolbar } from './sessions/Toolbar';
-export { default as AlertsPanel } from './homePageCoach/AlertsPanel';
+export { default as AlertsPanel } from './homePageCoach/PerformanceAlerts';
 export { default as PsychoemocionalAlerts } from './homePageCoach/PsychoemocionalAlerts';
 export { default as TopPerformerCard } from './homePageCoach/TopPerformerCard';
 export { default as AthleteFilterPopover } from './athletesCoach/AthleteFilterPopover';

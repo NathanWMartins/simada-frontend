@@ -4,8 +4,8 @@ import {
     Stack, Tooltip, ButtonBase
 } from "@mui/material";
 import PsychologyIcon from "@mui/icons-material/Psychology";
-import type { SxProps } from "@mui/system";
-import { getPsychoAlerts } from "../../../services/coach/alerts/alertsService";
+import { useTheme, type SxProps } from "@mui/system";
+import { getPsychoAlerts } from "../../../services/coach/alerts/psychoAlertsService";
 import type { PsychoAlert } from "../../../types/alertType";
 import { useUserContext } from "../../../contexts/UserContext";
 import PsychoAnswerDialog from "../../dialog/PsychoAnswerDialog";
@@ -33,6 +33,7 @@ export default function PsychoemocionalAlerts({ title = "Psychoemocional — Ale
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selected, setSelected] = useState<{ sessionId: number; athleteId: number } | null>(null);
     const { user } = useUserContext();
+    const theme = useTheme();
 
     const chipBaseSx = {
         borderRadius: 999,
@@ -58,7 +59,7 @@ export default function PsychoemocionalAlerts({ title = "Psychoemocional — Ale
     }, [user?.id]);
 
     return (
-        <Paper elevation={4} sx={{ p: { xs: 2, md: 2.5 }, borderRadius: 3, bgcolor: "background.default", ...sx }}>
+        <Paper elevation={4} sx={{ p: { xs: 2, md: 2.5 }, borderRadius: 3, bgcolor: theme.palette.background.default, ...sx }}>
             <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
                 <PsychologyIcon fontSize="small" />
                 <Typography variant="subtitle1" fontWeight={700}>{title}</Typography>

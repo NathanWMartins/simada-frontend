@@ -110,7 +110,7 @@ export default function MiniCalendar({ markers = [] as Marker[] }) {
                                     </Typography>
                                     {events.map((e, i) => (
                                         <Typography key={i} variant="caption" sx={{ display: "block" }}>
-                                            {e.type === "game" ? "🏟️ " : "🏋️ "} {e.label}
+                                            {e.label}
                                         </Typography>
                                     ))}
                                 </Box>

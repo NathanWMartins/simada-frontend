@@ -5,7 +5,7 @@ import { Athletes } from "../../../types/athleteType";
 import { useNavigate } from "react-router-dom";
 import ConfirmDeleteDialog from "../../dialog/ConfirmDelete";
 import { useState } from "react";
-import { SmartToy } from "@mui/icons-material";
+import { Calculate } from "@mui/icons-material";
 
 type Props = {
     athlete?: Athletes;
@@ -83,7 +83,7 @@ export default function AthleteRow({ athlete, formatDate, onDelete }: Props) {
                     <>
                         <Tooltip title="Analyze">
                             <IconButton size="small">
-                                <SmartToy fontSize="small" />
+                                <Calculate fontSize="small" onClick={() => navigate(`/coach/athletes/${a!.id}/risk`)}/>
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Edit">

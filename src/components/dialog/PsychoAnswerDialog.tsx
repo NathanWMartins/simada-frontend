@@ -6,7 +6,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import { PsyAnswerDTO } from "../../types/alertType";
-import { askPsyRecommendations, getPsychoAnswerByAthlete } from "../../services/coach/alerts/alertsService";
+import { askPsyRecommendations, getPsychoAnswerByAthlete } from "../../services/coach/alerts/psychoAlertsService";
 
 
 const colorPositive = (v?: number | null) =>
@@ -153,7 +153,7 @@ export default function PsychoAnswerDialog({ open, onClose, sessionId, athleteId
                                 disabled={recoLoading}
                                 sx={{color: "white"}}
                             >
-                                {recoLoading ? "Asking advice..." : "Ask AI advice"}
+                                {recoLoading ? "Asking recommendations..." : "Ask AI recomendations"}
                             </Button>
 
                             {recoError && <MuiAlert severity="error" variant="outlined" sx={{ flex: 1 }}>{recoError}</MuiAlert>}

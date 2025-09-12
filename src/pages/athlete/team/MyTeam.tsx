@@ -160,7 +160,7 @@ export default function MyTeam() {
                     )}
                     {!loading && !error && filtered.length === 0 && (
                         <Typography sx={{ mt: 3, textAlign: "center" }} color="text.secondary">
-                            Nenhum atleta encontrado.
+                            Any athlete founded.
                         </Typography>
                     )}
 

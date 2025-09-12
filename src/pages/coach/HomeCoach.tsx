@@ -7,9 +7,9 @@ import StarIcon from "@mui/icons-material/Star";
 import TopPerformerCard from "../../components/coach/homePageCoach/TopPerformerCard";
 import type { TrainingStats, TopPerformer } from "../../types/types";
 import { getCoachStats, getTopPerformers } from "../../services/coach/coachService";
-import AlertsPanel from "../../components/coach/homePageCoach/AlertsPanel";
 import { useUserContext } from "../../contexts/UserContext";
 import PsychoemocionalAlerts from "../../components/coach/homePageCoach/PsychoemocionalAlerts";
+import PerformanceAlerts from "../../components/coach/homePageCoach/PerformanceAlerts";
 
 export default function HomeCoach() {
     const theme = useTheme();
@@ -187,10 +187,9 @@ export default function HomeCoach() {
 
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 8, mt: 10 }}>
                     <Box sx={{ width: "100%" }}>
-                        <AlertsPanel days={7} limit={5} />
+                        <PerformanceAlerts sx={{ mt: 2 }} />
                     </Box>
 
-                    {/* Psicoemocional sempre ocupa 100% */}
                     <Box sx={{ width: "100%" }}>
                         <PsychoemocionalAlerts />
                     </Box>

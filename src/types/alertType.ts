@@ -1,55 +1,61 @@
-// TIPOS DE ALERTA
-export type AlertType = "PERFORMANCE" | "PSYCHO";
+//======   Performance   =====
+export type TLLabel =
+    | "indisponível"
+    | "baixo" | "ótimo" | "atenção" | "risco"
+    | "queda_forte" | "estável"
+    | "saudável" | "alto_risco"
+    ;
 
-/** ------------------------ DTOs (vindos do backend) ------------------------ **/
 
-// Base comum da tabela Alertas
-export interface AlertBaseDTO {
-    alert_id?: number;
-    alert_date: string;
-    alert_type: AlertType;
-    alert_message: string;
-    alert_status?: string | null;
-    suggested_action?: string | null;
+export interface TLAnswerDTO {
+    id: number;
+    athleteId: number;
+    athleteName?: string | null;
+    athleteEmail?: string | null;
+    athletePosition?: string | null;
+    athletePhoto?: string | null;
+    athleteNationality?: string | null;
 
-    athlete_name?: string;
-    athlete_photo?: string | null;
+    qwStart?: string | null; 
+    createdAt?: string | null;
+
+    acwr?: number | null;
+    monotony?: number | null;
+    strain?: number | null;
+    pctQwUp?: number | null;
+
+    acwrLabel?: TLLabel | null;
+    monotonyLabel?: TLLabel | null;
+    strainLabel?: TLLabel | null;
+    pctQwUpLabel?: TLLabel | null;
 }
 
-// Performance específico
-export interface PerformanceAlertDTO extends AlertBaseDTO {
-    alert_type: "PERFORMANCE";
-    prev_value?: number | string | null;
-    curr_value?: number | string | null;
-    percent?: number | string | null;
-    unit?: string | null;
+export interface TrainingLoadAlert {
+    id: number;
+    athleteId: number;
+    coachId: number;
+
+    acwr?: number | null;
+    monotony?: number | null;
+    strain?: number | null;
+    pctQwUp?: number | null;
+
+    acwrLabel?: TLLabel | null;
+    monotonyLabel?: TLLabel | null;
+    strainLabel?: TLLabel | null;
+    pctQwUpLabel?: TLLabel | null;
+
+    createdAt?: string | null;
+    qwStart?: string | null;
+
+    athleteName?: string | null;
+    athletePhoto?: string | null;
 }
 
-/** ------------------------ MODELOS de UI (front) ------------------------ **/
 
-export interface AlertBase {
-    id?: number;
-    date: string;
-    type: AlertType;
-    message: string;
-    status?: string | null;
-    action?: string | null;
 
-    athleteName: string;
-    athletePhoto?: string;
-}
-
-// Performance na UI
-export interface PerformanceAlert extends AlertBase {
-    type: "PERFORMANCE";
-    prevValue?: number | null;
-    currValue?: number | null;
-    percent?: number | null;
-    unit?: string | null;
-}
-
-// Psycho na UI
-export interface PsychoAlert extends AlertBase {
+//======   Psycho   ======
+export interface PsychoAlert {
     alertId: number;
     athleteId: number;
     sessionId: number;
@@ -82,7 +88,7 @@ export interface PsyAnswerDTO {
     token?: string | null;
 }
 
-export interface GetPsychoAnswersParams{
-  q?: string;         
-  position?: string;
+export interface GetPsychoAnswersParams {
+    q?: string;
+    position?: string;
 }

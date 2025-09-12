@@ -124,7 +124,7 @@ export default function AthleteHomePage() {
                                             {loading ? (
                                                 <Skeleton variant="circular" width={72} height={72} />
                                             ) : (
-                                                <Avatar src={profile?.avatarUrl || undefined} sx={{ width: 72, height: 72 }}>
+                                                <Avatar src={user?.userPhoto || undefined} sx={{ width: 72, height: 72 }}>
                                                     {profile?.name?.[0]?.toUpperCase()}
                                                 </Avatar>
                                             )}

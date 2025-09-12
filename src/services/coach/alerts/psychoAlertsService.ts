@@ -1,25 +1,10 @@
 import { api } from "../../../api/api";
 import type {
-  PerformanceAlert,
   PsyAnswerDTO,
   PsychoAlert,
 } from "../../../types/alertType";
 import { PsyRecoRequest, PsyRecoResponse } from "../../../types/recomendationsAI";
 
-/** ------------------------ SERVICES ------------------------ **/
-export async function getPerformanceAlerts(params: {
-  coachId: number;
-  days?: number;
-  limit?: number;
-}): Promise<PerformanceAlert[]> {
-  const { coachId, days = 7, limit = 10 } = params;
-
-  const { data } = await api.get<PerformanceAlert[]>("/coach/alerts", {
-    params: { coachId, days, limit, category: "PERFORMANCE" },
-  });
-
-  return data ?? [];
-}
 export async function getPsychoAlerts(params: { coachId: number; }): Promise<PsychoAlert[]> {
   const { coachId } = params;
   const { data } = await api.get<PsychoAlert[]>(`/alerts/psycho-risk/${coachId}`);

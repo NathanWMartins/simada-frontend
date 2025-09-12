@@ -7,6 +7,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import InsightsIcon from "@mui/icons-material/Insights";
 import type { TLAnswerDTO, TLLabel } from "../../types/alertType";
 import { askPerfRecommendations, getTrainingLoadAnswerByAthlete } from "../../services/coach/alerts/performanceAlertService";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 type Props = {
     open: boolean;
@@ -98,6 +100,271 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
             setRecoLoading(false);
         }
     };
+
+    const labelColorHex = (label?: string | null) => {
+        switch (label) {
+            case "risco":
+            case "alto_risco":
+            case "queda_forte":
+                return "#d32f2f";
+            case "atenção":
+                return "#ed6c02";
+            case "saudável":
+            case "ótimo":
+            case "baixo":
+                return "#2e7d32";
+            case "estável":
+                return "#0288d1";
+            default:
+                return "#6b7280";
+        }
+    };
+
+    const human = (label?: string | null) =>
+        (label ?? "—").replaceAll("_", " ").replace(/^./, c => c.toUpperCase());
+
+    const THRESHOLDS = [
+        {
+            metric: "ACWR", rules: [
+                { rule: "< 0.8", label: "baixo" },
+                { rule: "0.8 – 1.3", label: "ótimo" },
+                { rule: "1.31 – 1.5", label: "atenção" },
+                { rule: "> 1.5", label: "risco" },
+            ]
+        },
+        {
+            metric: "%↑ QW", rules: [
+                { rule: "< -10%", label: "queda_forte" },
+                { rule: "-10% – 10%", label: "estável" },
+                { rule: "10% – 20%", label: "atenção" },
+                { rule: "> 20%", label: "risco" },
+            ]
+        },
+        {
+            metric: "Monotony", rules: [
+                { rule: "< 1.0", label: "saudável" },
+                { rule: "1.0 – 2.0", label: "atenção" },
+                { rule: "> 2.0", label: "alto_risco" },
+            ]
+        },
+        {
+            metric: "Strain", rules: [
+                { rule: "< 6000", label: "baixo" },
+                { rule: "6000 – 8000", label: "atenção" },
+                { rule: "> 8000", label: "alto_risco" },
+            ]
+        },
+    ];
+
+    const handleExportPdf = () => {
+        if (!answer) return;
+
+        const doc = new jsPDF({ unit: "pt", format: "a4" });
+        const marginX = 48;
+        let y = 56;
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Training Load Report", marginX, y);
+        y += 10;
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+        doc.setTextColor("#6b7280");
+        doc.text(`Generated at ${new Date().toLocaleString()}`, marginX, y);
+        doc.setTextColor("#111827");
+        y += 24;
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(13);
+        doc.text(answer.athleteName ?? `Athlete #${athleteId}`, marginX, y);
+        y += 18;
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+        const line2 = [
+            answer.athleteEmail || "—",
+            answer.athletePosition || null,
+            answer.athleteNationality || null,
+        ].filter(Boolean).join(" • ");
+        doc.text(line2 || "—", marginX, y);
+
+        const rightCol = [
+            answer.qwStart ? `Week of ${new Date(answer.qwStart).toLocaleDateString()}` : null,
+            answer.createdAt ? `Created at ${datefmt(answer.createdAt)}` : null,
+        ].filter(Boolean);
+
+        const rightX = doc.internal.pageSize.getWidth() - marginX;
+        rightCol.forEach((txt, idx) => {
+            doc.text(txt!, rightX, 56 + 18 * (idx + 2), { align: "right" });
+        });
+
+        y += 20;
+
+        doc.setDrawColor("#e5e7eb");
+        doc.line(marginX, y, rightX, y);
+        y += 16;
+
+        const rows = [
+            ["ACWR", answer.acwr != null ? answer.acwr.toFixed(2) : "—", human(answer.acwrLabel)],
+            ["%↑ QW", answer.pctQwUp != null ? `${answer.pctQwUp.toFixed(1)}%` : "—", human(answer.pctQwUpLabel)],
+            ["Monotony", answer.monotony != null ? answer.monotony.toFixed(2) : "—", human(answer.monotonyLabel)],
+            ["Strain", answer.strain != null ? answer.strain.toFixed(2) : "—", human(answer.strainLabel)],
+        ];
+
+        autoTable(doc, {
+            startY: y,
+            head: [["Metric", "Value", "Label"]],
+            body: rows,
+            styles: { font: "helvetica", fontSize: 11, cellPadding: 6 },
+            headStyles: { fillColor: [23, 162, 74], textColor: 255 },
+            columnStyles: {
+                0: { cellWidth: 140 },
+                1: { cellWidth: 140 },
+                2: { cellWidth: "auto" },
+            },
+            didParseCell: (data: any) => {
+                if (data.section === "body" && data.column.index === 2) {
+                    const lbl = String(data.cell.raw || "");
+                    const hex = labelColorHex(lbl.toLowerCase().replaceAll(" ", "_"));
+                    data.cell.styles.textColor = hex as any;
+                    data.cell.styles.fontStyle = "bold";
+                }
+            }
+        });
+
+        y = (doc as any).lastAutoTable.finalY + 24;
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(12);
+        doc.text("Legend (thresholds per metric)", marginX, y);
+        y += 12;
+
+        const pageW = doc.internal.pageSize.getWidth();
+        const pageH = doc.internal.pageSize.getHeight();
+        const gutter = 24;
+        const colW = (rightX - marginX - gutter) / 2;
+        const bottom = pageH - 64;
+
+        let yLeft = y;
+        let yRight = y;
+
+        const half = Math.ceil(THRESHOLDS.length / 2);
+        const leftGroups = THRESHOLDS.slice(0, half);
+        const rightGroups = THRESHOLDS.slice(half);
+
+        const drawGroup = (x: number, yStart: number, group: any) => {
+            let yCursor = yStart;
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(11);
+            doc.text(group.metric, x, yCursor);
+            yCursor += 14;
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+
+            group.rules.forEach((r: any) => {
+                const color = labelColorHex(r.label);
+                doc.setFillColor(color as any);
+                // bolinha colorida
+                doc.circle(x + 4, yCursor - 4, 3, "F");
+                doc.setTextColor("#111827");
+                doc.text(`${r.rule} — ${human(r.label)}`, x + 16, yCursor);
+                yCursor += 14;
+            });
+
+            yCursor += 6;
+            return yCursor;
+        };
+
+        for (const g of leftGroups) {
+            if (yLeft > bottom) { doc.addPage(); yLeft = 56; yRight = 56; }
+            yLeft = drawGroup(marginX, yLeft, g);
+        }
+
+        for (const g of rightGroups) {
+            if (yRight > bottom) { doc.addPage(); yLeft = 56; yRight = 56; }
+            yRight = drawGroup(marginX + colW + gutter, yRight, g);
+        }
+
+        y = Math.max(yLeft, yRight);
+
+        if (recoText) {
+            y += 6;
+            doc.setDrawColor("#e5e7eb");
+            doc.line(marginX, y, rightX, y);
+            y += 16;
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(10);
+            doc.text("AI Recommendations", marginX, y);
+            y += 12;
+
+            const safeReco = sanitizeRecoText(recoText);
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(11);
+
+            const textWidth = rightX - marginX;
+            const splitted = doc.splitTextToSize(safeReco, textWidth);
+            doc.text(splitted, marginX, y);
+            y += (splitted.length * 14);
+        }
+
+        const pageH2 = doc.internal.pageSize.getHeight();
+        doc.setFontSize(9);
+        doc.setTextColor("#6b7280");
+        doc.text("WIKO — Performance Report", marginX, pageH2 - 28);
+        doc.text(String(new Date().toLocaleDateString()), rightX, pageH2 - 28, { align: "right" });
+
+        const safeName = (answer.athleteName || `athlete_${athleteId}`)
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase();
+
+        doc.save(`report_athlete_${safeName}.pdf`);
+    };
+
+    function sanitizeRecoText(input: string): string {
+        if (!input) return "";
+        let decoded = input;
+        try {
+            const doc = new DOMParser().parseFromString(input, "text/html");
+            decoded = doc.documentElement.textContent || input;
+        } catch {
+            decoded = input
+                .replace(/&nbsp;/gi, " ")
+                .replace(/&amp;/gi, "&")
+                .replace(/&lt;/gi, "<")
+                .replace(/&gt;/gi, ">");
+        }
+
+        decoded = decoded
+            .replace(/#{1,6}\s*/g, "")
+            .replace(/\*\*(.*?)\*\*/g, "$1")
+            .replace(/__(.*?)__/g, "$1")
+            .replace(/^\s*-\s+/gm, "• ")
+            .replace(/^\s*\*\s+/gm, "• ");
+
+        decoded = decoded.replace(
+            /[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,
+            ""
+        );
+
+        decoded = decoded
+            .replace(/[\u2028\u2029\u200B\u200C\u200D\uFEFF]/g, "")
+            .replace(/[^ -~\n\r\t\u00C0-\u017F]+/g, "");
+
+        decoded = decoded.replace(/\s+\n/g, "\n").replace(/\n\s+/g, "\n");
+
+        decoded = decoded
+            .replace(/\u00A0/g, " ")
+            .replace(/\r\n/g, "\n")
+            .replace(/\r/g, "\n")
+            .replace(/[ \t]+\n/g, "\n")
+            .replace(/[ \t]{2,}/g, " ");
+
+        return decoded.trim();
+    }
 
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
@@ -204,15 +471,18 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
                                 {recoLoading ? "Asking recommendations..." : "Ask AI recommendations"}
                             </Button>
 
-                            {/* Se quiser chamar outro Dialog (psicoAlertDialog), ele seria aberto aqui */}
-                            {/* TODO: abrir psicoAlertDialog ou um dialog de performance detalhado com séries históricas */}
                             {recoError && <MuiAlert severity="error" variant="outlined" sx={{ flex: 1 }}>{recoError}</MuiAlert>}
                         </Stack>
-
                         {recoText && (
-                            <Box sx={{ mt: 2, p: 2, bgcolor: "background.paper", borderRadius: 2, border: theme => `1px solid ${theme.palette.divider}` }}>
+                            <Box sx={{ mt: 2, p: 2, bgcolor: "background.paper", borderRadius: 2, border: t => `1px solid ${t.palette.divider}` }}>
                                 <Typography variant="subtitle2" gutterBottom>Recommendations</Typography>
-                                <Typography variant="body2" whiteSpace="pre-wrap">{recoText}</Typography>
+                                <Typography variant="body2" whiteSpace="pre-wrap" sx={{ mb: 2 }}>
+                                    {recoText}
+                                </Typography>
+
+                                <Button variant="outlined" color="primary" onClick={handleExportPdf}>
+                                    Exportar Relatório (PDF)
+                                </Button>
                             </Box>
                         )}
                     </>

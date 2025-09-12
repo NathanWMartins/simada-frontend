@@ -20,6 +20,8 @@
     "axios": "^1.11.0",
     "dayjs": "^1.11.18",
     "firebase": "^12.1.0",
+    "jspdf": "^3.0.2",
+    "jspdf-autotable": "^5.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^6.30.1",

@@ -3,7 +3,7 @@ import type {
   PsyAnswerDTO,
   PsychoAlert,
 } from "../../../types/alertType";
-import { PsyRecoRequest, PsyRecoResponse } from "../../../types/recomendationsAI";
+import { PsyRecoRequest, AIRecoResponse } from "../../../types/recomendationsAI";
 
 export async function getPsychoAlerts(params: { coachId: number; }): Promise<PsychoAlert[]> {
   const { coachId } = params;
@@ -25,9 +25,9 @@ export async function getPsychoAnswerByAthlete(
   return item;
 }
 
-export async function askPsyRecommendations(payload: PsyRecoRequest): Promise<PsyRecoResponse> {
+export async function askPsyRecommendations(payload: PsyRecoRequest): Promise<AIRecoResponse> {
   const { sessionId, athleteId, ...metrics } = payload;
-  const { data } = await api.post<PsyRecoResponse>(
+  const { data } = await api.post<AIRecoResponse>(
     `/coach/psy-form/${sessionId}/athletes/${athleteId}/recommendations`,
     metrics
   );

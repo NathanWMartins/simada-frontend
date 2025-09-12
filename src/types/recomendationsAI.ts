@@ -8,6 +8,15 @@ export interface PsyRecoRequest {
     energy: number;
 }
 
-export interface PsyRecoResponse{
+export interface AIRecoResponse{
     recommendations: string; 
+}
+
+export interface PerformanceRecoRequest {
+    sessionId: number;
+    athleteId: number;
+    acwr: number;
+    monotony: number;
+    strain: number;
+    pctQwUp: number;
 }

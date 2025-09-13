@@ -1,52 +1,108 @@
 import { api } from "../../../api/api";
 
-export type RiskMetricKey = "acwr" | "monotony" | "strain";
 
-export interface RiskPoint {
-    date: string;             // ISO
+// métricas disponíveis no back (lowercase)
+export type RiskMetricKey = "ca" | "cc" | "pctqwup" | "acwr" | "monotony" | "strain";
+
+export type WeeklyLoadRowDTO = {
+    athleteId: number;
+    qwStart: string;          // ISO date (yyyy-MM-dd)
+    ca?: number | null;
+    cc?: number | null;
+
+    acwr?: number | null;
+    acwrLabel?: string | null;
+
+    pctQwUp?: number | null;
+    pctQwUpLabel?: string | null;
+
+    monotony?: number | null;
+    monotonyLabel?: string | null;
+
+    strain?: number | null;
+    strainLabel?: string | null;
+
+    daysWithLoad?: number | null;
+    warnings?: string[];      // e.g. ["monotony_strain_unavailable"]
+};
+
+export type WeeklyLoadResponseDTO = {
+    ccMethod: string;         // "sma4_qw"
+    rows: WeeklyLoadRowDTO[];
+};
+
+export type AthleteRiskPoint = {
+    date: string;             // ISO date (qwStart)
+    ca?: number | null;
+    cc?: number | null;
+    pctqwup?: number | null;
     acwr?: number | null;
     monotony?: number | null;
-    strain?: number | null;   // "tension" no back -> mapeado aqui
+    strain?: number | null;
+
+    // labels (se vierem do back)
+    acwrLabel?: string | null;
+    pctqwupLabel?: string | null;
+    monotonyLabel?: string | null;
+    strainLabel?: string | null;
+
+    warnings?: string[];
+};
+
+function buildMetricsParam(metrics: RiskMetricKey[] | undefined): string | undefined {
+    if (!metrics || metrics.length === 0) return undefined;
+    // backend espera lower-case, separado por vírgula
+    return metrics.map(m => m.toLowerCase()).join(",");
 }
 
-export interface RiskSeriesResponse {
-    athleteId: number;
-    points: RiskPoint[];
-}
-
-function normalizePoint(p: any): RiskPoint {
-    return {
-        date: p?.date ?? p?.weekStart ?? p?.day ?? p?.when ?? "",
-        acwr: typeof p?.acwr === "number" ? p.acwr : (typeof p?.ACWR === "number" ? p.ACWR : null),
-        // mapeia "monotony", "monotonia", "mono", "Mono"
-        monotony:
-            typeof p?.monotony === "number" ? p.monotony :
-                typeof p?.monotonia === "number" ? p.monotonia :
-                    typeof p?.mono === "number" ? p.mono :
-                        typeof p?.Mono === "number" ? p.Mono : null,
-        // "strain" ~ "tension"
-        strain:
-            typeof p?.strain === "number" ? p.strain :
-                typeof p?.tension === "number" ? p.tension :
-                    typeof p?.Strain === "number" ? p.Strain : null,
-    };
-}
-
-export async function getAthleteRiskSeries(
+/**
+ * GET /coach/athletes/{athleteId}/risk-calculations?from=YYYY-MM-DD&to=YYYY-MM-DD&metrics=acwr,monotony
+ */
+export async function fetchAthleteRisk(
     athleteId: number,
-    fromMonth: string,          // "YYYY-MM"
-    toMonth: string,            // "YYYY-MM"
-    metrics: RiskMetricKey[]
-): Promise<RiskSeriesResponse> {
-    const params = new URLSearchParams();
-    params.set("from", fromMonth);
-    params.set("to", toMonth);
-    if (metrics.length > 0) params.set("metrics", metrics.join(","));
+    from: string | undefined,
+    to: string | undefined,
+    metrics: RiskMetricKey[] | undefined
+): Promise<AthleteRiskPoint[]> {
+    if (!athleteId || !from || !to) return [];
 
-    const { data } = await api.get(`/coach/athletes/${athleteId}/risk-calculations?${params.toString()}`);
+    const params: any = { from, to };
+    const metricsParam = buildMetricsParam(metrics);
+    if (metricsParam) params.metrics = metricsParam;
 
-    const arr: any[] = Array.isArray(data?.points) ? data.points : (Array.isArray(data) ? data : []);
-    const points = arr.map(normalizePoint);
+    const { data } = await api.get<WeeklyLoadResponseDTO>(
+        `/coach/athletes/${athleteId}/risk-calculations`,
+        { params }
+    );
 
-    return { athleteId, points };
+    const points: AthleteRiskPoint[] = (data?.rows ?? []).map((r: WeeklyLoadRowDTO) => ({
+        date: r.qwStart,
+        ca: r.ca ?? null,
+        cc: r.cc ?? null,
+        pctqwup: r.pctQwUp ?? null,
+        acwr: r.acwr ?? null,
+        monotony: r.monotony ?? null,
+        strain: r.strain ?? null,
+        acwrLabel: r.acwrLabel ?? null,
+        pctqwupLabel: r.pctQwUpLabel ?? null,
+        monotonyLabel: r.monotonyLabel ?? null,
+        strainLabel: r.strainLabel ?? null,
+        warnings: r.warnings ?? [],
+    }));
+
+
+    return points;
+}
+
+export function mapRiskError(e: any): string {
+    const msg = e?.response?.data?.message ?? e?.message ?? "Unknown error.";
+    const code = e?.response?.data?.code ?? e?.response?.data?.error;
+    const ctx = e?.response?.data;
+
+    if (code === "INSUFFICIENT_HISTORY" || ctx?.errorCode === "INSUFFICIENT_HISTORY") {
+        const need = ctx?.required ?? ctx?.requiredCount ?? 4;
+        const have = ctx?.have ?? ctx?.currentCount ?? 0;
+        return `Insufficient history for ACWR (SMA-4). Need at least ${need} previous quad-weeks, found ${have}. Try widening the date range or deselecting ACWR.`;
+    }
+    return msg;
 }

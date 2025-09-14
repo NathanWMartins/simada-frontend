@@ -63,21 +63,33 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
                 setLoading(true);
                 setError(null);
                 setRecoText(null);
+
                 const data = await getTrainingLoadAnswerByAthlete(athleteId);
+
+                // Se o back retornar null/undefined, mostramos “Any info.” (sem erro)
                 if (!data) {
-                    setError("Error.");
                     setAnswer(null);
-                } else {
-                    setAnswer(data);
+                    setError(null);
+                    return;
                 }
+
+                setAnswer(data);
             } catch (e: any) {
-                setError(e?.response?.data?.message ?? "Falha ao carregar os dados de performance.");
-                setAnswer(null);
+                // Se o back responder 404/204, também tratamos como "sem dados"
+                const status = e?.response?.status;
+                if (status === 404 || status === 204) {
+                    setAnswer(null);
+                    setError(null);
+                } else {
+                    setAnswer(null);
+                    setError(e?.response?.data?.message ?? "Falha ao carregar os dados de performance.");
+                }
             } finally {
                 setLoading(false);
             }
         })();
     }, [open, sessionId, athleteId]);
+
 
     const handleAskReco = async () => {
         if (!answer) return;
@@ -386,24 +398,30 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
                     <MuiAlert severity="error" variant="outlined">{error}</MuiAlert>
                 ) : !answer ? (
                     <Typography color="text.secondary" sx={{ textAlign: "center", py: 4 }}>
-                        Any info.
+                        Feel in athlete details in "My Athletes" page first.
                     </Typography>
                 ) : (
                     <>
                         {/* Header do atleta */}
                         <Stack direction={{ xs: "column", md: "row" }} spacing={2} alignItems={{ xs: "flex-start", md: "center" }}>
                             <Stack direction="row" spacing={1.5} alignItems="center">
-                                <Avatar src={answer.athletePhoto || undefined} alt={answer.athleteName || ""} sx={{ width: 56, height: 56 }}>
-                                    {answer.athleteName?.[0]?.toUpperCase?.()}
+                                <Avatar
+                                    src={answer.athletePhoto || undefined}
+                                    alt={answer.athleteName || ""}
+                                    sx={{ width: 56, height: 56 }}
+                                >
+                                    {(answer.athleteName ?? "").trim().charAt(0).toUpperCase() || undefined}
                                 </Avatar>
                                 <Box>
                                     <Typography variant="h6" fontWeight={800} sx={{ lineHeight: 1.1 }}>
                                         {answer.athleteName}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
-                                        {answer.athleteEmail}
-                                        {answer.athletePosition ? ` • ${answer.athletePosition}` : ""}
-                                        {answer.athleteNationality ? ` • ${answer.athleteNationality}` : ""}
+                                        {[
+                                            answer.athleteEmail || "—",
+                                            answer.athletePosition || undefined,
+                                            answer.athleteNationality || undefined,
+                                        ].filter(Boolean).join(" • ")}
                                     </Typography>
                                 </Box>
                             </Stack>
@@ -481,7 +499,7 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
                                 </Typography>
 
                                 <Button variant="outlined" color="primary" onClick={handleExportPdf}>
-                                    Exportar Relatório (PDF)
+                                    Export Report (PDF)
                                 </Button>
                             </Box>
                         )}

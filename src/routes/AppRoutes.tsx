@@ -17,11 +17,12 @@ import SessionsAthlete from '../pages/athlete/sessions/SessionsAthlete'
 import MyTeam from '../pages/athlete/team/MyTeam'
 import AthleteProfileEdit from '../pages/athlete/auth/AthleteProfileEdit'
 import RiskCalculationsCoach from '../pages/coach/athlete/RiskCalculations'
+import SessionMetricsPageWrapper from '../pages/coach/session/SessionMetricsPageWrapper'
 
 function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<MainPage />} />            
+            <Route path="/" element={<MainPage />} />
             {/*Coach Routes*/}
             <Route path="/coach-login" element={<LoginPageCoach />} />
             <Route path="/coach-register" element={<RegisterPageCoach />} />
@@ -33,7 +34,10 @@ function AppRoutes() {
             <Route path="/athletes/:id/edit" element={<EditAthlete />} />
             <Route path="/coach/athletes/:athleteId/risk" element={<RiskCalculationsCoach />} />
             <Route path="/coach/psy-form/:id/answers" element={<PsychoAnswers />} />
-
+            <Route
+                path="/coach/sessions/:sessionId"
+                element={<SessionMetricsPageWrapper />}
+            />
             {/*Athlete Routes*/}
             <Route path="/athlete-login" element={<LoginPageAthlete />} />
             <Route path="/athlete-home" element={<AthleteHomePage />} />

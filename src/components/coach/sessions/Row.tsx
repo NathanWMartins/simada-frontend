@@ -44,7 +44,7 @@ export default function SessionRow({
 
     const handleView = () => {
         if (s.has_metrics) {
-            navigate(`/sessions/${s.id}/metrics`);
+            navigate(`/coach/sessions/${s.id}`);
         } else {
             if (onNoMetrics) onNoMetrics(s);
             else alert("This session don't have imported metrics.");
@@ -124,7 +124,7 @@ export default function SessionRow({
                     </Tooltip>
 
                     <Tooltip title="View">
-                        <IconButton size="small" onClick={handleView}>
+                        <IconButton size="small" onClick={handleView} >
                             <VisibilityIcon fontSize="small" />
                         </IconButton>
                     </Tooltip>

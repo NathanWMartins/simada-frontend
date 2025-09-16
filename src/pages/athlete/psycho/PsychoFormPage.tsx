@@ -133,7 +133,7 @@ export default function PsychoFormPage() {
                 <Box
                     component="img"
                     src={logo}
-                    alt="SIMADA Logo"
+                    alt="WIKO Logo"
                     sx={{
                         height: 30, mb: 3, display: "block", mx: "auto"
                     }}

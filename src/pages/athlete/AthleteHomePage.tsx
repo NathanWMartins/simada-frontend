@@ -101,7 +101,7 @@ export default function AthleteHomePage() {
                                 {new Date().toLocaleDateString(undefined, { weekday: "short", day: "2-digit", month: "long", year: "numeric" })}
                             </Typography>
                             <Typography variant="h6" fontWeight={800}>
-                                Hello, {profile?.name?.split(" ")[0] ?? (loading ? "…" : "Athlete")}
+                                Hello, {profile?.name ?? (loading ? "…" : "Athlete")}
                             </Typography>
                         </Box>
                     </Paper>
@@ -201,7 +201,7 @@ export default function AthleteHomePage() {
                                                     size="small"
                                                     startIcon={<PlayCircleOutlineIcon />}
                                                     sx={{ borderRadius: 1.5, px: 1.5, backgroundColor: "#2CAE4D", "&:hover": { backgroundColor: "#17a24a" } }}
-                                                    onClick={() => navigate("/athlete/session/last")}
+                                                    onClick={() => navigate(`/sessions/${recent?.id}/metrics?athlete=${user?.id}`)}
                                                     disabled={!recent}
                                                 >
                                                     Visualize

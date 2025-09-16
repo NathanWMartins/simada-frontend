@@ -4,6 +4,7 @@ import { api } from "../../api/api";
 export type PerfHighlight = { points: number; rank: number };
 
 export type MatchInfo = {
+    id: string;
     dateISO: string;
     title: string;
     subtitle?: string;

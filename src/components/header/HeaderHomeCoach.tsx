@@ -43,7 +43,7 @@ function HeaderHomeCoach() {
         elevation={1}
       >
         <Toolbar>
-          <Box component="img" src={logo} alt="SIMADA Logo"
+          <Box component="img" src={logo} alt="WIKO Logo"
             sx={{ height: 30, ml: 1, mr: 'auto' }}
           />
           {navItems.map((item) => {

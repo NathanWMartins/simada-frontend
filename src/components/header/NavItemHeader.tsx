@@ -4,13 +4,22 @@ import { useNavigate } from "react-router-dom";
 
 interface NavItemProps {
   label: string;
-  path: string;
+  path?: string;
+  onClick?: () => void;
   isActive: boolean;
 }
 
-const NavItemHeader: React.FC<NavItemProps> = ({ label, path, isActive }) => {
+const NavItemHeader: React.FC<NavItemProps> = ({ label, path, onClick, isActive }) => {
   const theme = useTheme();
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else if (path) {
+      navigate(path);
+    }
+  };
 
   return (
     <Typography
@@ -26,24 +35,24 @@ const NavItemHeader: React.FC<NavItemProps> = ({ label, path, isActive }) => {
         position: "relative",
         "&::after": isActive
           ? {
-              content: '""',
-              position: "absolute",
-              bottom: 0,
-              left: "32%",
-              transform: "translateX(-50%)",
-              height: "3px",
-              width: "70%",
-              background:
-                theme.palette.mode === "dark"
-                  ? "linear-gradient(to right, #2CAE4D, #fefefe)"
-                  : "linear-gradient(to right, #2CAE4D, #000000)",
-              borderRadius: "2px",
-            }
+            content: '""',
+            position: "absolute",
+            bottom: 0,
+            left: "32%",
+            transform: "translateX(-50%)",
+            height: "3px",
+            width: "70%",
+            background:
+              theme.palette.mode === "dark"
+                ? "linear-gradient(to right, #2CAE4D, #fefefe)"
+                : "linear-gradient(to right, #2CAE4D, #000000)",
+            borderRadius: "2px",
+          }
           : {},
         transition: "0.3s",
         "&:hover": { color: theme.palette.text.primary },
       }}
-      onClick={() => navigate(path)}
+      onClick={handleClick}
     >
       {label}
     </Typography>

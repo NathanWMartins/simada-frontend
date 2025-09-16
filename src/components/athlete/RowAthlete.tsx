@@ -3,6 +3,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import InfoIcon from "@mui/icons-material/Info";
 import { AthleteSession } from "../../services/athlete/sessionsService";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../../contexts/UserContext";
 
 type Props = {
     s: AthleteSession;
@@ -14,10 +15,13 @@ type Props = {
 
 export default function AthleteSessionRow({ s, formatDate, onInfo, onOpenMetrics, onNoMetrics }: Props) {
     const navigate = useNavigate();
+    const {user} = useUserContext();
+
+    if(!user) return null;
 
     const handleView = () => {
         if (s.has_metrics) {
-            navigate(`/sessions/${s.id}/metrics`);
+            navigate(`/sessions/${s.id}/metrics?athlete=${user.id}`);
         } else {
             if (onNoMetrics) onNoMetrics(s);
             else alert("This session don't have imported metrics.");

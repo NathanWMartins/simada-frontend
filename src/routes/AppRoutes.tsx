@@ -18,6 +18,7 @@ import MyTeam from '../pages/athlete/team/MyTeam'
 import AthleteProfileEdit from '../pages/athlete/auth/AthleteProfileEdit'
 import RiskCalculationsCoach from '../pages/coach/athlete/RiskCalculations'
 import SessionMetricsPageWrapper from '../pages/coach/session/SessionMetricsPageWrapper'
+import SessionAthleteMetricsPage from '../pages/athlete/sessions/SessionAthletePage'
 
 function AppRoutes() {
     return (
@@ -38,6 +39,7 @@ function AppRoutes() {
                 path="/coach/sessions/:sessionId"
                 element={<SessionMetricsPageWrapper />}
             />
+
             {/*Athlete Routes*/}
             <Route path="/athlete-login" element={<LoginPageAthlete />} />
             <Route path="/athlete-home" element={<AthleteHomePage />} />
@@ -46,6 +48,7 @@ function AppRoutes() {
             <Route path="/athlete/profile" element={<AthleteProfileEdit />} />
             <Route path="/signup" element={<InviteSignup />} />
             <Route path="/psycho-form/:token" element={<PsychoFormPage />} />
+            <Route path="/sessions/:id/metrics" element={<SessionAthleteMetricsPage/>}/>
 
         </Routes>
     )

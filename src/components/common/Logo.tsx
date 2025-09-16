@@ -6,7 +6,7 @@ const Logo = () => {
     const theme = useTheme();
     const logo = theme.palette.mode === 'dark' ? LogoDark : LogoLight;
 
-    return <Box component="img" src={logo} alt="SIMADA Logo" sx={{ height: 30}} />;
+    return <Box component="img" src={logo} alt="WIKO Logo" sx={{ height: 30}} />;
 };
 
 export default Logo;

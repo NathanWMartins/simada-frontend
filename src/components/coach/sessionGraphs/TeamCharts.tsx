@@ -22,7 +22,7 @@ export const TeamCharts: React.FC<{ data: TeamChartsType }> = ({ data }) => {
                     title="Total Distance per Athlete (km)"
                     info="Total distance covered by each athlete in this session. Use it to spot workload outliers and how volume is distributed across the squad."
                 >
-                    <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <Box sx={{ width: "100%", overflowX: "auto", overflowY: "hidden"}}>
                         <Box sx={{ minWidth: 1000 }}>
                             <ResponsiveContainer width="100%" height={270}>
                                 <BarChart data={data.distanceByAthlete} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
@@ -53,7 +53,7 @@ export const TeamCharts: React.FC<{ data: TeamChartsType }> = ({ data }) => {
                     title="Sprints per Athlete"
                     info="Number of sprint efforts per athlete. Higher values indicate more high-intensity bouts and neuromuscular load."
                 >
-                    <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <Box sx={{ width: "100%", overflowX: "auto", overflowY: "hidden"}}>
                         <Box sx={{ minWidth: 1000 }}>
                             <ResponsiveContainer width="100%" height={270}>
                                 <BarChart data={data.sprintsByAthlete} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
@@ -87,7 +87,7 @@ export const TeamCharts: React.FC<{ data: TeamChartsType }> = ({ data }) => {
                     title="HSR per Athlete"
                     info="High-Speed Running (HSR) volume per athlete (distance above the HSR threshold defined in your backend). Good proxy for metabolic stress."
                 >
-                    <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <Box sx={{ width: "100%", overflowX: "auto",overflowY: "hidden"}}>
                         <Box sx={{ minWidth: 1000 }}>
                             <ResponsiveContainer width="100%" height={280}>
                                 <BarChart data={data.hsrByAthlete} barCategoryGap="20%">
@@ -118,7 +118,7 @@ export const TeamCharts: React.FC<{ data: TeamChartsType }> = ({ data }) => {
                     title="Explosive Accelerations by Athlete"
                     info="Count of explosive accelerations per athlete. Useful to monitor mechanical load and change-of-pace demands."
                 >
-                    <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <Box sx={{ width: "100%", overflowX: "auto", overflowY: "hidden"}}>
                         <Box sx={{ minWidth: 1000 }}>
                             <ResponsiveContainer width="100%" height={260}>
                                 <LineChart data={data.accByAthlete} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
@@ -152,9 +152,9 @@ export const TeamCharts: React.FC<{ data: TeamChartsType }> = ({ data }) => {
                     title="Avg Speed per Athlete (km/h)"
                     info="Average speed achieved by each athlete during the session. Compare pacing profiles across the team."
                 >
-                    <Box sx={{ width: "100%", overflowX: "auto" }}>
-                        <Box sx={{ minWidth: 1000 }}>
-                            <ResponsiveContainer width="100%" height={260}>
+                    <Box sx={{ width: "100%", overflowX: "auto", overflowY: "hidden" }}>
+                        <Box sx={{ minWidth: 900 }}>
+                            <ResponsiveContainer width="100%" height={300}>
                                 <BarChart data={data.avgSpeedByAthlete} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey="athlete" interval={0} tick={{ fontSize: 12 }} tickMargin={10} />
@@ -183,7 +183,7 @@ export const TeamCharts: React.FC<{ data: TeamChartsType }> = ({ data }) => {
                     title="Max Speed per Athlete (km/h)"
                     info="Peak speed each athlete reached. Helpful to track speed exposure and readiness for high-velocity demands."
                 >
-                    <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <Box sx={{ width: "100%", overflowX: "auto", overflowY: "hidden"}}>
                         <Box sx={{ minWidth: 1000 }}>
                             <ResponsiveContainer width="100%" height={260}>
                                 <BarChart data={data.maxSpeedByAthlete}>
@@ -217,7 +217,7 @@ export const TeamCharts: React.FC<{ data: TeamChartsType }> = ({ data }) => {
                     title="Velocity Zones per Athlete (stacked)"
                     info="Distribution of distance by velocity ranges (VR1–VR6) for each athlete. Taller stacks indicate more total volume; darker greens represent faster ranges."
                 >
-                    <Box sx={{ width: "100%", overflowX: "auto" }}>
+                    <Box sx={{ width: "100%", overflowX: "auto", overflowY: "hidden"}}>
                         <Box sx={{ minWidth: 900 }}>
                             <ResponsiveContainer width="100%" height={300}>
                                 <BarChart data={data.velocityZonesByAthlete} barGap={2}>

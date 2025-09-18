@@ -27,8 +27,6 @@ const SupportHelpDialog: React.FC<Props> = ({ open, onClose, supportEmail, appNa
         }
     };
 
-    const mailto = `mailto:${supportEmail}?subject=${encodeURIComponent(`[${appName}] Support request`)}`;
-
     return (
         <>
             <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -81,9 +79,6 @@ const SupportHelpDialog: React.FC<Props> = ({ open, onClose, supportEmail, appNa
 
                 <DialogActions>
                     <Button onClick={onClose} color="inherit">Close</Button>
-                    <Button variant="contained" startIcon={<MailOutlineIcon />} component="a" href={mailto}>
-                        Send Email
-                    </Button>
                 </DialogActions>
             </Dialog>
 

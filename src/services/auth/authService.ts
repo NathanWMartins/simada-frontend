@@ -5,13 +5,8 @@ import { LoginData, RegisterAthleteData, RegisterCoachData } from "../../types/t
 const API_URL = "http://localhost:8080/auth";
 
 export const login = async (data: LoginData) => {
-  try {
-    const response = await axios.post(`${API_URL}/login`, data);
-    return response;
-  } catch (error: any) {
-    console.error("Login error:", error);
-    throw new Error(error.response?.data || "Login error");
-  }
+  const response = await axios.post(`${API_URL}/login`, data);
+  return response;
 };
 
 export const registerCoach = async (data: RegisterCoachData) => {
@@ -38,7 +33,13 @@ export const registerAthlete = async (data: RegisterAthleteData) => {
     return response;
   } catch (error: any) {
     console.error("Error when registering athlete:", error);
-    throw new Error(error.response?.data || "Register erro");
+    const msg =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      error.response?.data ||
+      "Erro no registro";
+
+    throw new Error(msg);
   }
 };
 

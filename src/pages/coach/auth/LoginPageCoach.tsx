@@ -81,9 +81,15 @@ function LoginPageCoach() {
                 });
             }
         } catch (error: any) {
+            const backendMessage =
+                error?.response?.data?.message ||
+                error?.response?.data?.error ||  
+                error.message ||                 
+                "Unexpected error. Please try again.";
+
             setSnackbar({
                 open: true,
-                message: error.message || "Error logging in",
+                message: backendMessage,
                 severity: "error",
             });
         }

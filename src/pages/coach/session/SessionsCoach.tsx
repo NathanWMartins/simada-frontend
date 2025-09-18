@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Alert, Box, Paper, Snackbar, Typography, IconButton } from "@mui/material";
+import { Alert, Box, Paper, Snackbar, Typography, IconButton, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import HeaderHomeCoach from "../../../components/header/HeaderHomeCoach";
@@ -16,6 +16,7 @@ import { updateSession } from "../../../services/coach/session/metricsService";
 import SessionsToolbar from "../../../components/coach/sessions/Toolbar";
 import { FilterPopover } from "../../../components/coach";
 import SessionRow from "../../../components/coach/sessions/Row";
+import { PictureAsPdf } from "@mui/icons-material";
 
 export default function SessionsCoach() {
   const theme = useTheme();
@@ -164,6 +165,18 @@ export default function SessionsCoach() {
             <Typography variant="h6" fontWeight={700} color="#fff">
               Sessions
             </Typography>
+            <Tooltip title="Download instructions">
+              <IconButton
+                size="medium"
+                component="a"
+                href="/docs/what-you-need-to-register.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ ml: "auto", pr: 3, color: "#fff", "&:hover": { bgcolor: "rgba(255,255,255,0.25)" } }}
+              >
+                <PictureAsPdf fontSize="medium"/>
+              </IconButton>
+            </Tooltip>
             <IconButton
               size="small"
               sx={{ bgcolor: "rgba(255,255,255,0.15)", color: "#fff", "&:hover": { bgcolor: "rgba(255,255,255,0.25)" } }}

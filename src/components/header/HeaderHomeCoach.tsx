@@ -9,6 +9,7 @@ import { useUserContext } from '../../contexts/UserContext';
 import { ExpandMore } from '@mui/icons-material';
 import NavItemHeader from './NavItemHeader';
 import UserMenuHeader from './UserMenuHeader';
+import SupportHelpDialog from '../dialog/SupportHelpDialog';
 
 function HeaderHomeCoach() {
   const theme = useTheme();
@@ -17,6 +18,7 @@ function HeaderHomeCoach() {
   const navigate = useNavigate();
   const { user } = useUserContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openSupport, setOpenSupport] = useState(false);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -30,7 +32,7 @@ function HeaderHomeCoach() {
     { label: "Home", path: "/coach-home" },
     { label: "Sessions", path: "/coach-sessions" },
     { label: "My Athletes", path: "/coach-athletes" },
-    { label: "Support/Help", path: "/support" }
+    { label: "Support/Help", action: () => setOpenSupport(true) }
   ];
 
   return (
@@ -47,8 +49,28 @@ function HeaderHomeCoach() {
             sx={{ height: 30, ml: 1, mr: 'auto' }}
           />
           {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
-            return <NavItemHeader key={item.label} label={item.label} path={item.path} isActive={isActive} />;
+            if (item.path) {
+              const isActive = location.pathname === item.path;
+              return (
+                <NavItemHeader
+                  key={item.label}
+                  label={item.label}
+                  path={item.path}
+                  isActive={isActive}
+                />
+              );
+            }
+            if (item.action) {
+              return (
+                <NavItemHeader
+                  key={item.label}
+                  label={item.label}
+                  onClick={item.action}
+                  isActive={false}
+                />
+              );
+            }
+            return null;
           })}
 
           <Button
@@ -78,6 +100,13 @@ function HeaderHomeCoach() {
           </Box>
         </Toolbar>
       </AppBar>
+      <SupportHelpDialog
+        open={openSupport}
+        onClose={() => setOpenSupport(false)}
+        supportEmail="suporte@wiko.app"
+        appName="WIKO"
+        version="v1.0.0"
+      />
     </Box>
   );
 }

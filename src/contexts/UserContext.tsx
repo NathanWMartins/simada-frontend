@@ -1,49 +1,83 @@
+// contexts/UserContext.tsx
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 export type UserResponse = {
     id: number;
     email: string;
-    userType: 'coach' | 'athlete';
+    userType: "coach" | "athlete";
     userPhoto?: string | null;
     name?: string | null;
 };
 
+type AuthState = {
+    user: UserResponse | null;
+    token: string | null;
+};
+
 interface UserContextType {
     user: UserResponse | null;
+    token: string | null;
+    setAuth: (user: UserResponse, token: string) => void;
     setUser: (user: UserResponse | null) => void;
     logout: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
+const STORAGE_KEY = "auth";
+
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<UserResponse | null>(() => {
-        const raw = localStorage.getItem("user");
-        return raw ? (JSON.parse(raw) as UserResponse) : null;
+    const [auth, setAuthState] = useState<AuthState>(() => {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return { user: null, token: null };
+        try {
+            return JSON.parse(raw) as AuthState;
+        } catch {
+            return { user: null, token: null };
+        }
     });
 
+    const setAuth = (user: UserResponse, token: string) => {
+        const next = { user, token };
+        setAuthState(next);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    };
+
+    const setUser = (user: UserResponse | null) => {
+        const next = { user, token: auth.token };
+        setAuthState(next);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    };
+
     const logout = () => {
-        setUser(null);
-        localStorage.removeItem("user");
+        setAuthState({ user: null, token: null });
+        localStorage.removeItem(STORAGE_KEY);
     };
 
     useEffect(() => {
-        if (user) {
-            localStorage.setItem("user", JSON.stringify(user));
-        }
-    }, [user]);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(auth));
+    }, [auth]);
 
     return (
-        <UserContext.Provider value={{ user, setUser, logout }}>
+        <UserContext.Provider value={{ user: auth.user, token: auth.token, setAuth, setUser, logout }}>
             {children}
         </UserContext.Provider>
     );
 };
 
 export const useUserContext = () => {
-    const context = useContext(UserContext);
-    if (!context) {
-        throw new Error("useUserContext must be used within a UserProvider");
+    const ctx = useContext(UserContext);
+    if (!ctx) throw new Error("useUserContext must be used within a UserProvider");
+    return ctx;
+};
+
+export const getToken = () => {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw) as AuthState;
+        return parsed.token ?? null;
+    } catch {
+        return null;
     }
-    return context;
 };

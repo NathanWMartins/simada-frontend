@@ -1,57 +1,61 @@
-import { Route, Routes } from 'react-router-dom'
-import MainPage from '../pages/MainPage'
-import LoginPageCoach from '../pages/coach/auth/LoginPageCoach'
-import RegisterPageCoach from '../pages/coach/auth/RegisterPageCoach'
-import HomeCoach from '../pages/coach/HomeCoach'
-import LoginPageAthlete from '../pages/athlete/auth/LoginPageAthlete'
-import SessionsCoach from '../pages/coach/session/SessionsCoach'
-import MyAthletes from '../pages/coach/athlete/MyAthletes'
-import NewSession from '../pages/coach/session/NewSession'
-import EditAthlete from '../pages/coach/athlete/EditAthlete'
-import InviteSignup from '../pages/athlete/auth/InviteSignup'
-import PsychoFormPage from '../pages/athlete/psycho/PsychoFormPage'
-import PsychoAnswers from '../pages/coach/psycho/PsychoAnswers'
-import CoachProfileEdit from '../pages/coach/auth/CoachProfileEdit'
-import AthleteHomePage from '../pages/athlete/AthleteHomePage'
-import SessionsAthlete from '../pages/athlete/sessions/SessionsAthlete'
-import MyTeam from '../pages/athlete/team/MyTeam'
-import AthleteProfileEdit from '../pages/athlete/auth/AthleteProfileEdit'
-import RiskCalculationsCoach from '../pages/coach/athlete/RiskCalculations'
-import SessionMetricsPageWrapper from '../pages/coach/session/SessionMetricsPageWrapper'
-import SessionAthleteMetricsPage from '../pages/athlete/sessions/SessionAthletePage'
+import { Route, Routes } from "react-router-dom";
+import MainPage from "../pages/MainPage";
+import LoginPageCoach from "../pages/coach/auth/LoginPageCoach";
+import RegisterPageCoach from "../pages/coach/auth/RegisterPageCoach";
+import HomeCoach from "../pages/coach/HomeCoach";
+import LoginPageAthlete from "../pages/athlete/auth/LoginPageAthlete";
+import SessionsCoach from "../pages/coach/session/SessionsCoach";
+import MyAthletes from "../pages/coach/athlete/MyAthletes";
+import NewSession from "../pages/coach/session/NewSession";
+import EditAthlete from "../pages/coach/athlete/EditAthlete";
+import InviteSignup from "../pages/athlete/auth/InviteSignup";
+import PsychoFormPage from "../pages/athlete/psycho/PsychoFormPage";
+import PsychoAnswers from "../pages/coach/psycho/PsychoAnswers";
+import CoachProfileEdit from "../pages/coach/auth/CoachProfileEdit";
+import AthleteHomePage from "../pages/athlete/AthleteHomePage";
+import SessionsAthlete from "../pages/athlete/sessions/SessionsAthlete";
+import MyTeam from "../pages/athlete/team/MyTeam";
+import AthleteProfileEdit from "../pages/athlete/auth/AthleteProfileEdit";
+import RiskCalculationsCoach from "../pages/coach/athlete/RiskCalculations";
+import SessionMetricsPageWrapper from "../pages/coach/session/SessionMetricsPageWrapper";
+import SessionAthleteMetricsPage from "../pages/athlete/sessions/SessionAthletePage";
+
+import RequireAuth from "./RequireAuth";
 
 function AppRoutes() {
     return (
         <Routes>
+            {/* Public routes */}
             <Route path="/" element={<MainPage />} />
-            {/*Coach Routes*/}
             <Route path="/coach-login" element={<LoginPageCoach />} />
             <Route path="/coach-register" element={<RegisterPageCoach />} />
-            <Route path="/coach-home" element={<HomeCoach />} />
-            <Route path="/coach-profile" element={<CoachProfileEdit />} />
-            <Route path="/coach-sessions" element={<SessionsCoach />} />
-            <Route path="/coach-new-session" element={<NewSession />} />
-            <Route path="/coach-athletes" element={<MyAthletes />} />
-            <Route path="/athletes/:id/edit" element={<EditAthlete />} />
-            <Route path="/coach/athletes/:athleteId/risk" element={<RiskCalculationsCoach />} />
-            <Route path="/coach/psy-form/:id/answers" element={<PsychoAnswers />} />
-            <Route
-                path="/coach/sessions/:sessionId"
-                element={<SessionMetricsPageWrapper />}
-            />
-
-            {/*Athlete Routes*/}
             <Route path="/athlete-login" element={<LoginPageAthlete />} />
-            <Route path="/athlete-home" element={<AthleteHomePage />} />
-            <Route path="/athlete/sessions" element={<SessionsAthlete />} />
-            <Route path="/athlete/team" element={<MyTeam />} />
-            <Route path="/athlete/profile" element={<AthleteProfileEdit />} />
             <Route path="/signup" element={<InviteSignup />} />
             <Route path="/psycho-form/:token" element={<PsychoFormPage />} />
-            <Route path="/sessions/:id/metrics" element={<SessionAthleteMetricsPage/>}/>
 
+            {/* Private Coach Routes */}
+            <Route element={<RequireAuth redirectTo="/coach-login" />}>
+                <Route path="/coach-home" element={<HomeCoach />} />
+                <Route path="/coach-profile" element={<CoachProfileEdit />} />
+                <Route path="/coach-sessions" element={<SessionsCoach />} />
+                <Route path="/coach-new-session" element={<NewSession />} />
+                <Route path="/coach-athletes" element={<MyAthletes />} />
+                <Route path="/athletes/:id/edit" element={<EditAthlete />} />
+                <Route path="/coach/athletes/:athleteId/risk" element={<RiskCalculationsCoach />} />
+                <Route path="/coach/psy-form/:id/answers" element={<PsychoAnswers />} />
+                <Route path="/coach/sessions/:sessionId" element={<SessionMetricsPageWrapper />} />
+            </Route>
+
+            {/* Private Coach Athletes */}
+            <Route element={<RequireAuth redirectTo="/athlete-login" />}>
+                <Route path="/athlete-home" element={<AthleteHomePage />} />
+                <Route path="/athlete/sessions" element={<SessionsAthlete />} />
+                <Route path="/athlete/team" element={<MyTeam />} />
+                <Route path="/athlete/profile" element={<AthleteProfileEdit />} />
+                <Route path="/sessions/:id/metrics" element={<SessionAthleteMetricsPage />} />
+            </Route>
         </Routes>
-    )
+    );
 }
 
-export default AppRoutes
+export default AppRoutes;

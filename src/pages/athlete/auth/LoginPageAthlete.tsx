@@ -22,6 +22,7 @@ function LoginPageAthlete() {
     const [password, setPassword] = useState('');
 
     const { setUser } = useUserContext();
+    const { setAuth } = useUserContext();
 
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
@@ -81,6 +82,10 @@ function LoginPageAthlete() {
                     ...response.data,
                     fotoUsuario: response.data.fotoUsuario ?? undefined,
                 });
+                setAuth(
+                    { id: response.data.id, email: response.data.email, name: response.data.name, userType: response.data.userType, userPhoto: response.data.userPhoto },
+                    response.data.accessToken
+                );
                 navigate("/athlete-home");
             } else {
                 setSnackbar({

@@ -1,14 +1,18 @@
 import { useEffect, useState, useMemo } from "react";
 import {
     Avatar, Box, Chip, Paper, Typography, Skeleton, Alert as MuiAlert,
-    Stack, Tooltip, ButtonBase
+    Stack, Tooltip, ButtonBase,
+    IconButton,
+    Snackbar,
+    Alert
 } from "@mui/material";
 import InsightsIcon from "@mui/icons-material/Insights";
 import { useTheme, type SxProps } from "@mui/system";
 import type { TrainingLoadAlert, TLLabel } from "../../../types/alertType";
 import { useUserContext } from "../../../contexts/UserContext";
-import { getTrainingLoadAlerts } from "../../../services/coach/alerts/performanceAlertService";
+import { deleteTrainingLoadAlert, getTrainingLoadAlerts } from "../../../services/coach/alerts/performanceAlertService";
 import PerformanceAlertDialog from "../../dialog/PerformanceAlertDialog";
+import { DeleteOutline } from "@mui/icons-material";
 
 type Props = { title?: string; sx?: SxProps; athleteId?: number };
 type ChipColor = "default" | "success" | "warning" | "error" | "info";
@@ -50,6 +54,9 @@ export default function PerformanceAlerts({ title = "Training Load — Alerts", 
     const theme = useTheme();
     const [dlgOpen, setDlgOpen] = useState(false);
     const [dlgCtx, setDlgCtx] = useState<{ sessionId: number; athleteId: number } | null>(null);
+    const [snackbar, setSnackbar] = useState<{ open: boolean; severity: "success" | "error"; message: string }>({
+        open: false, severity: "success", message: ""
+    });
 
     const chipBaseSx = {
         borderRadius: 999,
@@ -76,6 +83,22 @@ export default function PerformanceAlerts({ title = "Training Load — Alerts", 
             }
         })();
     }, [user?.id, athleteId]);
+
+    const handleDeleteAlert = async (alertId?: number) => {
+        if (!alertId) return;
+        try {
+            await deleteTrainingLoadAlert(alertId, user?.id || 0);
+            setItems((prev) => prev.filter((item) => item.id !== alertId));
+            setSnackbar({
+                open: true, severity: "success",
+                message: "Alert deleted successfully."
+            });
+        } catch (e) {
+            console.error("Error deleting alert", e);
+        }
+    };
+
+    const handleCloseSnackbar = () => setSnackbar(s => ({ ...s, open: false }));
 
     return (
         <Paper elevation={4} sx={{ p: { xs: 2, md: 2.5 }, borderRadius: 3, bgcolor: theme.palette.background.default, ...sx }}>
@@ -182,14 +205,27 @@ export default function PerformanceAlerts({ title = "Training Load — Alerts", 
                                         </Box>
                                     </Box>
 
-                                    {/* Direita: destaque principal (prioriza risco) */}
+                                    {/* Direita: destaque principal + botão de excluir */}
                                     <Stack
-                                        spacing={0.75}
-                                        alignItems={{ xs: "flex-start", md: "flex-end" }}
-                                        sx={{ flexShrink: 0, minWidth: { md: 140 } }}
+                                        direction="row"
+                                        spacing={1}
+                                        alignItems="center"
+                                        sx={{ flexShrink: 0, minWidth: { md: 160 }, justifyContent: { xs: "flex-start", md: "flex-end" } }}
+                                        onClick={(e) => e.stopPropagation()}
                                     >
                                         <MainRiskChip a={a} chipBaseSx={chipBaseSx} />
+
+                                        <Tooltip title="Delete alert">
+                                            <IconButton
+                                                size="small"
+                                                color="error"
+                                                onClick={() => handleDeleteAlert(a.id)}
+                                            >
+                                                <DeleteOutline fontSize="small" />
+                                            </IconButton>
+                                        </Tooltip>
                                     </Stack>
+
                                 </Stack>
                             </ButtonBase>
                         );
@@ -204,7 +240,16 @@ export default function PerformanceAlerts({ title = "Training Load — Alerts", 
                     athleteId={dlgCtx.athleteId}
                 />
             )}
-
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={4000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+                <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: "100%", whiteSpace: "pre-line" }}>
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
         </Paper>
     );
 }

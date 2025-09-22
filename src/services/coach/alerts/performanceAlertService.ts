@@ -32,3 +32,7 @@ export async function askPerfRecommendations(payload: PerformanceRecoRequest): P
     `/coach/performance/${sessionId}/athletes/${athleteId}/recommendations`, metrics);
   return data;
 }
+
+export async function deleteTrainingLoadAlert(alertId: number, coachId: number): Promise<void> {
+  await api.delete(`/alerts/performance/${alertId}/delete/${coachId}`);
+}

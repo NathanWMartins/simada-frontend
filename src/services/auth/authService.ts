@@ -6,6 +6,7 @@ const API_URL = "http://localhost:8080/auth";
 
 export const login = async (data: LoginData) => {
   const response = await axios.post(`${API_URL}/login`, data);
+  const { user, accessToken } = response.data;
   return response;
 };
 

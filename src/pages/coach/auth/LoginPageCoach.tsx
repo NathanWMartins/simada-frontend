@@ -22,6 +22,7 @@ function LoginPageCoach() {
         severity: "error",
     });
     const { setUser } = useUserContext();
+    const { setAuth } = useUserContext();
 
     const Root = styled('div')(({ theme }) => ({
         width: '100%',
@@ -72,6 +73,10 @@ function LoginPageCoach() {
                     ...response.data,
                     fotoUsuario: response.data.fotoUsuario ?? undefined,
                 });
+                setAuth(
+                    { id: response.data.id, email: response.data.email, name: response.data.name, userType: response.data.userType, userPhoto: response.data.userPhoto },
+                    response.data.accessToken
+                );
                 navigate("/coach-home");
             } else {
                 setSnackbar({
@@ -83,8 +88,8 @@ function LoginPageCoach() {
         } catch (error: any) {
             const backendMessage =
                 error?.response?.data?.message ||
-                error?.response?.data?.error ||  
-                error.message ||                 
+                error?.response?.data?.error ||
+                error.message ||
                 "Unexpected error. Please try again.";
 
             setSnackbar({

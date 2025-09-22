@@ -22,6 +22,7 @@ function RegisterPageCoach() {
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
     const { setUser } = useUserContext();
+    const { setAuth } = useUserContext();
 
     const [errorName, setErrorName] = useState(false);
     const [errorEmail, setErrorEmail] = useState(false);
@@ -87,6 +88,10 @@ function RegisterPageCoach() {
                     ...response.data,
                     fotoUsuario: response.data.fotoUsuario ?? undefined,
                 });
+                setAuth(
+                    { id: response.data.id, email: response.data.email, name: response.data.name, userType: response.data.userType, userPhoto: response.data.userPhoto },
+                    response.data.accessToken
+                );
                 navigate("/coach-home");
             } else {
                 setSnackbar({

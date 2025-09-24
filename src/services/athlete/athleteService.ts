@@ -43,3 +43,7 @@ export async function updateAthletePassword(
         newPassword,
     });
 }
+
+export async function deleteAthleteAccount(athleteId: number): Promise<void> {
+  await api.delete(`/athletes/delete/${athleteId}`);
+}

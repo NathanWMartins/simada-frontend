@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-    Alert, Avatar, Box, Button, CircularProgress, MenuItem,
+    Alert, Avatar, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, MenuItem,
     Paper, Snackbar, Stack, TextField, Typography, useTheme
 } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
@@ -8,13 +8,20 @@ import { useUserContext } from "../../../contexts/UserContext";
 import { AthleteProfile } from "../../../types/athleteType";
 import HeaderHomeAthlete from "../../../components/header/HeaderHomeAthlete";
 import { SwitchLightDarkMode } from "../../../components/common";
-import { getAthleteProfile, updateAthletePassword, updateAthleteProfile, uploadAthleteAvatar } from "../../../services/athlete/athleteService";
+import { deleteAthleteAccount, getAthleteProfile, updateAthletePassword, updateAthleteProfile, uploadAthleteAvatar } from "../../../services/athlete/athleteService";
+import { useNavigate } from "react-router-dom";
+import { DeleteForever } from "@mui/icons-material";
 
 export default function AthleteProfileEdit() {
     const theme = useTheme();
     const isLight = theme.palette.mode === "light";
     const { user, setUser } = useUserContext();
     const athleteId = useMemo(() => Number(user?.id ?? 0), [user?.id]);
+    const navigate = useNavigate();
+
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [confirmText, setConfirmText] = useState("");
+    const [deleting, setDeleting] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
@@ -134,6 +141,35 @@ export default function AthleteProfileEdit() {
         }
     };
 
+    const openDeleteDialog = () => {
+        setConfirmText("");
+        setConfirmOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!athleteId) return;
+        try {
+            setDeleting(true);
+            await deleteAthleteAccount(athleteId);
+
+            localStorage.clear();
+            if (user) setUser(null as any);
+
+            setSnackbar({ open: true, severity: "success", message: "Account deleted successfully." });
+
+            navigate("/", { replace: true });
+        } catch (e: any) {
+            setSnackbar({
+                open: true,
+                severity: "error",
+                message: e?.response?.data?.message ?? "Failed to delete account."
+            });
+        } finally {
+            setDeleting(false);
+            setConfirmOpen(false);
+        }
+    };
+
     const handleSavePassword = async () => {
         const perr = validatePassword();
         if (perr) { setSnackbar({ open: true, severity: "error", message: perr }); return; }
@@ -185,20 +221,20 @@ export default function AthleteProfileEdit() {
                                 alignItems: "start",
                                 gridTemplateColumns: "340px 1fr",
                                 gridTemplateAreas: `
-                  "left titleR"
-                  "left form"
-                  "left pwd"
-                  "left button"
-                `,
+                "left titleR"
+                "left form"
+                "left pwd"
+                "left button"
+              `,
                                 ["@media (max-width:900px)"]: {
                                     gridTemplateColumns: "1fr",
                                     gridTemplateAreas: `
-                    "left"
-                    "titleR"
-                    "form"
-                    "pwd"
-                    "button"
-                  `
+                  "left"
+                  "titleR"
+                  "form"
+                  "pwd"
+                  "button"
+                `
                                 }
                             }}
                         >
@@ -314,11 +350,54 @@ export default function AthleteProfileEdit() {
                                 >
                                     {saving ? "Saving..." : "Save Changes"}
                                 </Button>
+
+                                <Button
+                                    variant="outlined"
+                                    color="error"
+                                    startIcon={<DeleteForever />}
+                                    onClick={openDeleteDialog}
+                                    sx={{ borderRadius: 2, px: 3 }}
+                                    disabled={deleting}
+                                >
+                                    Delete Account
+                                </Button>
                             </Box>
                         </Box>
                     )}
                 </Paper>
             </Box>
+
+            {/* Dialog de confirmação de exclusão */}
+            <Dialog open={confirmOpen} onClose={() => !deleting && setConfirmOpen(false)} maxWidth="xs" fullWidth>
+                <DialogTitle>Delete account</DialogTitle>
+                <DialogContent>
+                    <DialogContentText sx={{ mb: 2 }}>
+                        This action is <b>irreversible</b>. All your sessions, metrics and related data will be permanently removed.
+                        To confirm, type <b>DELETE</b> below and click Confirm.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        fullWidth
+                        size="small"
+                        label='Type "DELETE" to confirm'
+                        value={confirmText}
+                        onChange={(e) => setConfirmText(e.target.value)}
+                        InputLabelProps={{ shrink: true }}
+                        disabled={deleting}
+                    />
+                </DialogContent>
+                <DialogActions sx={{ px: 3, pb: 2 }}>
+                    <Button onClick={() => setConfirmOpen(false)} disabled={deleting}>Cancel</Button>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={handleConfirmDelete}
+                        disabled={deleting || confirmText !== "DELETE"}
+                    >
+                        {deleting ? "Deleting..." : "Confirm"}
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             <Snackbar
                 open={snackbar.open}

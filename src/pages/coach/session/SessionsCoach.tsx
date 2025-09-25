@@ -12,7 +12,7 @@ import EditSessionDialog from "../../../components/dialog/EditSessionDialog";
 import { useNavigate } from "react-router-dom";
 import { UpdateSessionPayload } from "../../../types/sessionType";
 import { useSessionsList, FilterType } from "../../../hooks/useSessionsList";
-import { updateSession } from "../../../services/coach/session/metricsService";
+import { deleteSessionMetrics, updateSession } from "../../../services/coach/session/metricsService";
 import SessionsToolbar from "../../../components/coach/sessions/Toolbar";
 import { FilterPopover } from "../../../components/coach";
 import SessionRow from "../../../components/coach/sessions/Row";
@@ -72,12 +72,8 @@ export default function SessionsCoach() {
 
   // handlers da linha
   const onEdit = (s: any) => {
-    if (!s.has_metrics) {
-      setImportCtx({ id: s.id, title: s.title });
-      setImportOpen(true);
-      return;
-    }
     setEditId(s.id);
+
     const ymd = /^\d{4}-\d{2}-\d{2}$/.test(s.date)
       ? s.date
       : new Date(s.date).toISOString().slice(0, 10);
@@ -174,7 +170,7 @@ export default function SessionsCoach() {
                 rel="noopener noreferrer"
                 sx={{ ml: "auto", pr: 3, color: "#fff", "&:hover": { bgcolor: "rgba(255,255,255,0.25)" } }}
               >
-                <PictureAsPdf fontSize="medium"/>
+                <PictureAsPdf fontSize="medium" />
               </IconButton>
             </Tooltip>
             <IconButton
@@ -218,7 +214,7 @@ export default function SessionsCoach() {
             <Box sx={{ flex: 0.9, textAlign: "center" }}>Score</Box>
             <Box sx={{ flex: 1.2 }}>Date</Box>
             <Box sx={{ flex: 1 }}>Owner</Box>
-            <Box sx={{ width: 120, textAlign: "right" }}>Actions</Box>
+            <Box sx={{ width: 260, textAlign: "right" }}>Actions</Box>
           </Box>
 
           {!loading && filtered.length === 0 && (
@@ -236,13 +232,40 @@ export default function SessionsCoach() {
               onEdit={onEdit}
               onDelete={onDelete}
               onNoMetrics={() =>
-                setSnack({ open: true, message: "This session doesn't have metrics to visualize.", severity: "error" })
+                setSnack({
+                  open: true,
+                  message: "This session doesn't have metrics to visualize.",
+                  severity: "error",
+                })
               }
+              onImportMetrics={(sess) => {
+                setImportCtx({ id: sess.id, title: sess.title });
+                setImportOpen(true);
+              }}
+              onDeleteMetrics={async (sess) => {
+                try {
+                  await deleteSessionMetrics(sess.id, user!.id);
+                  setSessions((prev) =>
+                    prev.map((x) => (x.id === sess.id ? { ...x, has_metrics: false } : x))
+                  );
+                  setSnack({ open: true, message: "Metrics deleted successfully.", severity: "success" });
+                } catch (e: any) {
+                  setSnack({
+                    open: true,
+                    message: e?.response?.data?.message ?? "Failed to delete metrics.",
+                    severity: "error",
+                  });
+                }
+              }}
               onPsyCreated={(sessionId, emails) => {
-                setSessions(prev =>
-                  prev.map(x => x.id === sessionId ? { ...x, has_psycho: true } : x)
+                setSessions((prev) =>
+                  prev.map((x) => (x.id === sessionId ? { ...x, has_psycho: true } : x))
                 );
-                setSnack({ open: true, message: `Formulário sent to ${emails.length} athlete(s).`, severity: "success" });
+                setSnack({
+                  open: true,
+                  message: `Formulário sent to ${emails.length} athlete(s).`,
+                  severity: "success",
+                });
               }}
             />
           ))}

@@ -16,6 +16,10 @@ export async function updateSessionNotes(id: number, description: string) {
 }
 
 export async function updateSession(id: number, payload: UpdateSessionPayload) {
-  const { data } = await api.put(`/coach/sessions/update/${id}`, payload);
-  return data;
+    const { data } = await api.put(`/coach/sessions/update/${id}`, payload);
+    return data;
+}
+
+export async function deleteSessionMetrics(sessionId: number, coachId: number): Promise<void> {
+    await api.delete(`/coach/sessions/${sessionId}/metrics?coachId=${coachId}`);
 }

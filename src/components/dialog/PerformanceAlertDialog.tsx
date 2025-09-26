@@ -29,18 +29,18 @@ const prettyLabel = (label?: TLLabel | null) =>
 const chipColor = (label?: TLLabel | null):
     "default" | "success" | "warning" | "error" | "info" => {
     switch (label) {
-        case "indisponível": return "default";
-        case "baixo":
-        case "ótimo":
-        case "saudável":
+        case "unavailable": return "default";
+        case "low":
+        case "optimal":
+        case "healthy":
             return "success";
-        case "estável":
+        case "stable":
             return "info";
-        case "atenção":
+        case "attention":
             return "warning";
-        case "risco":
-        case "alto_risco":
-        case "queda_forte":
+        case "risk":
+        case "high_risk":
+        case "sharp_drop":
             return "error";
         default:
             return "default";
@@ -66,7 +66,6 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
 
                 const data = await getTrainingLoadAnswerByAthlete(athleteId);
 
-                // Se o back retornar null/undefined, mostramos “Any info.” (sem erro)
                 if (!data) {
                     setAnswer(null);
                     setError(null);
@@ -75,7 +74,6 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
 
                 setAnswer(data);
             } catch (e: any) {
-                // Se o back responder 404/204, também tratamos como "sem dados"
                 const status = e?.response?.status;
                 if (status === 404 || status === 204) {
                     setAnswer(null);
@@ -115,17 +113,17 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
 
     const labelColorHex = (label?: string | null) => {
         switch (label) {
-            case "risco":
-            case "alto_risco":
-            case "queda_forte":
+            case "risk":
+            case "high_risk":
+            case "sharp_drop":
                 return "#d32f2f";
-            case "atenção":
+            case "attention":
                 return "#ed6c02";
-            case "saudável":
-            case "ótimo":
-            case "baixo":
+            case "healthy":
+            case "optimal":
+            case "low":
                 return "#2e7d32";
-            case "estável":
+            case "stable":
                 return "#0288d1";
             default:
                 return "#6b7280";
@@ -138,32 +136,32 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
     const THRESHOLDS = [
         {
             metric: "ACWR", rules: [
-                { rule: "< 0.8", label: "baixo" },
-                { rule: "0.8 – 1.3", label: "ótimo" },
-                { rule: "1.31 – 1.5", label: "atenção" },
-                { rule: "> 1.5", label: "risco" },
+                { rule: "< 0.8", label: "low" },
+                { rule: "0.8 – 1.3", label: "optimal" },
+                { rule: "1.31 – 1.5", label: "attention" },
+                { rule: "> 1.5", label: "risk" },
             ]
         },
         {
             metric: "%↑ QW", rules: [
-                { rule: "< -10%", label: "queda_forte" },
-                { rule: "-10% – 10%", label: "estável" },
-                { rule: "10% – 20%", label: "atenção" },
-                { rule: "> 20%", label: "risco" },
+                { rule: "< -10%", label: "sharp_drop" },
+                { rule: "-10% – 10%", label: "stable" },
+                { rule: "10% – 20%", label: "attention" },
+                { rule: "> 20%", label: "risk" },
             ]
         },
         {
             metric: "Monotony", rules: [
-                { rule: "< 1.0", label: "saudável" },
-                { rule: "1.0 – 2.0", label: "atenção" },
-                { rule: "> 2.0", label: "alto_risco" },
+                { rule: "< 1.0", label: "healthy" },
+                { rule: "1.0 – 2.0", label: "attention" },
+                { rule: "> 2.0", label: "high_risk" },
             ]
         },
         {
             metric: "Strain", rules: [
-                { rule: "< 6000", label: "baixo" },
-                { rule: "6000 – 8000", label: "atenção" },
-                { rule: "> 8000", label: "alto_risco" },
+                { rule: "< 6000", label: "low" },
+                { rule: "6000 – 8000", label: "attention" },
+                { rule: "> 8000", label: "high_risk" },
             ]
         },
     ];

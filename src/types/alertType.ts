@@ -1,9 +1,9 @@
 //======   Performance   =====
 export type TLLabel =
-    | "indisponível"
-    | "baixo" | "ótimo" | "atenção" | "risco"
-    | "queda_forte" | "estável"
-    | "saudável" | "alto_risco"
+    | "unavailable"
+    | "low" | "optimal" | "attention" | "risk"
+    | "sharp_drop" | "stable"
+    | "healthy" | "high_risk"
     ;
 
 

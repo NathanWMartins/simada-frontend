@@ -19,18 +19,18 @@ type ChipColor = "default" | "success" | "warning" | "error" | "info";
 
 const labelColor = (label?: TLLabel | null): ChipColor => {
     switch (label) {
-        case "indisponível": return "default";
-        case "baixo":
-        case "ótimo":
-        case "saudável":
+        case "unavailable": return "default";
+        case "low":
+        case "optimal":
+        case "healthy":
             return "success";
-        case "estável":
+        case "stable":
             return "info";
-        case "atenção":
+        case "attention":
             return "warning";
-        case "risco":
-        case "alto_risco":
-        case "queda_forte":
+        case "risk":
+        case "high_risk":
+        case "sharp_drop":
             return "error";
         default:
             return "default";
@@ -275,14 +275,14 @@ function MetricWithChip({ label, value, chip }: { label: string; value: string; 
 function MainRiskChip({ a, chipBaseSx }: { a: TrainingLoadAlert; chipBaseSx: SxProps }) {
     const labels = [a.acwrLabel, a.pctQwUpLabel, a.monotonyLabel, a.strainLabel].filter(Boolean) as TLLabel[];
     const hasHigh =
-        labels.includes("risco") || labels.includes("alto_risco") || labels.includes("queda_forte");
-    const hasWarn = labels.includes("atenção");
+        labels.includes("risk") || labels.includes("high_risk") || labels.includes("sharp_drop");
+    const hasWarn = labels.includes("attention");
 
     let color: "success" | "warning" | "error" | "default" | "info" = "default";
     if (hasHigh) color = "error";
     else if (hasWarn) color = "warning";
-    else if (labels.some(l => l === "saudável" || l === "ótimo" || l === "baixo")) color = "success";
-    else if (labels.includes("estável")) color = "info";
+    else if (labels.some(l => l === "healthy" || l === "optimal" || l === "low")) color = "success";
+    else if (labels.includes("stable")) color = "info";
 
     const label =
         color === "error" ? "High Risk" :

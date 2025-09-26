@@ -1,5 +1,5 @@
 {
-  "name": "simada-frontend",
+  "name": "wiko-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,7 +21,7 @@
     "dayjs": "^1.11.18",
     "firebase": "^12.1.0",
     "html-to-image": "^1.11.13",
-    "jspdf": "^3.0.2",
+    "jspdf": "^3.0.3",
     "jspdf-autotable": "^5.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

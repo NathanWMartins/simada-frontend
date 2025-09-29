@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "../contexts/UserContext";
 
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080";
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:8080";
 console.log("API BASE", apiBaseUrl);
 export const api = axios.create({ baseURL: apiBaseUrl });
 

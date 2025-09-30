@@ -16,7 +16,7 @@ export interface TLAnswerDTO {
     athletePhoto?: string | null;
     athleteNationality?: string | null;
 
-    qwStart?: string | null; 
+    qwStart?: string | null;
     createdAt?: string | null;
 
     acwr?: number | null;
@@ -34,6 +34,7 @@ export interface TrainingLoadAlert {
     id: number;
     athleteId: number;
     coachId: number;
+    sessionId?: number | null;
 
     acwr?: number | null;
     monotony?: number | null;

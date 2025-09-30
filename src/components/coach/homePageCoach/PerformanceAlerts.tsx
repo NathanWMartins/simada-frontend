@@ -128,8 +128,8 @@ export default function PerformanceAlerts({ title = "Training Load — Alerts", 
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1.0 }}>
                     {items.map((a) => {
                         const openDialog = (a: TrainingLoadAlert) => {
-                            if (!a.athleteId) return;
-                            setDlgCtx({ sessionId: Number(a.id || 0), athleteId: a.athleteId });
+                            if (!a.athleteId || !a.sessionId) return;
+                            setDlgCtx({ sessionId: Number(a.sessionId || 0), athleteId: a.athleteId });
                             setDlgOpen(true);
                         };
 

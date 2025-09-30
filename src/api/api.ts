@@ -24,7 +24,6 @@ api.interceptors.request.use((config) => {
             (config.headers as any).Authorization = `Bearer ${token}`;
         }
     } else {
-        // Garante que não vaza Authorization nas rotas públicas
         if (config.headers) {
             delete (config.headers as any).Authorization;
         }

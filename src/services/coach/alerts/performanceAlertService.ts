@@ -15,23 +15,31 @@ export async function getTrainingLoadAlerts(params: {
   if (params.to) query.set("to", params.to);
 
   const { data } = await api.get(`/alerts/training-load?${query.toString()}`);
-  return data ?? [];
+  return data ?? null;
 }
 
 export async function getTrainingLoadAnswerByAthlete(
+  sessionId: number,
   athleteId: number
 ): Promise<TLAnswerDTO | null> {
-  const { data } = await api.get(`/alerts/training-load/athlete/${athleteId}`);
+  const resp = await api.get<TLAnswerDTO>(
+    `/alerts/training-load/session/${sessionId}/athlete/${athleteId}`,
+    {
+      validateStatus: (s) => (s >= 200 && s < 300) || s === 204,
+    }
+  );
 
-  return data ?? [];
+  if (resp.status === 204) return null;
+  return resp.data ?? null;
 }
+
 
 export async function askPerfRecommendations(payload: PerformanceRecoRequest): Promise<AIRecoResponse> {
-  const { sessionId, athleteId, ...metrics } = payload;
+  const { coachId, sessionId, athleteId, ...metrics } = payload;
   const { data } = await api.post<AIRecoResponse>(
-    `/coach/performance/${sessionId}/athletes/${athleteId}/recommendations`, metrics);
+    `/coach/${coachId}/performance/${sessionId}/athletes/${athleteId}/recommendations`, metrics);
   return data;
-}
+} 
 
 export async function deleteTrainingLoadAlert(alertId: number, coachId: number): Promise<void> {
   await api.delete(`/alerts/performance/${alertId}/delete/${coachId}`);

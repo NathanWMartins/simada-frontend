@@ -13,6 +13,7 @@ export interface AIRecoResponse{
 }
 
 export interface PerformanceRecoRequest {
+    coachId: number;
     sessionId: number;
     athleteId: number;
     acwr: number;

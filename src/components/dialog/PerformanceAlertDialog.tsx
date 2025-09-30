@@ -9,6 +9,7 @@ import type { TLAnswerDTO, TLLabel } from "../../types/alertType";
 import { askPerfRecommendations, getTrainingLoadAnswerByAthlete } from "../../services/coach/alerts/performanceAlertService";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { useUserContext } from "../../contexts/UserContext";
 
 type Props = {
     open: boolean;
@@ -51,6 +52,7 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
     const [loading, setLoading] = useState(false);
     const [answer, setAnswer] = useState<TLAnswerDTO | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const {user} = useUserContext();    
 
     const [recoLoading, setRecoLoading] = useState(false);
     const [recoError, setRecoError] = useState<string | null>(null);
@@ -64,8 +66,8 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
                 setError(null);
                 setRecoText(null);
 
-                const data = await getTrainingLoadAnswerByAthlete(athleteId);
-
+                const data = await getTrainingLoadAnswerByAthlete(sessionId, athleteId);
+                
                 if (!data) {
                     setAnswer(null);
                     setError(null);
@@ -88,6 +90,7 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
         })();
     }, [open, sessionId, athleteId]);
 
+    if (!user) return null;
 
     const handleAskReco = async () => {
         if (!answer) return;
@@ -96,6 +99,7 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
         try {
             setRecoLoading(true);
             const resp = await askPerfRecommendations({
+                coachId: user.id,                
                 sessionId,
                 athleteId,
                 acwr: Number(answer.acwr || 0),
@@ -396,7 +400,7 @@ export default function PerformanceAlertDialog({ open, onClose, sessionId, athle
                     <MuiAlert severity="error" variant="outlined">{error}</MuiAlert>
                 ) : !answer ? (
                     <Typography color="text.secondary" sx={{ textAlign: "center", py: 4 }}>
-                        Feel in athlete details in "My Athletes" page first.
+                        Fill in athlete details in "My Athletes" page first.
                     </Typography>
                 ) : (
                     <>

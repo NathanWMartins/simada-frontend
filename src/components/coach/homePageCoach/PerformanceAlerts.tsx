@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import InsightsIcon from "@mui/icons-material/Insights";
 import { useTheme, type SxProps } from "@mui/system";
-import type { TrainingLoadAlert, TLLabel } from "../../../types/alertType";
+import type { TrainingLoadAlert, TLLabel, TLAnswerDTO } from "../../../types/alertType";
 import { useUserContext } from "../../../contexts/UserContext";
 import { deleteTrainingLoadAlert, getTrainingLoadAlerts } from "../../../services/coach/alerts/performanceAlertService";
 import PerformanceAlertDialog from "../../dialog/PerformanceAlertDialog";
@@ -53,7 +53,10 @@ export default function PerformanceAlerts({ title = "Training Load — Alerts", 
     const { user } = useUserContext();
     const theme = useTheme();
     const [dlgOpen, setDlgOpen] = useState(false);
-    const [dlgCtx, setDlgCtx] = useState<{ sessionId: number; athleteId: number } | null>(null);
+    const [dlgCtx, setDlgCtx] = useState<{
+        sessionId: number;
+        athleteId: number;
+    } | null>(null);
     const [snackbar, setSnackbar] = useState<{ open: boolean; severity: "success" | "error"; message: string }>({
         open: false, severity: "success", message: ""
     });
@@ -69,7 +72,7 @@ export default function PerformanceAlerts({ title = "Training Load — Alerts", 
         (async () => {
             try {
                 setLoading(true);
-                setError(null);
+                setError(null);                
                 const result = await getTrainingLoadAlerts({
                     coachId: user.id,
                     athleteId,

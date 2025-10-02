@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import InsightsIcon from "@mui/icons-material/Insights";
 import { useTheme, type SxProps } from "@mui/system";
-import type { TrainingLoadAlert, TLLabel, TLAnswerDTO } from "../../../types/alertType";
+import type { TrainingLoadAlert, TLLabel } from "../../../types/alertType";
 import { useUserContext } from "../../../contexts/UserContext";
 import { deleteTrainingLoadAlert, getTrainingLoadAlerts } from "../../../services/coach/alerts/performanceAlertService";
 import PerformanceAlertDialog from "../../dialog/PerformanceAlertDialog";

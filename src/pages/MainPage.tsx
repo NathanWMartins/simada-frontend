@@ -35,13 +35,13 @@ function MainPage() {
           <Button variant="contained" onClick={() => navigate('/coach-register')}
             sx={{
               mr: 1, backgroundColor: '#2CAE4D', textTransform: 'none',
-              color: '#fff', width: '100px', height: '40px',
+              color: '#fff', width: '150px', height: '40px',
               '&:hover': {
                 backgroundColor: '#249B45'
               }
             }}
           >
-            Register
+            Register Coach
           </Button>
         </Box>
         <Box component="img" src={MainIllustration1} alt="MainIllustration1"

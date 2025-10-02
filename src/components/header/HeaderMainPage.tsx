@@ -1,14 +1,16 @@
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import LogoLight from '../../assets/LogoWiKoLight.png';
 import LogoDark from '../../assets/LogoWiKoDark.png';
 import { useNavigate } from 'react-router-dom';
+import SupportHelpDialog from '../dialog/SupportHelpDialog';
 
 function HeaderMainPage() {
   const theme = useTheme();
   const logo = theme.palette.mode === 'dark' ? LogoDark : LogoLight;
   const navigate = useNavigate();
+  const [openSupport, setOpenSupport] = useState(false);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -39,7 +41,7 @@ function HeaderMainPage() {
           </Button>
           <Button
             variant="contained"
-            onClick={() => navigate('/athlete-login')} 
+            onClick={() => navigate('/athlete-login')}
             sx={{
               mr: 1, backgroundColor: '#2CAE4D', textTransform: 'none',
               color: '#fff', width: '130px', height: '30px',
@@ -51,6 +53,7 @@ function HeaderMainPage() {
           <Button
             variant="contained"
             color="success"
+            onClick={() => setOpenSupport(true)}
             sx={{
               mr: 2, backgroundColor: '#2CAE4D', textTransform: 'none',
               color: '#fff', width: '130px', height: '30px',
@@ -63,6 +66,13 @@ function HeaderMainPage() {
           </Button>
         </Toolbar>
       </AppBar>
+      <SupportHelpDialog
+        open={openSupport}
+        onClose={() => setOpenSupport(false)}
+        supportEmail="suporte@wiko.app"
+        appName="WIKO"
+        version="v1.0.0"
+      />
     </Box>
   );
 }

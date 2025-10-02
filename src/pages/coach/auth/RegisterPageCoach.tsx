@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { registerCoach } from '../../../services/auth/authService';
 import { useUserContext } from '../../../contexts/UserContext';
-import { BackFab, CustomTextField, GoogleButton, PasswordInput, SwitchLightDarkMode, Logo } from '../../../components/common';
+import { BackFab, CustomTextField, PasswordInput, SwitchLightDarkMode, Logo } from '../../../components/common';
 
 type SnackbarState = {
     open: boolean;
@@ -109,21 +109,6 @@ function RegisterPageCoach() {
         }
     };
 
-    // const handleGoogle = async () => {
-    //     try {
-    //         const response = await loginWithGoogle();
-
-    //         if (response && response.status === 200) {
-    //             setSnackbar({ open: true, message: "Cadastro com Google realizado!", severity: "success" });
-    //             navigate("/coach-home");
-    //         } else {
-    //             setSnackbar({ open: true, message: "Erro no cadadstro com Google", severity: "error" });
-    //         }
-    //     } catch (error: any) {
-    //         setSnackbar({ open: true, message: error.message, severity: "error" });
-    //     }
-    // };
-
     return (
         <>
             <Box sx={{
@@ -182,12 +167,6 @@ function RegisterPageCoach() {
                         >
                             Register
                         </Button>
-
-                        <Root sx={{ width: '80%', mt: 2 }}>
-                            <Divider sx={{ fontSize: 12 }}>or continue with</Divider>
-                        </Root>
-
-                        <GoogleButton />
 
                         <Root sx={{ width: '80%', mt: 2 }}>
                             <Divider></Divider>

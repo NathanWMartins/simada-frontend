@@ -4,7 +4,7 @@ import coachPhoto from '../../../assets/coach-photo.png'
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../../services/auth/authService';
-import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, GoogleButton, Logo } from '../../../components/common';
+import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, Logo } from '../../../components/common';
 import { useUserContext } from '../../../contexts/UserContext';
 import { SnackbarState } from '../../../types/types';
 
@@ -100,21 +100,6 @@ function LoginPageCoach() {
         }
     };
 
-    // const handleGoogle = async () => {
-    //     try {
-    //         const response = await loginWithGoogle();
-
-    //         if (response && response.status === 200) {
-    //             setSnackbar({ open: true, message: "Login com Google realizado!", severity: "success" });
-    //             navigate("/coach-home");
-    //         } else {
-    //             setSnackbar({ open: true, message: "Erro no login com Google", severity: "error" });
-    //         }
-    //     } catch (error: any) {
-    //         setSnackbar({ open: true, message: error.message, severity: "error" });
-    //     }
-    // };
-
     return (
         <>
             <Box sx={{
@@ -184,15 +169,10 @@ function LoginPageCoach() {
                             Sign In
                         </Button>
 
-                        <Root sx={{ width: '80%', mt: 2 }}>
-                            <Divider sx={{ fontSize: 12 }}>or continue with</Divider>
-                        </Root>
-
-                        <GoogleButton />
-
                         <Root sx={{ width: '80%', mt: 2, }}>
                             <Divider></Divider>
                         </Root>
+
                         <Box
                             sx={{
                                 mt: 1, display: 'flex', justifyContent: 'center',

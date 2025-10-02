@@ -1,4 +1,5 @@
 export interface PsyRecoRequest {
+    coachId: number;
     sessionId: number;
     athleteId: number;
     srpe: number;

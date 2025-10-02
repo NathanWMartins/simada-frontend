@@ -26,9 +26,9 @@ export async function getPsychoAnswerByAthlete(
 }
 
 export async function askPsyRecommendations(payload: PsyRecoRequest): Promise<AIRecoResponse> {
-  const { sessionId, athleteId, ...metrics } = payload;
+  const { coachId, sessionId, athleteId, ...metrics } = payload;
   const { data } = await api.post<AIRecoResponse>(
-    `/coach/psy-form/${sessionId}/athletes/${athleteId}/recommendations`,
+    `/coach/${coachId}/psy-form/${sessionId}/athletes/${athleteId}/recommendations`,
     metrics
   );
   return data;

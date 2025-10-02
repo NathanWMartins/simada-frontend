@@ -7,6 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import { PsyAnswerDTO } from "../../types/alertType";
 import { askPsyRecommendations, getPsychoAnswerByAthlete } from "../../services/coach/alerts/psychoAlertsService";
+import { useUserContext } from "../../contexts/UserContext";
 
 
 const colorPositive = (v?: number | null) =>
@@ -29,6 +30,7 @@ export default function PsychoAnswerDialog({ open, onClose, sessionId, athleteId
     const [recoLoading, setRecoLoading] = useState(false);
     const [recoError, setRecoError] = useState<string | null>(null);
     const [recoText, setRecoText] = useState<string | null>(null);
+    const {user} = useUserContext();
 
     useEffect(() => {
         if (!open) return;
@@ -53,6 +55,8 @@ export default function PsychoAnswerDialog({ open, onClose, sessionId, athleteId
         })();
     }, [open, sessionId, athleteId]);
 
+    if (!user) return null;
+
     const handleAskReco = async () => {
         if (!answer) return;
         setRecoError(null);
@@ -60,6 +64,7 @@ export default function PsychoAnswerDialog({ open, onClose, sessionId, athleteId
         try {
             setRecoLoading(true);
             const resp = await askPsyRecommendations({
+                coachId: user.id,
                 sessionId,
                 athleteId,
                 srpe: Number(answer.srpe ?? 0),

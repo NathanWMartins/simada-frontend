@@ -36,10 +36,13 @@ export default function AthleteProfileEdit() {
     });
 
     // avatar local
+    const MAX_BYTES = 500_000;
+    const ALLOWED = new Set(["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp"]);
+
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
-    // senha (opcional – só envia se preencher)
+    // senha
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -81,9 +84,29 @@ export default function AthleteProfileEdit() {
     const handlePickAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
         const f = e.target.files?.[0];
         if (!f) return;
+
+        if (!ALLOWED.has(f.type)) {
+            setSnackbar({ open: true, severity: "error", message: `Tipo de imagem não suportado: ${f.type || "desconhecido"}` });
+            e.target.value = "";
+            return;
+        }
+        if (f.size > MAX_BYTES) {
+            setSnackbar({ open: true, severity: "error", message: `Imagem acima do limite de ${Math.floor(MAX_BYTES / 1024)} KB.` });
+            e.target.value = "";
+            return;
+        }
+
         setAvatarFile(f);
-        const url = URL.createObjectURL(f);
-        setAvatarPreview(url);
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            const dataUrl = String(reader.result || "");
+            setAvatarPreview(dataUrl);
+            setForm(prev => ({ ...prev, photoUrl: dataUrl }));
+        };
+        reader.readAsDataURL(f);
+
+        e.target.value = "";
     };
 
     const validateProfile = () => {
@@ -92,7 +115,7 @@ export default function AthleteProfileEdit() {
     };
 
     const validatePassword = () => {
-        if (!newPassword && !currentPassword && !confirmPassword) return null; // não quer trocar senha
+        if (!newPassword && !currentPassword && !confirmPassword) return null;
         if (!currentPassword) return "Current password is required.";
         if (newPassword.length < 6) return "New password must be at least 6 characters.";
         if (newPassword !== confirmPassword) return "Password confirmation does not match.";
@@ -106,11 +129,10 @@ export default function AthleteProfileEdit() {
         try {
             setSaving(true);
 
-            // upload de avatar (se tiver)
             let photoUrl = form.photoUrl ?? undefined;
             if (avatarFile) {
                 const uploaded = await uploadAthleteAvatar(athleteId, avatarFile);
-                photoUrl = uploaded.photoUrl ?? photoUrl;
+                photoUrl = uploaded?.photoUrl ?? photoUrl;
             }
 
             await updateAthleteProfile(athleteId, {
@@ -118,11 +140,11 @@ export default function AthleteProfileEdit() {
                 gender: form.gender,
                 phone: form.phone,
                 nationality: form.nationality,
-                photoUrl,
+                photoUrl, 
             });
 
-            setForm((prev) => ({ ...prev, photoUrl: photoUrl ?? null }));
-            if (photoUrl) setAvatarPreview(`${photoUrl}?t=${Date.now()}`);
+            setForm(prev => ({ ...prev, photoUrl: photoUrl ?? null }));
+            if (photoUrl) setAvatarPreview(photoUrl);
 
             if (user) {
                 setUser({
@@ -140,6 +162,7 @@ export default function AthleteProfileEdit() {
             setSaving(false);
         }
     };
+
 
     const openDeleteDialog = () => {
         setConfirmText("");
@@ -173,7 +196,7 @@ export default function AthleteProfileEdit() {
     const handleSavePassword = async () => {
         const perr = validatePassword();
         if (perr) { setSnackbar({ open: true, severity: "error", message: perr }); return; }
-        if (!newPassword) return; // não deseja alterar
+        if (!newPassword) return;
 
         try {
             setSavingPwd(true);
@@ -241,7 +264,7 @@ export default function AthleteProfileEdit() {
                             {/* Coluna esquerda: Avatar + info curta */}
                             <Stack spacing={3} sx={{ gridArea: "left" }}>
                                 <Stack direction="row" spacing={2} alignItems="center">
-                                    <Avatar src={avatarPreview ?? undefined} sx={{ width: 96, height: 96 }}>
+                                    <Avatar src={avatarPreview ?? form.photoUrl ?? undefined} sx={{ width: 96, height: 96 }}>
                                         {form.name?.[0]?.toUpperCase()}
                                     </Avatar>
                                     <Stack spacing={0.5}>

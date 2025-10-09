@@ -197,9 +197,9 @@ export default function PrivacyPolicyDialog({ open, onClose }: PrivacyPolicyDial
                 <Box sx={{
                     display: "flex", height: 400,
                     ".MuiTab-root": {
-                        color: "#ffffffff",
+                        color: theme.palette.text.secondary,
                     }, ".MuiTab-root.Mui-selected": {
-                        color: "#ffffffff",
+                        color: theme.palette.text.primary,
                     },
                     ".MuiTabs-indicator": {
                         backgroundColor: "#249B45",

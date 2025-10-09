@@ -72,7 +72,7 @@ export default function PerformanceAlerts({ title = "Training Load — Alerts", 
         (async () => {
             try {
                 setLoading(true);
-                setError(null);                
+                setError(null);
                 const result = await getTrainingLoadAlerts({
                     coachId: user.id,
                     athleteId,
@@ -138,6 +138,7 @@ export default function PerformanceAlerts({ title = "Training Load — Alerts", 
 
                         return (
                             <ButtonBase
+                                component="div"
                                 key={a.id}
                                 onClick={() => openDialog(a)}
                                 sx={{

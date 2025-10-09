@@ -1,4 +1,3 @@
-// contexts/UserContext.tsx
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 export type UserResponse = {

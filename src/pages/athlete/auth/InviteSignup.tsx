@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
-    Alert, Box, Button, MenuItem, Snackbar, Typography, CircularProgress, useTheme
+    Alert, Box, Button, MenuItem, Snackbar, Typography, CircularProgress, useTheme,
+    Link
 } from "@mui/material";
 
 import Logo from "../../../components/common/Logo";
@@ -9,6 +10,7 @@ import athletePhoto from "../../../assets/athlete-photo.png";
 import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput } from "../../../components/common";
 
 import { completeInvite, fetchInvite } from "../../../services/auth/invite";
+import PrivacyPolicyDialog from "../../../components/dialog/PrivacyPolicyDialog";
 
 const POSITIONS = ["Goalkeeper", "Defender", "Midfielder", "Forward"] as const;
 
@@ -26,8 +28,8 @@ export default function InviteSignup() {
     const token = params.get("invite") || "";
 
     const [loading, setLoading] = useState(true);
-    const [inv, setInv] = useState<{ email: string; coachName: string } | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [inv, setInv] = useState<{ email: string; coachName: string } | null>(null);    
+    const [privacyOpen, setPrivacyOpen] = useState(false);
 
     // form
     const [name, setName] = useState("");
@@ -38,6 +40,7 @@ export default function InviteSignup() {
 
     // errors
     const [errName, setErrName] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const [errPassword, setErrPassword] = useState(false);
 
     const [snack, setSnack] = useState<SnackbarState>({
@@ -135,12 +138,12 @@ export default function InviteSignup() {
                         sx={{
                             flex: 1,
                             backgroundImage: `url(${athletePhoto})`,
-                            backgroundSize: "contain",  
+                            backgroundSize: "contain",
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: "center",
                             bgcolor: theme.palette.background.default,
                             display: { xs: "none", sm: "block" },
-                            maxWidth: 400, 
+                            maxWidth: 400,
                             minHeight: 480,
                             alignSelf: "center",
                         }}
@@ -229,6 +232,22 @@ export default function InviteSignup() {
                             ))}
                         </CustomTextField>
 
+                        <Typography
+                            variant="caption"
+                            sx={{ mt: 1, color: theme.palette.text.secondary, textAlign: 'center', px: 2 }}
+                        >
+                            By registering, you agree to our{' '}
+                            <Link
+                                component="button"
+                                color='success'
+                                onClick={() => setPrivacyOpen(true)}
+                                underline="hover"
+                                sx={{ fontWeight: 'bold' }}
+                            >
+                                Privacy Policy
+                            </Link>.
+                        </Typography>
+
                         <Button
                             variant="contained"
                             onClick={submit}
@@ -248,6 +267,11 @@ export default function InviteSignup() {
                     </Box>
                 </Box>
             </Box>
+
+            <PrivacyPolicyDialog
+                open={privacyOpen}
+                onClose={() => setPrivacyOpen(false)}
+            />
 
             <Snackbar
                 open={snack.open}

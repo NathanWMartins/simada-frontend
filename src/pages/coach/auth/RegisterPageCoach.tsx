@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
+import { Alert, Box, Button, Divider, Link, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import coachPhoto2 from '../../../assets/coach-photo2.png'
 import { styled } from '@mui/material/styles';
@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { registerCoach } from '../../../services/auth/authService';
 import { useUserContext } from '../../../contexts/UserContext';
 import { BackFab, CustomTextField, PasswordInput, SwitchLightDarkMode, Logo } from '../../../components/common';
+import PrivacyPolicyDialog from '../../../components/dialog/PrivacyPolicyDialog';
 
 type SnackbarState = {
     open: boolean;
@@ -28,6 +29,8 @@ function RegisterPageCoach() {
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
     const [errorRepeatPassword, setErrorRepeatPassword] = useState(false);
+
+    const [privacyOpen, setPrivacyOpen] = useState(false);
 
     const [snackbar, setSnackbar] = useState<SnackbarState>({
         open: false,
@@ -155,6 +158,22 @@ function RegisterPageCoach() {
                         <PasswordInput label="Repeat Password" id="repeat-password" error={errorRepeatPassword}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)} />
 
+                        <Typography
+                            variant="caption"
+                            sx={{ mt: 1, color: theme.palette.text.secondary, textAlign: 'center', px: 2 }}
+                        >
+                            By registering, you agree to our{' '}
+                            <Link
+                                component="button"
+                                color='success'
+                                onClick={() => setPrivacyOpen(true)}
+                                underline="hover"
+                                sx={{ fontWeight: 'bold' }}
+                            >
+                                Privacy Policy
+                            </Link>.
+                        </Typography>
+
                         <Button
                             variant="contained"
                             sx={{
@@ -211,6 +230,11 @@ function RegisterPageCoach() {
 
 
             </Box>
+
+            <PrivacyPolicyDialog
+                open={privacyOpen}
+                onClose={() => setPrivacyOpen(false)}
+            />
 
             <Snackbar
                 open={snackbar.open}

@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Divider, Snackbar, Typography, useTheme } from '@mui/material'
+import { Alert, Box, Button, CircularProgress, Divider, Snackbar, Typography, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import coachPhoto from '../../../assets/coach-photo.png'
 import { styled } from '@mui/material/styles';
@@ -16,6 +16,7 @@ function LoginPageCoach() {
     const [password, setPassword] = useState('');
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [snackbar, setSnackbar] = useState<SnackbarState>({
         open: false,
         message: "",
@@ -53,37 +54,24 @@ function LoginPageCoach() {
         if (!password) { errors.push("Password is required"); setErrorPassword(true); }
 
         if (errors.length > 0) {
-            setSnackbar({
-                open: true,
-                message: errors.join("\n"),
-                severity: "error",
-            });
+            setSnackbar({ open: true, message: errors.join("\n"), severity: "error" });
             return;
         }
+
         try {
+            setLoading(true);
             const response = await login({ email, password });
 
             if (response.status === 200 || response.status === 201) {
-                setSnackbar({
-                    open: true,
-                    message: "Account loged successfully!",
-                    severity: "success",
-                });
-                setUser({
-                    ...response.data,
-                    fotoUsuario: response.data.fotoUsuario ?? undefined,
-                });
+                setSnackbar({ open: true, message: "Account logged successfully!", severity: "success" });
+                setUser({ ...response.data, fotoUsuario: response.data.fotoUsuario ?? undefined });
                 setAuth(
                     { id: response.data.id, email: response.data.email, name: response.data.name, userType: response.data.userType, userPhoto: response.data.userPhoto },
                     response.data.accessToken
                 );
                 navigate("/coach-home");
             } else {
-                setSnackbar({
-                    open: true,
-                    message: response.data?.message || "Error login user",
-                    severity: "error",
-                });
+                setSnackbar({ open: true, message: response.data?.message || "Error logging in user", severity: "error" });
             }
         } catch (error: any) {
             const backendMessage =
@@ -91,14 +79,12 @@ function LoginPageCoach() {
                 error?.response?.data?.error ||
                 error.message ||
                 "Unexpected error. Please try again.";
-
-            setSnackbar({
-                open: true,
-                message: backendMessage,
-                severity: "error",
-            });
+            setSnackbar({ open: true, message: backendMessage, severity: "error" });
+        } finally {
+            setLoading(false);
         }
     };
+
 
     return (
         <>
@@ -159,15 +145,27 @@ function LoginPageCoach() {
                         <Button
                             variant="contained"
                             sx={{
-                                mt: 1, backgroundColor: '#2CAE4D', textTransform: 'none',
-                                color: '#fff', width: '230px', height: '35px',
-                                '&:hover': {
-                                    backgroundColor: '#249B45'
-                                }
-                            }} onClick={handleLogin}
+                                mt: 1,
+                                backgroundColor: '#2CAE4D',
+                                textTransform: 'none',
+                                color: '#fff',
+                                width: '230px',
+                                height: '35px',
+                                '&:hover': { backgroundColor: '#249B45' }
+                            }}
+                            onClick={handleLogin}
+                            disabled={loading}
                         >
-                            Sign In
+                            {loading ? (
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    <CircularProgress size={18} thickness={4} />
+                                    Signing in...
+                                </Box>
+                            ) : (
+                                'Sign In'
+                            )}
                         </Button>
+
 
                         <Root sx={{ width: '80%', mt: 2, }}>
                             <Divider></Divider>

@@ -15,7 +15,7 @@ import MiniCalendar from "../../components/athlete/MiniCalendar";
 import {
     getAthleteSummary, getAthletePerformance, getAthleteRecent, getAthleteNextMatch, getAthleteCalendar,
     type PerfHighlight, type MatchInfo, type CalendarEvent
-} from "../../services/athlete/homeService";
+} from "../../services/athlete/athleteHomeService";
 import { useUserContext } from "../../contexts/UserContext";
 import type { Athletes } from "../../types/athleteType";
 import HeaderHomeAthlete from "../../components/header/HeaderHomeAthlete";
@@ -183,7 +183,7 @@ export default function AthleteHomePage() {
                                     />
                                 </Stack>
 
-                                {/* Recent Performance — full width */}
+                                {/* Recent Performance */}
                                 <Card sx={{ ...compactCard }}>
                                     <Stack spacing={1}>
                                         <SectionTitle title="Recent Performance" icon={<BarChartIcon />} />
@@ -196,16 +196,24 @@ export default function AthleteHomePage() {
                                                         {recent?.title || "—"}
                                                     </Typography>
                                                 </Box>
-                                                <Button
-                                                    variant="contained"
-                                                    size="small"
-                                                    startIcon={<PlayCircleOutlineIcon />}
-                                                    sx={{ borderRadius: 1.5, px: 1.5, backgroundColor: "#2CAE4D", "&:hover": { backgroundColor: "#17a24a" } }}
-                                                    onClick={() => navigate(`/sessions/${recent?.id}/metrics?athlete=${user?.id}`)}
-                                                    disabled={!recent}
-                                                >
-                                                    Visualize
-                                                </Button>
+                                                {recent && recent.title !== "No recent game" && (
+                                                    <Button
+                                                        variant="contained"
+                                                        size="small"
+                                                        startIcon={<PlayCircleOutlineIcon />}
+                                                        sx={{
+                                                            borderRadius: 1.5,
+                                                            px: 1.5,
+                                                            backgroundColor: "#2CAE4D",
+                                                            "&:hover": { backgroundColor: "#17a24a" },
+                                                        }}
+                                                        onClick={() =>
+                                                            navigate(`/sessions/${recent.id}/metrics?athlete=${user?.id}`)
+                                                        }
+                                                    >
+                                                        Visualize
+                                                    </Button>
+                                                )}
                                             </Box>
                                         )}
                                     </Stack>
@@ -239,7 +247,7 @@ export default function AthleteHomePage() {
                                     <Divider sx={{ my: 1.5 }} />
                                     <Typography variant="caption" color="text.secondary">
                                         Hover the highlighted days to see details.
-                                    </Typography>                                    
+                                    </Typography>
                                 </Card>
                             </Stack>
 

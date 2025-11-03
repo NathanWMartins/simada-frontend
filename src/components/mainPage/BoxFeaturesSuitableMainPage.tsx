@@ -127,12 +127,12 @@ function BoxFeaturesSuitableMainPage() {
                                 />
                             </Box>
                             <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                                AI Based Injury<br />Risk Detection
+                                AI Injury Prevention<br />Recommendations
                             </Typography>
                             <Typography
                                 sx={{ mt: 1, fontWeight: 'light', color: theme.palette.mode === 'light' ? '#717171' : '#EDECEC', fontSize: '0.7rem' }}
                             >
-                                Detects injury risks using AI analysis
+                                Provides preventive care recommendations using AI
                             </Typography>
                         </Box>
 

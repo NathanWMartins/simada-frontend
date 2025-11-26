@@ -6,10 +6,12 @@ import MainIllustration2 from '../assets/MainIllustration2.png';
 import BoxFeaturesSuitableMainPage from '../components/mainPage/BoxFeaturesSuitableMainPage';
 import SwitchLightDarkMode from '../components/common/SwitchLightDarkMode';
 import { useNavigate } from 'react-router-dom';
+import { useI18n } from '../i18n/I18nProvider';
 
 function MainPage() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { t } = useI18n();
 
   return (
     <>
@@ -23,25 +25,25 @@ function MainPage() {
       >
         <Box>
           <Typography variant="h3" sx={{ color: theme.palette.text.primary, fontWeight: 'bold', }}>
-            Monitor. Analyze. Evolve.
+            {t('main_title_1')}
           </Typography>
           <Typography variant="body2" sx={{
             color: theme.palette.text.secondary,
             fontWeight: 'light', paddingTop: '10px', paddingBottom: '15px'
           }}
           >
-            The missing technology to enhance athletic performance for your team.
+            {t('main_subtitle_1')}
           </Typography>
           <Button variant="contained" onClick={() => navigate('/coach-register')}
             sx={{
               mr: 1, backgroundColor: '#2CAE4D', textTransform: 'none',
-              color: '#fff', width: '150px', height: '40px',
+              color: '#fff', width: '170px', height: '40px',
               '&:hover': {
                 backgroundColor: '#249B45'
               }
             }}
           >
-            Register Coach
+            {t('main_btn_register_coach')}
           </Button>
         </Box>
         <Box component="img" src={MainIllustration1} alt="MainIllustration1"
@@ -66,15 +68,15 @@ function MainPage() {
             variant="h3"
             sx={{ fontWeight: 'light', }}
           >
-            What is WiKo?
+            {t('main_title_2')}
           </Typography>
           <Typography
             variant="body2"
             sx={{ fontWeight: 'light', paddingTop: '10px', paddingBottom: '15px' }}
           >
-            WIKO is an intelligent platform that uses neural network to monitor and analyze athletes' performance. Designed for coaches and physical trainers, it provides insights, tracks trends, and helps prevent injuries through data-driven decisions.
+            {t('main_subtitle_2')}
             <br /><br />
-            Trains smarter, make data-driven decisions, evolve your team’s physical condition.
+            {t('main_subtitle_2_alt')}
           </Typography>
         </Box>
       </Box>
@@ -97,11 +99,11 @@ function MainPage() {
         }}
       >
         <Typography variant="h4" fontWeight="bold" sx={{ mt: 5 }}>
-          Ready to Revolutionize Performance?
+          {t('main_cta_title')}
         </Typography>
 
         <Typography variant="body1" sx={{ maxWidth: 400, color: '#e8e8e8ff' }}>
-          Join coaches and athletes who are transforming training
+          {t('main_cta_subtitle')}
         </Typography>
 
         <Button
@@ -111,7 +113,7 @@ function MainPage() {
             '&:hover': { backgroundColor: '#e0f2e9', },
           }}
         >
-          Get Started Now
+          {t('main_cta_btn')}
         </Button>
       </Box>
 
@@ -137,30 +139,8 @@ function MainPage() {
             maxWidth: 500, mx: 'auto', color: theme.palette.text.primary,
           }}
         >
-          Empowering athletic performance through innovation.
+          {t('main_footer_contact')}
         </Typography>
-
-        <Box
-          sx={{
-            display: 'flex', justifyContent: 'center', gap: 3, mt: 2, flexWrap: 'wrap',
-          }}
-        >
-          {['About Us', 'Features', 'Contact', 'Privacy Policy', 'Terms'].map((text) => (
-            <Typography
-              key={text}
-              variant="body2"
-              sx={{
-                cursor: 'pointer',
-                color: theme.palette.text.primary,
-                '&:hover': {
-                  textDecoration: 'underline',
-                },
-              }}
-            >
-              {text}
-            </Typography>
-          ))}
-        </Box>
 
         <Typography
           variant="body2"
@@ -175,7 +155,7 @@ function MainPage() {
             mt: 2, display: 'block', color: theme.palette.mode === 'light' ? '#999' : '#777',
           }}
         >
-          © 2025 WiKo. All rights reserved.
+          © 2025 WiKo. {t('main_footer_rights')}
         </Typography>
       </Box>
 

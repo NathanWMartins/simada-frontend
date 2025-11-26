@@ -54,20 +54,19 @@ export default function SessionsAthlete() {
     const onInfo = (s: AthleteSession) => {
         setSnack({
             open: true,
-            message: s.description ?? "Sem descrição para esta sessão.",
+            message: s.description ?? "No description available for this session.",
             severity: "success",
         });
     };
 
     const onOpenMetrics = (s: AthleteSession) => {
-        // navigate(`/athlete/sessions/${s.id}/metrics`);
         navigate(`/`);
     };
 
     const onNoMetrics = () => {
         setSnack({
             open: true,
-            message: "Esta sessão não possui métricas para visualizar.",
+            message: "This session has no data to view.",
             severity: "error",
         });
     };

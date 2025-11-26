@@ -5,9 +5,12 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import SportsOutlinedIcon from '@mui/icons-material/SportsOutlined';
 import SportsSoccerOutlinedIcon from '@mui/icons-material/SportsSoccerOutlined';
 import GroupsIcon from '@mui/icons-material/Groups';
+import { useI18n } from '../../i18n/I18nProvider';
 
 function BoxFeaturesSuitableMainPage() {
     const theme = useTheme();
+    const { t } = useI18n();
+    
     return (
         <>
             {/* Box Features & Suitable*/}
@@ -38,13 +41,13 @@ function BoxFeaturesSuitableMainPage() {
                         variant="h6"
                         sx={{ fontWeight: 'bold', mb: 1, color: theme.palette.text.primary, textAlign: 'center' }}
                     >
-                        Features Available
+                        {t("main_features")}
                     </Typography>
                     <Typography
                         variant="body2"
                         sx={{ mb: 3, textAlign: 'center', color: theme.palette.text.primary }}
                     >
-                        Smart tools designed for modern teams
+                        {t("main_features_subtitle")}
                     </Typography>
 
                     <Box
@@ -80,12 +83,12 @@ function BoxFeaturesSuitableMainPage() {
                                 />
                             </Box>
                             <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                                Custom Report<br />for Coaches
+                                {t("main_features_card_1_title")}
                             </Typography>
                             <Typography
                                 sx={{ mt: 1, fontWeight: 'light', color: theme.palette.mode === 'light' ? '#717171' : '#EDECEC', fontSize: '0.7rem' }}
                             >
-                                Optimized reports to support coaching decisions
+                                {t("main_features_card_1_subtitle")}
                             </Typography>
                         </Box>
 
@@ -127,12 +130,12 @@ function BoxFeaturesSuitableMainPage() {
                                 />
                             </Box>
                             <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                                AI Injury Prevention<br />Recommendations
+                                {t("main_features_card_2_title")}
                             </Typography>
                             <Typography
                                 sx={{ mt: 1, fontWeight: 'light', color: theme.palette.mode === 'light' ? '#717171' : '#EDECEC', fontSize: '0.7rem' }}
                             >
-                                Provides preventive care recommendations using AI
+                                {t("main_features_card_2_subtitle")}
                             </Typography>
                         </Box>
 
@@ -174,12 +177,12 @@ function BoxFeaturesSuitableMainPage() {
                                 />
                             </Box>
                             <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                                Personalized<br />Dashboard
+                                {t("main_features_card_3_title")}
                             </Typography>
                             <Typography
                                 sx={{ mt: 1, fontWeight: 'light', color: theme.palette.mode === 'light' ? '#717171' : '#EDECEC', fontSize: '0.7rem' }}
                             >
-                                Smart views focused on what matters most
+                                {t("main_features_card_3_subtitle")}
                             </Typography>
                         </Box>
                     </Box>
@@ -207,13 +210,13 @@ function BoxFeaturesSuitableMainPage() {
                             color: theme.palette.text.primary,
                         }}
                     >
-                        Manage your entire athletes in a single system
+                        {t("main_suitable")}
                     </Typography>
                     <Typography
                         variant="body2"
                         sx={{ mb: 3, textAlign: 'center', color: theme.palette.text.primary }}
                     >
-                        Who is WiKo suitable for?
+                        {t("main_suitable_subtitle")}
                     </Typography>
 
                     <Box
@@ -264,12 +267,12 @@ function BoxFeaturesSuitableMainPage() {
                                 />
                             </Box>
                             <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                                Coaches &<br />Physical Trainers
+                                {t("main_suitable_card_1_title")}
                             </Typography>
                             <Typography
                                 sx={{ mt: 1, fontWeight: 'light', color: theme.palette.mode === 'light' ? '#717171' : '#EDECEC', fontSize: '0.7rem' }}
                             >
-                                Access performance insights and training optimization tools
+                                {t("main_suitable_card_1_subtitle")}
                             </Typography>
                         </Box>
 
@@ -311,12 +314,12 @@ function BoxFeaturesSuitableMainPage() {
                                 />
                             </Box>
                             <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                                Athletes for All<br />Sports
+                                {t("main_suitable_card_2_title")}
                             </Typography>
                             <Typography
                                 sx={{ mt: 1, fontWeight: 'light', color: theme.palette.mode === 'light' ? '#717171' : '#EDECEC', fontSize: '0.7rem' }}
                             >
-                                Track progress, manage workload, and reduce injury risk
+                                {t("main_suitable_card_2_subtitle")}
                             </Typography>
                         </Box>
 
@@ -358,12 +361,12 @@ function BoxFeaturesSuitableMainPage() {
                                 />
                             </Box>
                             <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                                Sport Teams and<br />Clubs
+                                {t("main_suitable_card_3_title")}
                             </Typography>
                             <Typography
                                 sx={{ mt: 1, fontWeight: 'light', color: theme.palette.mode === 'light' ? '#717171' : '#EDECEC', fontSize: '0.7rem' }}
                             >
-                                Implement centralized data systems to monitor entire squads
+                                {t("main_suitable_card_3_subtitle")}
                             </Typography>
                         </Box>
                     </Box>

@@ -5,12 +5,15 @@ import LogoLight from '../../assets/LogoWiKoLight.png';
 import LogoDark from '../../assets/LogoWiKoDark.png';
 import { useNavigate } from 'react-router-dom';
 import SupportHelpDialog from '../dialog/SupportHelpDialog';
+import LanguageSwitcher from '../mainPage/LanguageSwitcher';
+import { useI18n } from '../../i18n/I18nProvider';
 
 function HeaderMainPage() {
   const theme = useTheme();
   const logo = theme.palette.mode === 'dark' ? LogoDark : LogoLight;
   const navigate = useNavigate();
   const [openSupport, setOpenSupport] = useState(false);
+  const { t } = useI18n();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -37,7 +40,7 @@ function HeaderMainPage() {
               }
             }}
           >
-            Coach Login
+            {t("nav_btn_coach")}
           </Button>
           <Button
             variant="contained"
@@ -48,7 +51,7 @@ function HeaderMainPage() {
               '&:hover': { backgroundColor: '#249B45' }
             }}
           >
-            Athlete Login
+            {t("nav_btn_athlete")}
           </Button>
           <Button
             variant="contained"
@@ -62,15 +65,15 @@ function HeaderMainPage() {
               }
             }}
           >
-            Contact Us
+            {t("nav_btn_contact")}
           </Button>
+          <LanguageSwitcher/>
         </Toolbar>
       </AppBar>
       <SupportHelpDialog
         open={openSupport}
         onClose={() => setOpenSupport(false)}
         supportEmail="suporte@wiko.app"
-        appName="WIKO"
         version="v1.0.0"
       />
     </Box>

@@ -74,7 +74,7 @@ export default function HomeCoach() {
                     fontWeight="light"
                     sx={{ mt: 2, ml: 10 }}
                 >
-                    Bem-vindo, {user?.name ?? "Usuário"}!
+                    Welcome, {user?.name ?? "User"}!
                 </Typography>
                 <Divider sx={{ my: 1, mx: 10 }} />
 

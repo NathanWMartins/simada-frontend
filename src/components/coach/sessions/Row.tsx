@@ -93,10 +93,10 @@ export default function SessionRow({
     const psyTooltip = sending
         ? "Sending invites..."
         : !s.has_metrics
-            ? "Importe métricas para gerar formulário"
+            ? "Import data to generate form."
             : s.has_psycho
-                ? "Visualizar respostas"
-                : "Gerar formulário";
+                ? "Visualize answers"
+                : "Generate form";
 
     // lápis → menu
     const handleOpenEditMenu = (e: React.MouseEvent<HTMLElement>) => setEditMenuAnchor(e.currentTarget);
@@ -204,7 +204,7 @@ export default function SessionRow({
                     </Tooltip>
 
                     {/* Lápis com menu contextual */}
-                    <Tooltip title={s.has_metrics ? "Editar sessão / Excluir métricas" : "Editar sessão / Importar métricas"}>
+                    <Tooltip title={s.has_metrics ? "Edit session / Delete metrics" : "Edit session / Import metrics"}>
                         <IconButton
                             size="small"
                             onClick={handleOpenEditMenu}
@@ -224,18 +224,18 @@ export default function SessionRow({
                     >
                         <MenuItem onClick={handleEditSession}>
                             <ListItemIcon><EditIcon fontSize="small" /></ListItemIcon>
-                            <ListItemText>Editar sessão</ListItemText>
+                            <ListItemText>Edit session</ListItemText>
                         </MenuItem>
 
                         {!s.has_metrics ? (
                             <MenuItem onClick={handleImportMetrics}>
                                 <ListItemIcon><CloudUploadIcon fontSize="small" /></ListItemIcon>
-                                <ListItemText>Importar métricas</ListItemText>
+                                <ListItemText>Import data</ListItemText>
                             </MenuItem>
                         ) : (
                             <MenuItem onClick={handleDeleteMetricsClick}>
                                 <ListItemIcon><DeleteSweepIcon fontSize="small" color="error"/></ListItemIcon>
-                                <ListItemText>Excluir métricas</ListItemText>
+                                <ListItemText>Delete data</ListItemText>
                             </MenuItem>
                         )}
                     </Menu>
@@ -255,16 +255,16 @@ export default function SessionRow({
                 maxWidth="xs"
                 fullWidth
             >
-                <DialogTitle>Excluir métricas</DialogTitle>
+                <DialogTitle>Delete data</DialogTitle>
                 <DialogContent>
                     <DialogContentText sx={{ mb: 1.5 }}>
-                        Esta ação é <b>irreversível</b>. As métricas importadas desta sessão serão removidas permanentemente.
-                        Deseja continuar?
+                        This action is <b>irreversible</b>. The data imported from this session will be permanently removed.
+                        Do you wish to continue?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions sx={{ px: 3, pb: 2 }}>
                     <Button onClick={() => setConfirmMetricsOpen(false)} disabled={metricsDeleting}>
-                        Cancelar
+                        Cancel
                     </Button>
                     <Button
                         variant="contained"
@@ -272,7 +272,7 @@ export default function SessionRow({
                         onClick={handleConfirmDeleteMetrics}
                         disabled={metricsDeleting}
                     >
-                        {metricsDeleting ? "Excluindo..." : "Confirmar"}
+                        {metricsDeleting ? "Deleting..." : "Confirm"}
                     </Button>
                 </DialogActions>
             </Dialog>

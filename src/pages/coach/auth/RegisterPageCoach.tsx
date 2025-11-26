@@ -7,6 +7,7 @@ import { registerCoach } from '../../../services/auth/authService';
 import { useUserContext } from '../../../contexts/UserContext';
 import { BackFab, CustomTextField, PasswordInput, SwitchLightDarkMode, Logo } from '../../../components/common';
 import PrivacyPolicyDialog from '../../../components/dialog/PrivacyPolicyDialog';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 type SnackbarState = {
     open: boolean;
@@ -17,6 +18,7 @@ type SnackbarState = {
 function RegisterPageCoach() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const { t } = useI18n();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -142,27 +144,27 @@ function RegisterPageCoach() {
                                 alignSelf: 'center', textAlign: 'center', pt: 2,
                             }}
                         >
-                            Welcome to your performance hub.<br />
-                            Create your account and start optimizing training.
+                            {t('register_coach_title')} <br />
+                            {t('register_coach_subtitle')}
                         </Typography>
 
-                        <CustomTextField label="Full Name" type="name" value={name} error={errorName}
+                        <CustomTextField label={t("register_coach_name_label")} type="name" value={name} error={errorName}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
 
-                        <CustomTextField label="Email" type="email" value={email} error={errorEmail}
+                        <CustomTextField label={t("register_coach_email_label")} type="email" value={email} error={errorEmail}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
 
-                        <PasswordInput label="Password" id="password" value={password} error={errorPassword}
+                        <PasswordInput label={t("register_coach_password_label")} id="password" value={password} error={errorPassword}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
 
-                        <PasswordInput label="Repeat Password" id="repeat-password" error={errorRepeatPassword}
+                        <PasswordInput label={t("register_coach_repeat_password_label")} id="repeat-password" error={errorRepeatPassword}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)} />
 
                         <Typography
                             variant="caption"
                             sx={{ mt: 1, color: theme.palette.text.secondary, textAlign: 'center', px: 2 }}
                         >
-                            By registering, you agree to our{' '}
+                            {t("register_label_privacy_policy")}{' '}
                             <Link
                                 component="button"
                                 color='success'
@@ -170,7 +172,7 @@ function RegisterPageCoach() {
                                 underline="hover"
                                 sx={{ fontWeight: 'bold' }}
                             >
-                                Privacy Policy
+                                {t("register_link_privacy_policy")}
                             </Link>.
                         </Typography>
 
@@ -184,7 +186,7 @@ function RegisterPageCoach() {
                                 },
                             }} onClick={handleRegister}
                         >
-                            Register
+                            {t("register_btn_create_account")}
                         </Button>
 
                         <Root sx={{ width: '80%', mt: 2 }}>
@@ -200,7 +202,7 @@ function RegisterPageCoach() {
                                 variant="body2" color={theme.palette.text.secondary}
                                 sx={{ fontSize: 12 }}
                             >
-                                Don't have an account?
+                                {t("register_coach_already_account")}
                             </Typography>
 
                             <Typography
@@ -210,7 +212,7 @@ function RegisterPageCoach() {
                                     cursor: 'pointer', '&:hover': { textDecoration: 'underline' },
                                 }}
                             >
-                                Sign In
+                                {t("register_coach_login_link")}
                             </Typography>
                         </Box>
                     </Box>

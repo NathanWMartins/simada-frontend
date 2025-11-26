@@ -11,11 +11,10 @@ type Props = {
     open: boolean;
     onClose: () => void;
     supportEmail: string;
-    appName?: string;    
     version?: string;    
 };
 
-const SupportHelpDialog: React.FC<Props> = ({ open, onClose, supportEmail, appName = "WIKO", version }) => {
+const SupportHelpDialog: React.FC<Props> = ({ open, onClose, supportEmail, version }) => {
     const [copied, setCopied] = useState(false);
 
     const handleCopy = async () => {
@@ -43,7 +42,7 @@ const SupportHelpDialog: React.FC<Props> = ({ open, onClose, supportEmail, appNa
                 <DialogContent dividers>
                     <Stack spacing={1.5}>
                         <Typography variant="body2">
-                            Need help with <b>{appName}</b>? You can reach out to our support team via email and share the details of your issue.
+                            Need help with <b>WIKO</b>? You can reach out to our support team via email and share the details of your issue.
                         </Typography>
 
                         <Box sx={{ p: 1.5, border: (t) => `1px solid ${t.palette.divider}`, borderRadius: 1 }}>

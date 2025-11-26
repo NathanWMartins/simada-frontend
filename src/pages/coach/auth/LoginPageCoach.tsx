@@ -7,10 +7,12 @@ import { login } from '../../../services/auth/authService';
 import { BackFab, SwitchLightDarkMode, CustomTextField, PasswordInput, Logo } from '../../../components/common';
 import { useUserContext } from '../../../contexts/UserContext';
 import { SnackbarState } from '../../../types/types';
+import { useI18n } from '../../../i18n/I18nProvider';
 
 function LoginPageCoach() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const {t} = useI18n();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -85,7 +87,6 @@ function LoginPageCoach() {
         }
     };
 
-
     return (
         <>
             <Box sx={{
@@ -124,8 +125,8 @@ function LoginPageCoach() {
                                 alignSelf: 'center', textAlign: 'center', pt: 2
                             }}
                         >
-                            Welcome back, Coach! <br />
-                            Let’s elevate physical performance together.
+                            {t('login_coach_title')} <br/>
+                            {t('login_coach_subtitle')}
                         </Typography>
                         <Typography
                             sx={{
@@ -133,13 +134,13 @@ function LoginPageCoach() {
                                 alignSelf: 'center', textAlign: 'center', fontSize: 10, pt: 1
                             }}
                         >
-                            Enter your login to sign up for this app
+                            {t('login_coach_subtitle_2')}
                         </Typography>
 
-                        <CustomTextField label="Email" type="email" value={email} error={!!errorEmail}
+                        <CustomTextField label={t('login_coach_email_label')} type="email" value={email} error={!!errorEmail}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
 
-                        <PasswordInput label="Password" id="password" value={password} error={!!errorPassword}
+                        <PasswordInput label={t('login_coach_password_label')} id="password" value={password} error={!!errorPassword}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)} />
 
                         <Button
@@ -159,10 +160,10 @@ function LoginPageCoach() {
                             {loading ? (
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                     <CircularProgress size={18} thickness={4} />
-                                    Signing in...
+                                    {t('login_btn_login_loading')}
                                 </Box>
                             ) : (
-                                'Sign In'
+                                t('login_btn_login')
                             )}
                         </Button>
 
@@ -178,7 +179,7 @@ function LoginPageCoach() {
                             }}
                         >
                             <Typography variant="body2" color={theme.palette.text.secondary} sx={{ fontSize: 12 }}>
-                                Don't have an account?
+                                {t('login_coach_dont_have_account')}
                             </Typography>
 
                             <Typography
@@ -189,7 +190,7 @@ function LoginPageCoach() {
                                     cursor: 'pointer', '&:hover': { textDecoration: 'underline', },
                                 }}
                             >
-                                Create Account
+                                {t('login_coach_register_link')}
                             </Typography>
                         </Box>
 

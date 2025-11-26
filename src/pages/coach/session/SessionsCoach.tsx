@@ -234,7 +234,7 @@ export default function SessionsCoach() {
               onNoMetrics={() =>
                 setSnack({
                   open: true,
-                  message: "This session doesn't have metrics to visualize.",
+                  message: "This session doesn't have data to visualize.",
                   severity: "error",
                 })
               }
@@ -248,11 +248,11 @@ export default function SessionsCoach() {
                   setSessions((prev) =>
                     prev.map((x) => (x.id === sess.id ? { ...x, has_metrics: false } : x))
                   );
-                  setSnack({ open: true, message: "Metrics deleted successfully.", severity: "success" });
+                  setSnack({ open: true, message: "Data deleted successfully.", severity: "success" });
                 } catch (e: any) {
                   setSnack({
                     open: true,
-                    message: e?.response?.data?.message ?? "Failed to delete metrics.",
+                    message: e?.response?.data?.message ?? "Failed to delete data.",
                     severity: "error",
                   });
                 }
@@ -307,16 +307,16 @@ export default function SessionsCoach() {
             await importCsv(importCtx!.id, file);
             setSnack({
               open: true,
-              message: "Métricas importadas com sucesso.",
+              message: "Data importaded successfully.",
               severity: "success",
             });
             setImportOpen(false);
           } catch (e: any) {
-            console.error("Erro ao importar CSV", e);
+            console.error("Error importing CSV", e);
             const backendMessage = e?.response?.data?.message || e?.response?.data?.error;
             setSnack({
               open: true,
-              message: backendMessage ?? "Falha ao importar CSV.",
+              message: backendMessage ?? "Failed importing CSV.",
               severity: "error",
             });
           }

@@ -37,7 +37,7 @@ export default function SessionForm({ initial, saving, onCancel, onSubmit }: Pro
             {/* linha 1 */}
             <Typography variant="subtitle1">Edit Session</Typography>
             <Typography variant="body2" sx={{ textAlign: "right" }}>
-                Changes affect only this session. Metrics are not altered.
+                Changes affect only this session. Data are not altered.
             </Typography>
 
             {/* linha 2: type | title */}

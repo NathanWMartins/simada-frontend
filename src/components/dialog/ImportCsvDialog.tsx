@@ -31,10 +31,10 @@ export default function ImportCsvDialog({ open, title, onClose, onImport, onDown
 
     return (
         <Dialog open={open} onClose={() => !loading && onClose()} fullWidth maxWidth="sm">
-            <DialogTitle>Import session metrics</DialogTitle>
+            <DialogTitle>Import session data</DialogTitle>
             <DialogContent dividers>
                 <Typography variant="body2" sx={{ mb: 2 }}>
-                    The session <b>{title}</b> doesn't have metrics. Import a CSV file.
+                    The session <b>{title}</b> doesn't have data. Import a CSV file.
                 </Typography>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexWrap: "wrap" }}>
                     <Button color="success" variant="outlined" component="label" disabled={loading}>

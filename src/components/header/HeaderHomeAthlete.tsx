@@ -90,7 +90,6 @@ export default function HeaderHomeAthlete() {
         open={openSupport}
         onClose={() => setOpenSupport(false)}
         supportEmail="suporte@wiko.app"
-        appName="WIKO"
         version="v1.0.0"
       />
     </Box>

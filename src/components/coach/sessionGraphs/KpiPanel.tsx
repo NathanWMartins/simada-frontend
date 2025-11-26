@@ -9,7 +9,7 @@ export const KpiPanel: React.FC<{ rows: KpiRow[] }> = ({ rows }) => (
     <Card sx={{ flex: 1, minWidth: 360 }}>
         <CardContent>
             <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                Session Metrics
+                Session Data
             </Typography>
             <Divider sx={{ mb: 1 }} />
             <Stack spacing={1}>

@@ -174,10 +174,17 @@ export default function SessionRow({
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title="View">
-                        <IconButton size="small" onClick={handleView}>
-                            <VisibilityIcon fontSize="small" />
-                        </IconButton>
+                    <Tooltip title={!s.has_metrics ? "Import metrics first" : "Visualize data"}>
+                        <span>
+                            <IconButton
+                                size="small"
+                                onClick={handleView}
+                                disabled={!s.has_metrics}
+                                aria-label={!s.has_metrics ? "Import metrics first" : "Visualize data"}
+                            >
+                                <VisibilityIcon fontSize="small" />
+                            </IconButton>
+                        </span>
                     </Tooltip>
 
                     <Tooltip title={psyTooltip}>
@@ -234,7 +241,7 @@ export default function SessionRow({
                             </MenuItem>
                         ) : (
                             <MenuItem onClick={handleDeleteMetricsClick}>
-                                <ListItemIcon><DeleteSweepIcon fontSize="small" color="error"/></ListItemIcon>
+                                <ListItemIcon><DeleteSweepIcon fontSize="small" color="error" /></ListItemIcon>
                                 <ListItemText>Delete data</ListItemText>
                             </MenuItem>
                         )}
